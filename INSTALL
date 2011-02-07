@@ -1,0 +1,8 @@
+/*! \page INSTALL INSTALL
+
+you may want to add to your syslog:
+!MDM
+*.*	/var/log/mdm.log
+
+*/
+

@@ -1,0 +1,99 @@
+/*! \page README README
+ *\n
+ *\n
+ * Here's how it works, top-bottom:\n
+ *\n
+ * Using a MDMDevice client, like MDMDevice.php, from your own code\n
+ * call MDMDevice constructor, getting a instance of an MDMDevice\n
+ * class. This will initialize all the data needed (see example.php).\n
+ *\n 
+ * When you want to execute a command in a device, you have to call the exec()\n
+ * method of that object. Remember to use constants (encapsulated in the same\n
+ * MDMDevice client you've just instantiated) like: \n
+ * MDM_DEVICE_DSLAM_ALCATEL_73xx, MDM_CONNECTION_TELNET, \n
+ * MDM_DSLAM_ALCATEL_73xx_CMD_GET_IP, etc to identify the device type, the\n
+ * connection type, etc. Do not hardcode anything!\n
+ *\n
+ * The exec method will open a socket and try to connect to the MDM server. It\n
+ * will honor parameters like connection timeout and receive timeout so it can\n
+ * abort the connection on any of these timeouts values. (Remember, these\n
+ * timeouts apply only to the connection from your code to the MDM server,\n
+ * timeouts regarding the connection from the MDM server to the devices\n
+ * are embedded in the request itself and go as arguments to the exec method\n
+ * generally). Be *warned* you may need high times for recv_to and or\n
+ * devread_to depending on the device you are interacting with.\n
+ *\n
+ * Once the exec method is connected to the MDM server, it sends a XML request\n
+ * (see mdm_request_example.xml). The server will validate this request\n
+ * against a request schema (see mdm_request.xsd). If the request is \n
+ * sintactically valid, it will proceed to validate the contained data and\n
+ * execute the command requested.\n
+ *\n
+ *\n WARNING: The server will silently close and drop the connection if the\n
+ * request is invalid or does not have any available childs to handle the\n
+ * connection, etc. If you notice that your connections are dropped by the\n
+ * server, check the server logs.\n
+ *\n
+ * If the command executed successfully, the server will reply with an error\n
+ * code equals to 0. If an error occurred, the error code will not be equals\n
+ * to 0 and an additional response message is generated in the response.\n
+ * The server has several configuration options (see mdm_server_conf.xml and\n
+ * mdm_server_conf.xsd).\n
+ *\n
+ * When the MDMDevice gets the response from server\n
+ * (see mdm_response_example.xml) it will try to validate it against a schema\n
+ * (see mdm_response.xsd) and throw an exception if it doesn't validate.\n
+ *\n
+ * If everything went well, you now have available the methods needed in the\n
+ * MDMDevice you instantiated to access the data requested (i.e: if you\n
+ * asked for a dslam uptime, you have the getDSLAMUptime() method, etc).\n
+ * \n
+ * \n
+ * Here is the basic diagram for mdm layers:\n
+ * \n
+ * \n
+ * example.php\n
+ *      |     \n
+ *      |     \n
+ * MDMDevice.php\n
+ *      |\n
+ *      |\n
+ * IP NETWORK\n
+ *      |\n
+ *      |\n
+ * +---------------------------------------------------------------------------+\n
+ * | User applications, i.e:                                                   |\n
+ * | mdm_server.c                                                              |\n
+ * | mdm_test_driver_telnet.c                                                  |\n
+ * | mdm_test_driver_ssh2.c                                                    |\n
+ * | mdm_test_driver_rawtcp.c                                                  |\n
+ * | mdm_test_driver_serial.c                                                  |\n
+ * | mdm_test_driver_dummy.c                                                   |\n
+ * | mdm_test_device_dslam_alcatel_73xx.c                                      |\n
+ * | mdm_test_device_dslam_zte_8426.c                                          |\n
+ * | mdm_connection_types_list.c                                               |\n
+ * | mdm_device_types_list.c                                                   |\n
+ * +---------------------------------------------------------------------------+\n
+ * | mdm_device.c                                                              |\n
+ * +----------------------------------+----------------------------------------+\n
+ * | device drivers                   | device command parsers                 |\n
+ * | mdm_device_dslam_zte_8426.c      | mdm_parser_dslam_zte_8426.c            |\n
+ * | mdm_device_dslam_alcatel_73xx.c  | mdm_parser_dslam_alcatel_73xx.c        |\n
+ * +----------------------------------+----------------------------------------+\n
+ * | mdm_connection.c                                                          |\n
+ * +---------------------------------------------------------------------------+\n
+ * | connection drivers                                                        |\n
+ * | mdm_driver_telnet.c                                                       |\n
+ * | mdm_driver_ssh2.c                                                         |\n
+ * | mdm_driver_rawtcp.c                                                       |\n
+ * | mdm_driver_rawtcp_server.c                                                |\n
+ * | mdm_driver_serial.c                                                       |\n
+ * | mdm_driver_dummy.c                                                        |\n
+ * +---------------------------------------------------------------------------+\n
+ * Commands executed by mdm_device_exec follow this path:\n
+ * 1.- mdm_device_xxxx_prepare_exec() Will mix command and arguments, and \n
+ * validate both. \n
+ * 2.- mdm_device_xxxx_exec() Will exec the command with arguments.\n
+ * 3.- mdm_device_xxxx_post_exec() Will parse the result, giving back an XML\n
+ * if a parser exists for that command or the raw response from the device.\n
+ */
