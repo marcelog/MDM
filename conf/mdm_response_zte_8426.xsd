@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespaces="http://www.mg.com.ar/MDM-Protocol" xmlns="http://www.mg.com.ar/MDM-Protocol"
+	elementFormDefault="qualified"
+>
+
+<xs:element name="mdm_response">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="version" type="xs:string" fixed="0.1.1"/>
+			<xs:element name="originalresponse" type="xs:string"/>
+			<xs:element name="result">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="-1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="message" type="xs:string"/>
+			<xs:element name="data" minOccurs="0">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="zte_8426_serviceprofile">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AtucConfRateMode" type="xs:string"/>
+									<xs:element name="AtucConfTargetSnrMgn" type="xs:string"/>
+									<xs:element name="AtucConfMaxSnrMgn" type="xs:string"/>
+									<xs:element name="AtucConfMinSnrMgn" type="xs:string"/>
+									<xs:element name="AtucChanConfFastMaxTxRate" type="xs:string"/>
+									<xs:element name="AtucChanConfInterleaveMaxTxRate" type="xs:string"/>
+									<xs:element name="AtucChanConfMaxInterleaveDelay" type="xs:string"/>
+									<xs:element name="AturConfTargetSnrMgn" type="xs:string"/>
+									<xs:element name="AturConfMaxSnrMgn" type="xs:string"/>
+									<xs:element name="AturConfMinSnrMgn" type="xs:string"/>
+									<xs:element name="AturChanConfFastMaxTxRate" type="xs:string"/>
+									<xs:element name="AturChanConfInterleaveMaxTxRate" type="xs:string"/>
+									<xs:element name="AturChanConfMaxInterleaveDelay" type="xs:string"/>
+									<xs:element name="adslLineConfProfileRowStatus" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_8426_serviceprofile_list">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="serviceprofile" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="name" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_8426_maclist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="mac" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="mac" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_8426_internetlist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="internet" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="ip" type="xs:string"/>
+												<xs:element name="netmask" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="gateway" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_8426_routelist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="route" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="destination" type="xs:string"/>
+												<xs:element name="netmask" type="xs:string"/>
+												<xs:element name="gateway" type="xs:string"/>
+												<xs:element name="interface" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_8426_slotlist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="slot" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="type" type="xs:string"/>
+												<xs:element name="enabled" type="xs:string"/>
+												<xs:element name="availability" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_8426_portlist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="type" type="xs:string"/>
+												<xs:element name="coding" type="xs:string"/>
+												<xs:element name="serviceprofile" type="xs:string"/>
+												<xs:element name="ratedownload" type="xs:string"/>
+												<xs:element name="rateupload" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_8426_pvclist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="pvc" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="slot" type="xs:string"/>
+												<xs:element name="port" type="xs:string"/>
+												<xs:element name="vpi" type="xs:string"/>
+												<xs:element name="vci" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_8426_soft_version">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="soft" maxOccurs="2" minOccurs="1">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="name" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+</xs:schema>

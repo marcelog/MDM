@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdm_response xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.mg.com.ar/MDM-Protocol mdm_response.xsd">
+<result>0</result>
+<message><![CDATA[
+OK]]></message>
+<data>
+<internetlist>
+                                                            <internet>
+                                                            <id>10M</id>
+                                                            <ip>136.1.180.20</ip>
+                                                            <netmask>255.255.0.0</netmask>
+                                                            </internet>
+                                                            <internet>
+                                                            <id>100M</id>
+                                                            <ip>192.168.0.4</ip>
+                                                            <netmask>255.255.255.0</netmask>
+                                                            </internet>
+                                                            </internetlist></data>
+</mdm_response>
+
+<!--
+<internetlist>
+                                                            <internet>
+                                                            <id>1</id>
+                                                            <ip>190.13.224.61</ip>
+                                                            <netmask>/30</netmask>
+                                                            </internet>
+                                                            </internetlist>
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<mdm_response xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_response.xsd">
+<result>0</result>
+<message><![CDATA[
+OK]]></message>
+<data>
+<internetlist>
+                                                            <internet>
+                                                            <id>10M</id>
+                                                            <ip>136.1.180.20</ip>
+                                                            <netmask>255.255.0.0</netmask>
+                                                            </internet>
+                                                            <internet>
+                                                            <id>100M</id>
+                                                            <ip>192.168.0.4</ip>
+                                                            <netmask>255.255.255.0</netmask>
+                                                            </internet>
+                                                            </internetlist></data>
+</mdm_response>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<mdm_response xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_response.xsd">
+<result>0</result>
+<message><![CDATA[
+OK]]></message>
+<data>
+<soft_version>
+                                                            <soft>
+                                                            <index>1</index>
+                                                            <name>NO_OSWP</name>
+                                                            <availability>empty</availability>
+                                                            <act-status>not-active</act-status>
+                                                            <commit-status>un-committed</commit-status>
+                                                            <download-error>no-error</download-error>
+                                                            <err-file-name></err-file-name>
+                                                            <err-file-server>0.0.0.0</err-file-server>
+                                                            <auto-activate-error>no-error</auto-activate-error>
+                                                            </soft>
+                                                            <soft>
+                                                            <index>2</index>
+                                                            <name>L6GPAA34.412</name>
+                                                            <availability>enabled</availability>
+                                                            <act-status>active</act-status>
+                                                            <commit-status>committed</commit-status>
+                                                            <download-error>no-error</download-error>
+                                                            <err-file-name></err-file-name>
+                                                            <err-file-server>0.0.0.0</err-file-server>
+                                                            <auto-activate-error>no-error</auto-activate-error>
+                                                            </soft>
+                                                            </soft_version></data>
+</mdm_response>
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<mdm_response xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_response.xsd">
+<result>0</result>
+<message><![CDATA[
+OK]]></message>
+<data>
+<slotlist>
+                                                            <slot>
+                                                            <id>nt-a</id>
+                                                            <type>nant-a</type>
+                                                            <enabled>yes</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>available</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>nt-b</id>
+                                                            <type>nant-a</type>
+                                                            <enabled>yes</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>available</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/1</id>
+                                                            <type>nalt-c</type>
+                                                            <enabled>yes</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>available</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/2</id>
+                                                            <type>nalt-c</type>
+                                                            <enabled>yes</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>available</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/3</id>
+                                                            <type>nalt-c</type>
+                                                            <enabled>yes</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>available</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/4</id>
+                                                            <type>nalt-c</type>
+                                                            <enabled>yes</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>available</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/5</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/6</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/7</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/8</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/12</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/13</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/14</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/15</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/16</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/17</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/18</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            <slot>
+                                                            <id>1/1/19</id>
+                                                            <type>empty</type>
+                                                            <enabled>no</enabled>
+                                                            <error-status>no-error</error-status>
+                                                            <availability>not-installed</availability>
+                                                            <restrt-cnt>0</restrt-cnt>
+                                                            </slot>
+                                                            </slotlist></data>
+</mdm_response>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<mdm_response xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_response.xsd">
+<result>0</result>
+<message><![CDATA[
+OK]]></message>
+<data>
+<uptime><years>0</years><months>0</months><days>25</days><hours>17</hours><minutes>4</minutes><seconds>39</seconds></uptime></data>
+</mdm_response>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<mdm_response xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_response.xsd">
+<result>0</result>
+<message><![CDATA[
+OK]]></message>
+<data>
+<soft_version><soft><name>NO_OSWP</name><err-file-name></err-file-name></soft><soft><name>L6GPAA34.412</name><err-file-name></err-file-name></soft></soft_version></data>
+</mdm_response>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<mdm_response xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_response.xsd">
+<result>0</result>
+<message><![CDATA[
+OK]]></message>
+<data>
+<soft_version><soft><name>ZXDSL 8426 VERSION 1.0.1 2004/07/09(n)</name><err-file-name></err-file-name></soft></soft_version></data>
+</mdm_response>
+
+-->

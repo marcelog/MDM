@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespaces="http://www.mg.com.ar/MDM-Protocol" xmlns="http://www.mg.com.ar/MDM-Protocol"
+	elementFormDefault="qualified"
+>
+
+<xs:element name="mdm_request">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="version" type="xs:string" fixed="0.1.1"/>
+			<xs:element name="device">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="connection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="target" maxOccurs="1" minOccurs="1" type="xs:string"/>
+						<xs:element name="type">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="connect_timeout">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="recv_timeout">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="credential">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="username" maxOccurs="1" minOccurs="1" type="xs:string"/>
+									<xs:element name="password" maxOccurs="1" minOccurs="1" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="command">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="type">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="arguments" maxOccurs="1" minOccurs="0" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>

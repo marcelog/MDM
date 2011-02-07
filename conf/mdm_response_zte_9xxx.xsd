@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespaces="http://www.mg.com.ar/MDM-Protocol" xmlns="http://www.mg.com.ar/MDM-Protocol"
+	elementFormDefault="qualified"
+>
+
+<xs:element name="mdm_response">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="version" type="xs:string" fixed="0.1.1"/>
+			<xs:element name="originalresponse" type="xs:string"/>
+			<xs:element name="result">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="-1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="message" type="xs:string"/>
+			<xs:element name="data" minOccurs="0">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="zte_9xxx_portlistfull">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="slot" type="xs:string"/>
+												<xs:element name="port" type="xs:string"/>
+												<xs:element name="admin-status" type="xs:string"/>
+												<xs:element name="link-status" type="xs:string"/>
+												<xs:element name="up" type="xs:string"/>
+												<xs:element name="down" type="xs:string"/>
+												<xs:element name="service-profile" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_ntp">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="status" type="xs:string"/>
+									<xs:element name="interval" type="xs:string"/>
+									<xs:element name="timezone" type="xs:string"/>
+									<xs:element name="server" type="xs:string"/>
+									<xs:element name="stratum" type="xs:string"/>
+									<xs:element name="clockstatus" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_scb">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="name" type="xs:string"/>
+									<xs:element name="status" type="xs:string"/>
+									<xs:element name="minicard-type" type="xs:string"/>
+									<xs:element name="switch-devices" type="xs:string"/>
+									<xs:element name="position" type="xs:string"/>
+									<xs:element name="sync" type="xs:string"/>
+									<xs:element name="swap-permit" type="xs:string"/>
+									<xs:element name="cpu" type="xs:string"/>
+									<xs:element name="memory" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_portprofile">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="serviceprofile" type="xs:string"/>
+									<xs:element name="alarmprofile" type="xs:string"/>
+									<xs:element name="pmconfpmsf" type="xs:string"/>
+									<xs:element name="pmstate" type="xs:string"/>
+									<xs:element name="transatucconfig" type="xs:string"/>
+									<xs:element name="transatucactual" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_profile">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AtucChanConfFastMinTxRate" type="xs:string"/>
+									<xs:element name="AtucChanConfInterMinTxRate" type="xs:string"/>
+									<xs:element name="AtucChanConfFastMaxTxRate" type="xs:string"/>
+									<xs:element name="AtucChanConfInterMaxTxRate" type="xs:string"/>
+									<xs:element name="AtucChanConfMaxInterDelay" type="xs:string"/>
+									<xs:element name="AturChanConfFastMinTxRate" type="xs:string"/>
+									<xs:element name="AturChanConfInterMinTxRate" type="xs:string"/>
+									<xs:element name="AturChanConfFastMaxTxRate" type="xs:string"/>
+									<xs:element name="AturChanConfInterMaxTxRate" type="xs:string"/>
+									<xs:element name="AturChanConfMaxInterDelay" type="xs:string"/>
+									<xs:element name="ConfProfileLineType" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_slot">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="configured-type" type="xs:string"/>
+									<xs:element name="run-type" type="xs:string"/>
+									<xs:element name="card-hardver" type="xs:string"/>
+									<xs:element name="card-status" type="xs:string"/>
+									<xs:element name="switch-devices" type="xs:string"/>
+									<xs:element name="link-master-scb" type="xs:string"/>
+									<xs:element name="loopcheck-interval" type="xs:string" minOccurs="0" maxOccurs="1"/>
+									<xs:element name="cpu" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_uptime">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="years">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="months">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="11"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="days">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="364"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="hours">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="23"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="minutes">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="59"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="seconds">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="59"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_pvclist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="pvc" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="slot" type="xs:string"/>
+												<xs:element name="port" type="xs:string"/>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="vpi" type="xs:string"/>
+												<xs:element name="vci" type="xs:string"/>
+												<xs:element name="status" type="xs:string"/>
+<!--												<xs:element name="description" type="xs:string"/> -->
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_soft_version">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="soft" maxOccurs="2" minOccurs="2">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="name" type="xs:string"/>
+												<xs:element name="state" type="xs:string"/>
+												<xs:element name="size" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="bootversion" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_serviceprofilelist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="serviceprofile" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="name" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_running_config">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="config" minOccurs="1" maxOccurs="1" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zte_9xxx_slotlist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="slot" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="type" type="xs:string"/>
+												<xs:element name="state" type="xs:string"/>
+												<xs:element name="cardtype" type="xs:string"/>
+												<xs:element name="softversion" type="xs:string"/>
+												<xs:element name="portnum" type="xs:string"/>
+												<xs:element name="porttype" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+</xs:schema>

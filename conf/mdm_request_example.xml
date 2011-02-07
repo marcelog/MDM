@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mdm_request
+	xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_request.xsd"
+>
+	<device>0</device>
+	<connection>
+		<target>190.13.224.61:23</target>
+		<type>0</type>
+		<credential>
+			<username>isadmin</username>
+			<password>tbsa_2008</password>
+		</credential>
+	</connection>
+	<command>
+		<type>23</type>
+		<arguments>1/1/1/1</arguments>
+	</command>
+</mdm_request>
+
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mdm_request
+	xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_request.xsd"
+>
+	<device>0</device>
+	<connection>
+		<target>190.13.224.61:23</target>
+		<type>0</type>
+		<credential>
+			<username>isadmin</username>
+			<password>tbsa_2008</password>
+		</credential>
+	</connection>
+	<command>
+		<type>2</type>
+	</command>
+</mdm_request>
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mdm_request
+	xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_request.xsd"
+>
+	<device>1</device>
+	<connection>
+		<target>192.168.0.4:23</target>
+		<type>0</type>
+		<credential>
+			<username>root</username>
+			<password>root</password>
+		</credential>
+	</connection>
+	<command>
+		<type>3</type>
+	</command>
+</mdm_request>
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mdm_request
+	xmlns:mdm="http://www.mg.com.ar/MDM-Protocol"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_request.xsd"
+>
+	<device>1</device>
+	<connection>
+		<target>/dev/cuad0</target>
+		<type>7</type>
+		<credential>
+			<username>root</username>
+			<password>root</password>
+		</credential>
+	</connection>
+	<command>
+		<type>1</type>
+	</command>
+</mdm_request>
+
+
+-->
+
+
+
+
+
+
+

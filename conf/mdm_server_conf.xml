@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mdm_server_config
+	xmlns:mdm="http://www.mg.com.ar/MDM"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mg.com.ar/MDM mdm_server_config.xsd"
+>
+	<version>0.1.1</version>
+	<pid>/var/run/mdm/mdm_server.pid</pid>
+	<user>mdm</user>
+	<group>mdm</group>
+
+	<listen>
+		<address>0.0.0.0</address>
+		<port>34000</port>
+		<reuse>true</reuse>
+		<backlog>5</backlog>
+		<maxclients>10</maxclients>
+		<accept_timeout>-1</accept_timeout>
+	</listen>
+
+	<clients>
+		<recv_timeout>500</recv_timeout>
+	</clients>
+
+	<logging>
+		<logsyslog>true</logsyslog>
+		<logfile>true</logfile>
+		<logpath>/tmp/mdm_server.log</logpath>
+		<loglevel>debug</loglevel>
+		<logfull>false</logfull>
+	</logging>
+
+	<devices>
+		<maxopen>10</maxopen>
+		<keepalive>30</keepalive>
+	</devices>
+</mdm_server_config>

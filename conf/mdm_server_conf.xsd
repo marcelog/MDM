@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespaces="http://www.mg.com.ar/MDM" xmlns="http://www.mg.com.ar/MDM"
+	elementFormDefault="qualified"
+>
+
+<xs:element name="mdm_server_config">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="version" type="xs:string" fixed="0.1.1"/>
+			<xs:element name="pid" type="xs:string"/>
+			<xs:element name="user" type="xs:string"/>
+			<xs:element name="group" type="xs:string"/>
+			<xs:element name="listen">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="address">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+						      	<xs:minLength value="1"/>
+						      	<xs:maxLength value="1024"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="port">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+									<xs:maxInclusive value="65535"/>
+  								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="reuse" type="xs:boolean"/>
+						<xs:element name="backlog">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+									<xs:maxInclusive value="65535"/>
+  								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="maxclients">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+									<xs:maxInclusive value="65535"/>
+  								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="accept_timeout">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="-1"/>
+  								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="clients">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="recv_timeout">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="-1"/>
+  								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="logging">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="logsyslog" type="xs:boolean"/>
+						<xs:element name="logfile" type="xs:boolean"/>
+						<xs:element name="logpath">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+						      	<xs:minLength value="1"/>
+						      	<xs:maxLength value="1024"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="loglevel">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+								<xs:enumeration value="error"/>
+								<xs:enumeration value="warn"/>
+						      <xs:enumeration value="perf"/>
+						      <xs:enumeration value="info"/>
+						      <xs:enumeration value="debug"/>
+						    </xs:restriction>
+						  </xs:simpleType>
+						</xs:element>
+						<xs:element name="logfull" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="devices">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="maxopen">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+  								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="keepalive">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+  								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>

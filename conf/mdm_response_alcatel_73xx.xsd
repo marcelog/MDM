@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespaces="http://www.mg.com.ar/MDM-Protocol" xmlns="http://www.mg.com.ar/MDM-Protocol"
+	elementFormDefault="qualified"
+>
+
+<xs:element name="mdm_response">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="version" type="xs:string" fixed="0.1.1"/>
+			<xs:element name="originalresponse" type="xs:string"/>
+			<xs:element name="result">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="-1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="message" type="xs:string"/>
+			<xs:element name="data" minOccurs="0">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="alcatel_73xx_portlist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="slot" type="xs:string"/>
+												<xs:element name="port" type="xs:string"/>
+												<xs:element name="admin-status" type="xs:string"/>
+												<xs:element name="description" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_ntp">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="server" type="xs:string"/>
+									<xs:element name="status" type="xs:string"/>
+									<xs:element name="timezone" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_portlistfull">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="slot" type="xs:string"/>
+												<xs:element name="port" type="xs:string"/>
+												<xs:element name="service-profile" type="xs:string"/>
+												<xs:element name="spectrum-profile" type="xs:string"/>
+												<xs:element name="admin-status" type="xs:string"/>
+												<xs:element name="transfer-mode" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_ethlist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="eth" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="admin-status" type="xs:string"/>
+												<xs:element name="oper-status" type="xs:string"/>
+												<xs:element name="speed" type="xs:string"/>
+												<xs:element name="type" type="xs:string"/>
+												<xs:element name="duplex" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_alarmtypelist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="alarmtype" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="name" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_vlanlist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="vlan" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="slot" type="xs:string"/>
+												<xs:element name="port" type="xs:string"/>
+												<xs:element name="vpi" type="xs:string"/>
+												<xs:element name="vci" type="xs:string"/>
+												<xs:element name="vlan" type="xs:string"/>
+												<xs:element name="admin-status" type="xs:string"/>
+												<xs:element name="level" type="xs:string"/>
+												<xs:element name="value" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_pvclist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="pvc" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="slot" type="xs:string"/>
+												<xs:element name="port" type="xs:string"/>
+												<xs:element name="vpi" type="xs:string"/>
+												<xs:element name="vci" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_internetlist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="internet" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="ip" type="xs:string"/>
+												<xs:element name="netmask" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="gateway" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_portdescription" type="xs:string"/>
+						<xs:element name="alcatel_73xx_alarmcount" type="xs:string"/>
+						<xs:element name="alcatel_73xx_routelist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="route" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="destination" type="xs:string"/>
+												<xs:element name="netmask" type="xs:string"/>
+												<xs:element name="gateway" type="xs:string"/>
+												<xs:element name="interface" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_slotlist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="slot" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="type" type="xs:string"/>
+												<xs:element name="enabled" type="xs:string"/>
+												<xs:element name="error-status" type="xs:string"/>
+												<xs:element name="availability" type="xs:string"/>
+												<xs:element name="restrt-cnt" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_portstatistics">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="port" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="adm-state" type="xs:string"/>
+												<xs:element name="opr-state-tx-rate-ds" type="xs:string"/>
+												<xs:element name="tx-rate-us" type="xs:string"/>
+												<xs:element name="tx-rate-ds" type="xs:string"/>
+												<xs:element name="cur-op-mode" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_ethstatistics">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="eth" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="in-octets" type="xs:string"/>
+												<xs:element name="in-ucast-pkts" type="xs:string"/>
+												<xs:element name="in-addr-ucast-pkts" type="xs:string"/>
+												<xs:element name="in-discard-pkts" type="xs:string"/>
+												<xs:element name="in-err-pkts" type="xs:string"/>
+												<xs:element name="pkts-unknown-proto" type="xs:string"/>
+												<xs:element name="out-octets" type="xs:string"/>
+												<xs:element name="out-ucast-pkts" type="xs:string"/>
+												<xs:element name="out-addr-ucast-pkts" type="xs:string"/>
+												<xs:element name="out-discard-pkts" type="xs:string"/>
+												<xs:element name="out-err-pkts" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_spectrumprofilelist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="spectrumprofile" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="name" type="xs:string"/>
+												<xs:element name="version" type="xs:string"/>
+												<xs:element name="mode" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_serviceprofilelist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="serviceprofile" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="id" type="xs:string"/>
+												<xs:element name="name" type="xs:string"/>
+												<xs:element name="version" type="xs:string"/>
+												<xs:element name="ra-mode-down" type="xs:string" minOccurs="0" maxOccurs="1"/>
+												<xs:element name="ra-mode-up" type="xs:string" minOccurs="0" maxOccurs="1"/>
+												<xs:element name="min-bitrate-down" type="xs:string" minOccurs="0" maxOccurs="1"/>
+												<xs:element name="min-bitrate-up" type="xs:string" minOccurs="0" maxOccurs="1"/>
+												<xs:element name="plan-bitrate-down" type="xs:string" minOccurs="0" maxOccurs="1"/>
+												<xs:element name="plan-bitrate-up" type="xs:string" minOccurs="0" maxOccurs="1"/>
+												<xs:element name="max-bitrate-down" type="xs:string" minOccurs="0" maxOccurs="1"/>
+												<xs:element name="max-bitrate-up" type="xs:string" minOccurs="0" maxOccurs="1"/>
+												<xs:element name="max-delay-down" type="xs:string" minOccurs="0" maxOccurs="1"/>
+												<xs:element name="max-delay-up" type="xs:string" minOccurs="0" maxOccurs="1"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_databaselist">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="database" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="container" type="xs:string"/>
+												<xs:element name="number" type="xs:string"/>
+												<xs:element name="name" type="xs:string"/>
+												<xs:element name="status" type="xs:string"/>
+												<xs:element name="version" type="xs:string"/>
+												<xs:element name="error" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_backupstatus">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="disk-space" type="xs:string"/>
+									<xs:element name="free-space" type="xs:string"/>
+									<xs:element name="download-progress" type="xs:string"/>
+									<xs:element name="download-error" type="xs:string"/>
+									<xs:element name="upload-progress" type="xs:string"/>
+									<xs:element name="upload-error" type="xs:string"/>
+									<xs:element name="auto-activate-error" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_vlan">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="vlanid" type="xs:string"/>
+									<xs:element name="pvid" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_portdatafarend">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="rel-cap-occ-down" type="xs:string"/>
+									<xs:element name="noise-margin-down" type="xs:string"/>
+									<xs:element name="output-power-up" type="xs:string"/>
+									<xs:element name="sig-attenuation-down" type="xs:string"/>
+									<xs:element name="loop-attenuation-down" type="xs:string"/>
+									<xs:element name="xtu-r-opmode" type="xs:string"/>
+									<xs:element name="ansi-t1413" type="xs:string"/>
+									<xs:element name="etsi-dts" type="xs:string"/>
+									<xs:element name="g992-1-a" type="xs:string"/>
+									<xs:element name="g992-1-b" type="xs:string"/>
+									<xs:element name="g992-2-a" type="xs:string"/>
+									<xs:element name="g992-3-a" type="xs:string"/>
+									<xs:element name="g992-3-b" type="xs:string"/>
+									<xs:element name="g992-3-l1" type="xs:string"/>
+									<xs:element name="g992-3-l2" type="xs:string"/>
+									<xs:element name="g992-3-am" type="xs:string"/>
+									<xs:element name="g992-5-a" type="xs:string"/>
+									<xs:element name="g992-5-b" type="xs:string"/>
+									<xs:element name="ansi-t1.424" type="xs:string"/>
+									<xs:element name="etsi-ts" type="xs:string"/>
+									<xs:element name="itu-g993-1" type="xs:string"/>
+									<xs:element name="ieee-802.3ah" type="xs:string"/>
+									<xs:element name="g992-5-am" type="xs:string"/>
+									<xs:element name="g993-2-8a" type="xs:string"/>
+									<xs:element name="g993-2-8b" type="xs:string"/>
+									<xs:element name="g993-2-8c" type="xs:string"/>
+									<xs:element name="g993-2-8d" type="xs:string"/>
+									<xs:element name="g993-2-12a" type="xs:string"/>
+									<xs:element name="g993-2-12b" type="xs:string"/>
+									<xs:element name="g993-2-17a" type="xs:string"/>
+									<xs:element name="g993-2-30a" type="xs:string"/>
+									<xs:element name="actual-psd-up" type="xs:string"/>
+									<xs:element name="pr-bnd-lp-att-dn" type="xs:string"/>
+									<xs:element name="pr-bnd-sig-att-dn" type="xs:string"/>
+									<xs:element name="pr-bnd-nmgn-dn" type="xs:string"/>
+									<xs:element name="elect-length-est" type="xs:string"/>
+									<xs:element name="time-adv-prp" type="xs:string"/>
+									<xs:element name="high-freq-dn" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_portdatanearend">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="rel-cap-occ-up" type="xs:string"/>
+									<xs:element name="noise-margin-up" type="xs:string"/>
+									<xs:element name="output-power-down" type="xs:string"/>
+									<xs:element name="sig-attenuation-up" type="xs:string"/>
+									<xs:element name="loop-attenuation-up" type="xs:string"/>
+									<xs:element name="actual-opmode" type="xs:string"/>
+									<xs:element name="xtu-c-opmode" type="xs:string"/>
+									<xs:element name="ansi-t1413" type="xs:string"/>
+									<xs:element name="etsi-dts" type="xs:string"/>
+									<xs:element name="g992-1-a" type="xs:string"/>
+									<xs:element name="g992-1-b" type="xs:string"/>
+									<xs:element name="g992-2-a" type="xs:string"/>
+									<xs:element name="g992-3-a" type="xs:string"/>
+									<xs:element name="g992-3-b" type="xs:string"/>
+									<xs:element name="g992-3-l1" type="xs:string"/>
+									<xs:element name="g992-3-l2" type="xs:string"/>
+									<xs:element name="g992-3-am" type="xs:string"/>
+									<xs:element name="g992-5-a" type="xs:string"/>
+									<xs:element name="g992-5-b" type="xs:string"/>
+									<xs:element name="ansi-t1.424" type="xs:string"/>
+									<xs:element name="etsi-ts" type="xs:string"/>
+									<xs:element name="itu-g993-1" type="xs:string"/>
+									<xs:element name="ieee-802.3ah" type="xs:string"/>
+									<xs:element name="g992-5-am" type="xs:string"/>
+									<xs:element name="g993-2-8a" type="xs:string"/>
+									<xs:element name="g993-2-8b" type="xs:string"/>
+									<xs:element name="g993-2-8c" type="xs:string"/>
+									<xs:element name="g993-2-8d" type="xs:string"/>
+									<xs:element name="g993-2-12a" type="xs:string"/>
+									<xs:element name="g993-2-12b" type="xs:string"/>
+									<xs:element name="g993-2-17a" type="xs:string"/>
+									<xs:element name="g993-2-30a" type="xs:string"/>
+									<xs:element name="actual-psd-down" type="xs:string"/>
+									<xs:element name="power-mgnt-state" type="xs:string"/>
+									<xs:element name="per-bnd-lp-att-up" type="xs:string"/>
+									<xs:element name="pr-bnd-sgn-att-up" type="xs:string"/>
+									<xs:element name="pr-bnd-nois-mg-up" type="xs:string"/>
+									<xs:element name="high-freq-up" type="xs:string"/>
+									<xs:element name="elect-length" type="xs:string"/>
+									<xs:element name="time-adv-corr" type="xs:string"/>
+									<xs:element name="actual-tps-tc-mode" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_portprofile">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="spectrumprofile" type="xs:string"/>
+									<xs:element name="serviceprofile" type="xs:string"/>
+									<xs:element name="status" type="xs:string"/>
+									<xs:element name="mode" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_datalineinfo">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="if-index" type="xs:string"/>
+									<xs:element name="adm-state" type="xs:string"/>
+									<xs:element name="opr-state-tx-rate-ds" type="xs:string"/>
+									<xs:element name="tx-rate-us" type="xs:string"/>
+									<xs:element name="tx-rate-ds" type="xs:string"/>
+									<xs:element name="max-tx-rate-us" type="xs:string"/>
+									<xs:element name="max-tx-rate-ds" type="xs:string"/>
+									<xs:element name="inp-up" type="xs:string"/>
+									<xs:element name="inp-dn" type="xs:string"/>
+									<xs:element name="interl-us" type="xs:string"/>
+									<xs:element name="interl-ds" type="xs:string"/>
+									<xs:element name="cur-op-mode" type="xs:string"/>
+									<xs:element name="rinit-1d" type="xs:string"/>
+									<xs:element name="actual-tps-tc-mode" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_soft_version">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="soft" maxOccurs="2" minOccurs="1">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="index" type="xs:string"/>
+												<xs:element name="name" type="xs:string"/>
+												<xs:element name="availability" type="xs:string"/>
+												<xs:element name="act-status" type="xs:string"/>
+												<xs:element name="commit-status" type="xs:string"/>
+												<xs:element name="download-error" type="xs:string"/>
+												<xs:element name="err-file-name" type="xs:string"/>
+												<xs:element name="err-file-server" type="xs:string"/>
+												<xs:element name="auto-activate-error" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="alcatel_73xx_uptime">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="years">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="months">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="11"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="days">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="364"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="hours">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="23"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="minutes">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="59"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="seconds">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="59"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+</xs:schema>
