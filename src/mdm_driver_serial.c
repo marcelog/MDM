@@ -395,7 +395,7 @@ mdm_driver_serial_setup(
 	data = (mdm_driver_serial_data_t *)d->data;
 	options = (mdm_driver_serial_options_t *)d->options;
 	memcpy(
-		(void *)d->options, (void *)opts, sizeof(mdm_driver_telnet_options_t)
+		(void *)d->options, (void *)opts, sizeof(mdm_driver_serial_options_t)
 	);
 	/* Set timeval struct for timeout. */
 	data->tv.tv_usec = 0;

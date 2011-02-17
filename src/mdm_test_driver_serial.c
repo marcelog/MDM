@@ -87,7 +87,12 @@ main(int argc, char *argv[])
 	int bufflen;
 	size_t stdinbuffer_len;
 	char *stdinbuffer;
-	
+	/* Check command line arguments. */
+	if(argc < 2)
+	{
+		fprintf(stderr, "Use: %s <serial_file>\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}	
 	fprintf(stdout, "Start.\n");
 
 	/* Global MDM init. */
@@ -103,7 +108,7 @@ main(int argc, char *argv[])
 	}
 
 	/* Copy options from command line. */
-	sprintf(options.port, "%s", "/dev/cuad0");
+	sprintf(options.port, "%s", argv[1]);
 	options.speed = MDM_DRIVER_SERIAL_9600;
 	options.bits = MDM_DRIVER_SERIAL_8BITS;
 	options.parity = MDM_DRIVER_SERIAL_PNONE;
