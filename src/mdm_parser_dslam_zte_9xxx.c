@@ -75,11 +75,15 @@ dslam_zte_9xxx_show_slots(
 		{
 			tmp2 = strchr(tmp1, 32);
 			tmp3 = strchr(tmp1, 13);
-			if(tmp3 < tmp2)
+			if(tmp3 != NULL && tmp3 < tmp2) {
 				tmp2 = tmp3;
+			}
 			snprintf(slot_buffer, tmp2 - tmp1 + 1, "%s", tmp1);
 			xmlNewChild(node, NULL, BAD_CAST tokensnames[i], BAD_CAST slot_buffer);
 			tmp1 = tmp2;
+			if (tmp2 == NULL) {
+				break;
+			}
 			while(*tmp1 == 32) tmp1++;
 			if((tmp1 - tmp2) > 15)
 			{
