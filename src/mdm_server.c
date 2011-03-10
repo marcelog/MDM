@@ -23,6 +23,8 @@
 #include	<libxml/xpathInternals.h>
 #include	<pthread.h>
 #include	<mdm.h>
+#include	<pwd.h>
+#include	<grp.h>
 
 /*******************************************************************************
  * Constants.
@@ -106,6 +108,9 @@ static int listen_port = 0; /*!< Overriden by #readconfig. */
 static int listen_reuse = 0; /*!< Overriden by #readconfig. */
 static int listen_backlog = 0; /*!< Overriden by #readconfig. */
 static int listen_toaccept = 0; /*!< Overriden by #readconfig. */
+static const char *pidfile = NULL; /*!< Overriden by #readconfig. */
+static const char *uid = NULL; /*!< Overriden by #readconfig. */
+static const char *gid = NULL; /*!< Overriden by #readconfig. */
 static int maxclients = 0; /*!< Overriden by #readconfig. */
 static int clients_block = 0; /*!< Overriden by #readconfig. */
 static int clients_to_recv = 0; /*!< Overriden by #readconfig. */
@@ -148,6 +153,9 @@ static char *response_form(
 	const char *originalresponse, int originalresponselen
 );
 static int read_schemas(const char *);
+static int pidfile_write(const char *);
+static void pidfile_cleanup(const char *);
+static int privileges_switch(const char *user, const char *group);
 int main(int argc, char *argv[]);
 
 /*******************************************************************************
@@ -402,6 +410,9 @@ readconfig(const char *filename, const char *schema_filename)
 	keepalive_interval = strtol(get_xpath_value(
 		xpathCtx, "/mdm_server_config/devices/keepalive"
 	), NULL, 10);
+	pidfile = get_xpath_value(xpathCtx, "/mdm_server_config/pid");
+	uid = get_xpath_value(xpathCtx, "/mdm_server_config/user");
+	gid = get_xpath_value(xpathCtx, "/mdm_server_config/group");
 
 	/* Success! */
 	retcode = 0;
@@ -1311,6 +1322,91 @@ read_schemas(const char *srcdir)
 	}
 	return 0;
 }
+/*!
+ * Writes the current pid to a pid file.
+ * \param filename PID Filename.
+ * \return -1 on error, 0 on success.
+ */
+static int
+pidfile_write(const char *filename)
+{
+	pid_t mypid;
+	char mypidstr[8];
+	int mypidstrlen;
+	FILE *pidfd;
+	int retcode = 0;
+
+	if (filename == NULL) {
+		MDM_LOGERROR("NULL pidfile");
+		return -1;
+	}
+
+	/* Get pid, format it to text. */
+	mypid = getpid();
+	snprintf(mypidstr, sizeof(mypidstr), "%d", mypid);
+	mypidstrlen = strlen(mypidstr);
+
+	MDM_LOG("Saving pid in %s", filename);
+	pidfd = fopen(filename, "w");
+	if (pidfd == NULL) {
+		MDM_LOGERROR("Could not open pidfile: %s: %s", filename, strerror(errno));
+		return -1;
+	}
+	if (fwrite(mypidstr, sizeof(char), mypidstrlen, pidfd) != mypidstrlen) {
+		MDM_LOGERROR("Could not write pidfile: %s", strerror(errno));
+		retcode = -1;
+	}
+	fclose(pidfd);
+	return retcode;
+}
+
+/*!
+ * Cleanups (deletes) pid file.
+ * \param filename PID filename.
+ * \return void
+ */
+static void
+pidfile_cleanup(const char *filename)
+{
+	if (filename == NULL) {
+		return;
+	}
+	unlink(filename);
+}
+
+/*!
+ * Switches privileges to the given user (name) and group (name).
+ * \param user User name (not uid).
+ * \param group Group name (not gid).
+ * \return -1 on error, 0 on success.
+ */
+static int
+privileges_switch(const char *user, const char *group)
+{
+	struct passwd *uidpw;
+	struct group *gidgr;
+
+	uidpw = getpwnam(user);
+	if (uidpw == NULL) {
+		MDM_LOGERROR("Error getting user info for: %s: %s", user, strerror(errno));
+		return -1;
+	}
+
+	gidgr = getgrnam(group);
+	if (gidgr == NULL) {
+		MDM_LOGERROR("Error getting group info for: %s: %s", group, strerror(errno));
+		return -1;
+	}
+	if (setgid(gidgr->gr_gid) != 0 || setegid(gidgr->gr_gid) != 0) {
+		MDM_LOGERROR("Could not switch to group: %s: %s", group, strerror(errno));
+		return -1;
+	}
+	if (setuid(uidpw->pw_uid) != 0 || seteuid(uidpw->pw_uid)) {
+		MDM_LOGERROR("Could not switch to user: %s: %s", user, strerror(errno));
+		return -1;
+	}
+	return 0;
+}
 
 /*!
  * Main Entry point.
@@ -1327,6 +1423,8 @@ main(int argc, char *argv[])
 	int bufflen;
 	int i;
 	int thid;
+	FILE *pidfd;
+	char stalepidstr[8];
 	
 	/* Get own thread id. */
 	server_thread = pthread_self();
@@ -1383,6 +1481,34 @@ main(int argc, char *argv[])
 	
 	/* Flag libxml2 error handler to start using mdm_logerror. */
 	server_started = 1;
+
+	/* Drop privileges. */
+	if (privileges_switch(uid, gid) != 0) {
+		retcode = EXIT_FAILURE;
+		goto main_done;
+	}
+
+	/* Check for already existant pidfile. */
+	pidfd = fopen(pidfile, "r");
+	if (pidfd == NULL) {
+		if (pidfile_write(pidfile) != 0) {
+			retcode = EXIT_FAILURE;
+			goto main_done;
+		}
+	} else {
+		memset(stalepidstr, 0, sizeof(stalepidstr));
+		if (fread(stalepidstr, 1, sizeof(stalepidstr), pidfd) == 0) {
+			if (pidfile_write(pidfile) != 0) {
+				retcode = EXIT_FAILURE;
+				goto main_done;
+			}
+		} else {
+			retcode = EXIT_FAILURE;
+			MDM_LOGERROR("Already running with pid: %s or stale pidfile %s.", stalepidstr, pidfile);
+			pidfile = NULL;
+			goto main_done;
+		}
+	}
 	
 	/* Allocate memory for threads args. */
 	threads_args = (client_handler_argument_t *)MDM_MALLOC(
@@ -1627,6 +1753,9 @@ main_done_no_mdm_cleanup:
 	if(request_schema_doc != NULL)
 		xmlFreeDoc(request_schema_doc);
 		
+	/* Cleanup pid file. */
+	pidfile_cleanup(pidfile);
+
 	/* Cleanup function for the XML library. */
 	xmlCleanupParser();
 	
