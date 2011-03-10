@@ -47,9 +47,9 @@
 /*******************************************************************************
  * Constants.
  ******************************************************************************/
-#define	LOGLEVEL		MDM_LOG_DEBUG
+#define	LOGLEVEL	MDM_LOG_DEBUG
 #define	LOGSYSLOG	1
-#define	LOGFILE		1
+#define	LOGFILENAME	1
 #define	LOGFULL		0
 #define	LOGPATH		"/tmp/mdm_test_device_dslam_zte_9xxx.log"
 
@@ -88,7 +88,7 @@ main(int argc, char *argv[])
 	}
 
 	/* Global MDM init. */
-	mdm_init(LOGLEVEL, LOGSYSLOG, LOGFILE, LOGFULL, LOGPATH);
+	mdm_init(LOGLEVEL, LOGSYSLOG, LOGFILENAME, LOGFULL, LOGPATH);
 	mdm_device_new(&device, MDM_DEVICE_DSLAM_ZTE_9xxx, &status);
 	if(status.status == MDM_OP_ERROR)
 	{

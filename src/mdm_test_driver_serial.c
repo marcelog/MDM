@@ -31,9 +31,9 @@
 /*******************************************************************************
  * Constants.
  ******************************************************************************/
-#define	LOGLEVEL		MDM_LOG_DEBUG
+#define	LOGLEVEL	MDM_LOG_DEBUG
 #define	LOGSYSLOG	1
-#define	LOGFILE		1
+#define	LOGFILENAME	1
 #define	LOGFULL		1
 #define	LOGPATH		"/tmp/mdm_test_driver_serial.log"
 
@@ -96,7 +96,7 @@ main(int argc, char *argv[])
 	fprintf(stdout, "Start.\n");
 
 	/* Global MDM init. */
-	mdm_init(LOGLEVEL, LOGSYSLOG, LOGFILE, LOGFULL, LOGPATH);
+	mdm_init(LOGLEVEL, LOGSYSLOG, LOGFILENAME, LOGFULL, LOGPATH);
 
 	/* Allocate a connection of type raw tcp. */
 	mdm_connection_new(&c, MDM_CONNECTION_SERIAL, &status);

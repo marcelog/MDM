@@ -12,9 +12,9 @@
 /*******************************************************************************
  * Constants.
  ******************************************************************************/
-#define	LOGLEVEL		MDM_LOG_DEBUG
+#define	LOGLEVEL	MDM_LOG_DEBUG
 #define	LOGSYSLOG	1
-#define	LOGFILE		1
+#define	LOGFILENAME	1
 #define	LOGFULL		1
 #define	LOGPATH		"/tmp/mdm_test_driver_dummy.log"
 
@@ -34,7 +34,7 @@ main(int argc, char *argv[])
 	mdm_operation_result_t status;
 
 	/* Global MDM init. */
-	mdm_init(LOGLEVEL, LOGSYSLOG, LOGFILE, LOGFULL, LOGPATH);
+	mdm_init(LOGLEVEL, LOGSYSLOG, LOGFILENAME, LOGFULL, LOGPATH);
 	mdm_connection_new(&c, MDM_CONNECTION_DUMMY, &status);
 	mdm_connection_open(&c, (mdm_connection_options_t)&options, &status);
 	mdm_connection_close(&c, &status);
