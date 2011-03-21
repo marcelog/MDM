@@ -787,7 +787,7 @@ mdm_device_dslam_alcatel_73xx_exec(
 #if MDM_DEBUG_MESSAGES > 0
 		MDM_LOGDEBUG("Stripping cmd.");
 #endif
-		d->exec_buffer_len = strlen(foundcmd);
+		d->exec_buffer_len = strlen(foundcmd) + 1;
 		snprintf(d->exec_buffer, d->exec_buffer_len, "%s", foundcmd);
 	} else {
 #if MDM_DEBUG_MESSAGES > 0

@@ -2216,8 +2216,6 @@ dslam_alcatel_73xx_get_alarm_count(
 	char *tokens[] = { "count : " };
 	int tokenslen[] = { 8 };
 	const char *tmp1;
-	const char *tmp2;
-	
 	tmp1 = strstr(d->exec_buffer, tokens[0]);
 	if(tmp1 == NULL)
 	{
@@ -2227,17 +2225,13 @@ dslam_alcatel_73xx_get_alarm_count(
 	}
 	tmp1 += tokenslen[0];
 
-	/* Find end of the value. */
-	tmp2 = strchr(tmp1, 13);
-
 	/* Store value. */
-	d->exec_buffer_post_len = (int)(tmp2 - tmp1);
 	snprintf(
 		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
-		"<alcatel_73xx_alarmcount>%.*s</alcatel_73xx_alarmcount>",
-		d->exec_buffer_post_len, tmp1
+		"<alcatel_73xx_alarmcount>%s</alcatel_73xx_alarmcount>",
+		tmp1
 	);
-	
+	d->exec_buffer_post_len = strlen(d->exec_buffer_post);
 	/* Done. */
 	return;
 }
