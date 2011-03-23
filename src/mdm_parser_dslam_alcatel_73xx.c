@@ -1102,14 +1102,14 @@ dslam_alcatel_73xx_get_port_description(
 	tmp2 = strchr(tmp1, 13);
 
 	/* Store value. */
-	d->exec_buffer_post_len = (int)(tmp2 - tmp1);
 	snprintf(
 		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
 		"<alcatel_73xx_portdescription>%.*s</alcatel_73xx_portdescription>",
-		d->exec_buffer_post_len, tmp1
+		(int)(tmp2 - tmp1), tmp1
 	);
 	
 	/* Done. */
+	d->exec_buffer_post_len = strlen(d->exec_buffer_post);
 	return;
 }
 
