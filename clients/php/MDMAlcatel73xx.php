@@ -116,7 +116,9 @@ class MDMAlcatel73xx extends MDMDevice
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_MINBITRATEUP_SERVICE_PROFILE
         = 43;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_MINBITRATEDOWN_SERVICE_PROFILE
-        = 44;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_REBOOT_HOT = 45;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_REBOOT_ALL = 46;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_REBOOT_SHUB = 47;
 
     /**
      * Return NTP info.
