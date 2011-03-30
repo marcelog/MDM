@@ -49,4 +49,8 @@ extern void dslam_zte_8426_get_service_profile(
 	mdm_device_descriptor_t *, mdm_operation_result_t *
 );
 
+extern void dslam_zte_8426_get_alarms(
+       mdm_device_descriptor_t *, mdm_operation_result_t *
+);
+
 #endif
