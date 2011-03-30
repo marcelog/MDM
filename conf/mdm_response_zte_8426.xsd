@@ -164,6 +164,22 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+                  <xs:element name="zte_8426_alarms">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="alarm" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="date" type="xs:string"/>
+                                                <xs:element name="card" type="xs:string"/>
+                                                <xs:element name="line" type="xs:string"/>
+                                                <xs:element name="type" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                      </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>

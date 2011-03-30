@@ -53,6 +53,7 @@ $cmds = array(
     MDMZTE8426::$MDM_DSLAM_ZTE_8426_CMD_GET_MAC,
     MDMZTE8426::$MDM_DSLAM_ZTE_8426_CMD_SHOW_SLOTS,
     MDMZTE8426::$MDM_DSLAM_ZTE_8426_CMD_GET_ROUTES,
+    MDMZTE8426::$MDM_DSLAM_ZTE_8426_CMD_GET_ALARMS,
     MDMZTE8426::$MDM_DSLAM_ZTE_8426_CMD_SHOW_PORT_ATM_PVC,
     MDMZTE8426::$MDM_DSLAM_ZTE_8426_CMD_NOP,
     MDMZTE8426::$MDM_DSLAM_ZTE_8426_CMD_SHOW_SERVICE_PROFILES,
@@ -65,6 +66,7 @@ $cmds = array(
 
 /** With these arguments. */
 $args = array(
+    null,
     null,
     null,
     null,
@@ -95,6 +97,7 @@ $descs = array(
     'Show MAC Information',
     'Show Slots',
     'Show Routes Information',
+    'Get alarms',
     'Show ATM PVC',
     'NOP',
     'Show Service Profiles',
@@ -112,6 +115,7 @@ $responses = array(
     'getMACList',
     'getSlotList',
     'getInternetRoutes',
+    'getAlarms',
     'getPVC',
     null,
     'getServiceProfilesList',

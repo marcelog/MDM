@@ -77,7 +77,18 @@ class MDMZTE8426 extends MDMDevice
     public static $MDM_DSLAM_ZTE_8426_CMD_CREATE_PROFILE = 10;
     public static $MDM_DSLAM_ZTE_8426_CMD_DELETE_PROFILE = 11;
     public static $MDM_DSLAM_ZTE_8426_CMD_GET_SERVICE_PROFILE = 12;
+    public static $MDM_DSLAM_ZTE_8426_CMD_GET_ALARMS = 13;
 
+    /**
+     * Return information for alarms.
+     *
+     * @throws Exception on error.
+     * @return array with alarms
+     */
+    public function getAlarms()
+    {
+        return $this->getXMLAsArray('zte_8426_alarm', array('date', 'card', 'line', 'type'));
+    }
     /**
      * Return information for service profile.
      *
