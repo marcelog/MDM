@@ -68,6 +68,9 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 42 */ "Configure Service Profile max-bitrate-down",
 /* 43 */ "Configure Service Profile min-bitrate-up",
 /* 44 */ "Configure Service Profile min-bitrate-down",
+/* 45 */ "Reboot hot",
+/* 46 */ "Reboot all",
+/* 47 */ "Reboot shub",
 	NULL
 };
 
@@ -122,7 +125,10 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 41 */ 2,
 /* 42 */ 2,
 /* 43 */ 2,
-/* 44 */ 2
+/* 44 */ 2,
+/* 45 */ 0,
+/* 46 */ 0,
+/* 47 */ 0
 };
 
 /*!
@@ -174,7 +180,10 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 41 */ dslam_alcatel_73xx_maxbitrateup_service_profile,
 /* 42 */ dslam_alcatel_73xx_maxbitratedown_service_profile,
 /* 43 */ dslam_alcatel_73xx_minbitrateup_service_profile,
-/* 44 */ dslam_alcatel_73xx_minbitratedown_service_profile
+/* 44 */ dslam_alcatel_73xx_minbitratedown_service_profile,
+/* 45 */ dslam_alcatel_73xx_nop,
+/* 46 */ dslam_alcatel_73xx_nop,
+/* 47 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -229,6 +238,9 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 42 */ "configure xdsl service-profile %%ARG%% max-bitrate-down %%ARG%%",
 /* 43 */ "configure xdsl service-profile %%ARG%% min-bitrate-up %%ARG%%",
 /* 44 */ "configure xdsl service-profile %%ARG%% min-bitrate-down %%ARG%%",
+/* 45 */ "admin equipment reboot-isam hot-restart",
+/* 46 */ "admin equipment reboot-isam with-self-test",
+/* 47 */ "admin equipment reboot-shub applicationreset",
 	NULL
 };
 
