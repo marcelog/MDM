@@ -76,6 +76,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 50 */ "Configure System Security Filetransfer",
 /* 51 */ "Configure System Security Filetransfer host/user/password",
 /* 52 */ "Upload active database",
+/* 53 */ "Download database",
 	NULL
 };
 
@@ -138,7 +139,8 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 49 */ 1,
 /* 50 */ 1,
 /* 51 */ 3,
-/* 52 */ 2
+/* 52 */ 2,
+/* 53 */ 2
 };
 
 /*!
@@ -198,7 +200,8 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 49 */ dslam_alcatel_73xx_nop,
 /* 50 */ dslam_alcatel_73xx_nop,
 /* 51 */ dslam_alcatel_73xx_nop,
-/* 52 */ dslam_alcatel_73xx_nop
+/* 52 */ dslam_alcatel_73xx_nop,
+/* 53 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -261,6 +264,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 50 */ "configure system security filetransfer protocol %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
 /* 51 */ "configure system security filetransfer server %%ARG%% user-name %%ARG%% password %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
 /* 52 */ "admin software-mngt database upload actual-active:%%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
+/* 53 */ "admin software-mngt database download %%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
 	NULL
 };
 
