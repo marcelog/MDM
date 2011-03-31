@@ -83,6 +83,11 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 57 */ "Remove PVC from port",
 /* 58 */ "Configure VLAN shub id residential bridge",
 /* 59 */ "Configure VLAN id residential bridge",
+/* 60 */ "Configure egress-port (slot) for vlan",
+/* 61 */ "Configure VLAN id cross connect",
+/* 62 */ "Configure port bridge",
+/* 63 */ "Configure port bridge vlan id",
+/* 64 */ "Configure port bridge pvid",
 	NULL
 };
 
@@ -152,7 +157,12 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 56 */ 3,
 /* 57 */ 3,
 /* 58 */ 1,
-/* 59 */ 1
+/* 59 */ 1,
+/* 60 */ 2,
+/* 61 */ 1,
+/* 62 */ 3,
+/* 63 */ 4,
+/* 64 */ 4
 };
 
 /*!
@@ -219,7 +229,13 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 56 */ dslam_alcatel_73xx_nop,
 /* 57 */ dslam_alcatel_73xx_nop,
 /* 58 */ dslam_alcatel_73xx_nop,
-/* 59 */ dslam_alcatel_73xx_nop
+/* 59 */ dslam_alcatel_73xx_nop,
+/* 59 */ dslam_alcatel_73xx_nop,
+/* 60 */ dslam_alcatel_73xx_nop,
+/* 61 */ dslam_alcatel_73xx_nop,
+/* 62 */ dslam_alcatel_73xx_nop,
+/* 63 */ dslam_alcatel_73xx_nop,
+/* 64 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -289,6 +305,11 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 57 */ "configure bridge no port %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit", // port:vpi:vci
 /* 58 */ "configure vlan shub id %%ARG%% mode residential-bridge\r\nexit\r\nexit\r\nexit", // vlan id
 /* 59 */ "configure vlan id %%ARG%% mode residential-bridge\r\nexit\r\nexit\r\nexit", // vlan id
+/* 60 */ "configure vlan shub id %%ARG%% egress-port lt:%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit\r\nexit", // vlan id, slot
+/* 61 */ "configure vlan id %%ARG%% mode cross-connect\r\nexit\r\nexit\r\nexit", // vlan id
+/* 62 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit", // port:vpi:vci
+/* 63 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%% vlan-id %%ARG%%\r\nexit\r\nexit", // port:vpi:vci:vlan id
+/* 64 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%% pvid %%ARG%%\r\nexit\r\nexit", // port:vpi:vci:vlan id
 	NULL
 };
 
