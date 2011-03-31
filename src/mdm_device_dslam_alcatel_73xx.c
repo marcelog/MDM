@@ -78,6 +78,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 52 */ "Upload active database",
 /* 53 */ "Download database",
 /* 54 */ "Alarm clear",
+/* 55 */ "Configure ATM PVC",
+/* 56 */ "Delete ATM PVC",
 	NULL
 };
 
@@ -143,6 +145,8 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 52 */ 2,
 /* 53 */ 2,
 /* 54 */ 1
+/* 55 */ 3,
+/* 56 */ 3
 };
 
 /*!
@@ -204,7 +208,9 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 51 */ dslam_alcatel_73xx_nop,
 /* 52 */ dslam_alcatel_73xx_nop,
 /* 53 */ dslam_alcatel_73xx_nop,
-/* 54 */ dslam_alcatel_73xx_nop
+/* 54 */ dslam_alcatel_73xx_nop,
+/* 55 */ dslam_alcatel_73xx_nop,
+/* 56 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -269,6 +275,8 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 52 */ "admin software-mngt database upload actual-active:%%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
 /* 53 */ "admin software-mngt database download %%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
 /* 54 */ "admin alarm delta-log clr-%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
+/* 55 */ "configure atm pvc %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit", // port:vpi:vci
+/* 56 */ "configure atm no pvc %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit", // port:vpi:vci
 	NULL
 };
 
