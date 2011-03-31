@@ -126,6 +126,11 @@ class MDMAlcatel73xx extends MDMDevice
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_DATABASE_UPLOAD_ACTIVE = 52;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_DATABASE_DOWNLOAD_DATABASE = 53;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_ALARM_CLEAR = 54;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_PVC = 55;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_DEL_PVC = 56;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_REMOVE_PVC_FROM_PORT = 57;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_VLAN_SHUB_RESIDENTIAL_BRIDGE = 58;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_VLAN_ID_RESIDENTIAL_BRIDGE = 59;
 
     /**
      * Return NTP info.

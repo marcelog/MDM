@@ -80,6 +80,9 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 54 */ "Alarm clear",
 /* 55 */ "Configure ATM PVC",
 /* 56 */ "Delete ATM PVC",
+/* 57 */ "Remove PVC from port",
+/* 58 */ "Configure VLAN shub id residential bridge",
+/* 59 */ "Configure VLAN id residential bridge",
 	NULL
 };
 
@@ -144,9 +147,12 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 51 */ 3,
 /* 52 */ 2,
 /* 53 */ 2,
-/* 54 */ 1
+/* 54 */ 1,
 /* 55 */ 3,
-/* 56 */ 3
+/* 56 */ 3,
+/* 57 */ 3,
+/* 58 */ 1,
+/* 59 */ 1
 };
 
 /*!
@@ -210,7 +216,10 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 53 */ dslam_alcatel_73xx_nop,
 /* 54 */ dslam_alcatel_73xx_nop,
 /* 55 */ dslam_alcatel_73xx_nop,
-/* 56 */ dslam_alcatel_73xx_nop
+/* 56 */ dslam_alcatel_73xx_nop,
+/* 57 */ dslam_alcatel_73xx_nop,
+/* 58 */ dslam_alcatel_73xx_nop,
+/* 59 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -277,6 +286,9 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 54 */ "admin alarm delta-log clr-%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
 /* 55 */ "configure atm pvc %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit", // port:vpi:vci
 /* 56 */ "configure atm no pvc %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit", // port:vpi:vci
+/* 57 */ "configure bridge no port %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit", // port:vpi:vci
+/* 58 */ "configure vlan shub id %%ARG%% mode residential-bridge\r\nexit\r\nexit\r\nexit", // vlan id
+/* 59 */ "configure vlan id %%ARG%% mode residential-bridge\r\nexit\r\nexit\r\nexit", // vlan id
 	NULL
 };
 
