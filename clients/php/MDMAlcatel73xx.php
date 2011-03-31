@@ -121,6 +121,9 @@ class MDMAlcatel73xx extends MDMDevice
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_REBOOT_SHUB = 47;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_PORT_ENABLE = 48;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_PORT_DISABLE = 49;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_FILETRANSFER = 50;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_FILETRANSFER_HOST_USER_PASS = 51;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_DATABASE_UPLOAD_ACTIVE = 52;
 
     /**
      * Return NTP info.

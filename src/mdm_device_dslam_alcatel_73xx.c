@@ -75,6 +75,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 49 */ "Port disable",
 /* 50 */ "Configure System Security Filetransfer",
 /* 51 */ "Configure System Security Filetransfer host/user/password",
+/* 52 */ "Upload active database",
 	NULL
 };
 
@@ -136,7 +137,8 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 48 */ 1,
 /* 49 */ 1,
 /* 50 */ 1,
-/* 51 */ 3
+/* 51 */ 3,
+/* 52 */ 2
 };
 
 /*!
@@ -195,7 +197,8 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 48 */ dslam_alcatel_73xx_nop,
 /* 49 */ dslam_alcatel_73xx_nop,
 /* 50 */ dslam_alcatel_73xx_nop,
-/* 51 */ dslam_alcatel_73xx_nop
+/* 51 */ dslam_alcatel_73xx_nop,
+/* 52 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -257,6 +260,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 49 */ "configure interface port xdsl-line:%%ARG%% no admin-up\r\nexit\r\nexit\r\nexit",
 /* 50 */ "configure system security filetransfer protocol %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
 /* 51 */ "configure system security filetransfer server %%ARG%% user-name %%ARG%% password %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
+/* 52 */ "admin software-mngt database upload actual-active:%%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
 	NULL
 };
 
