@@ -71,6 +71,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 45 */ "Reboot hot",
 /* 46 */ "Reboot all",
 /* 47 */ "Reboot shub",
+/* 48 */ "Port enable",
+/* 49 */ "Port disable",
 	NULL
 };
 
@@ -128,7 +130,9 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 44 */ 2,
 /* 45 */ 0,
 /* 46 */ 0,
-/* 47 */ 0
+/* 47 */ 0,
+/* 48 */ 1,
+/* 49 */ 1
 };
 
 /*!
@@ -183,7 +187,9 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 44 */ dslam_alcatel_73xx_minbitratedown_service_profile,
 /* 45 */ dslam_alcatel_73xx_nop,
 /* 46 */ dslam_alcatel_73xx_nop,
-/* 47 */ dslam_alcatel_73xx_nop
+/* 47 */ dslam_alcatel_73xx_nop,
+/* 48 */ dslam_alcatel_73xx_nop,
+/* 49 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -241,6 +247,8 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 45 */ "admin equipment reboot-isam hot-restart",
 /* 46 */ "admin equipment reboot-isam with-self-test",
 /* 47 */ "admin equipment reboot-shub applicationreset",
+/* 48 */ "configure interface port xdsl-line:%%ARG%% admin-up\r\nexit\r\nexit\r\nexit",
+/* 49 */ "configure interface port xdsl-line:%%ARG%% no admin-up\r\nexit\r\nexit\r\nexit",
 	NULL
 };
 
