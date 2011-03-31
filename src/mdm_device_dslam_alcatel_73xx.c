@@ -73,6 +73,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 47 */ "Reboot shub",
 /* 48 */ "Port enable",
 /* 49 */ "Port disable",
+/* 50 */ "Configure System Security Filetransfer",
+/* 51 */ "Configure System Security Filetransfer host/user/password",
 	NULL
 };
 
@@ -132,7 +134,9 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 46 */ 0,
 /* 47 */ 0,
 /* 48 */ 1,
-/* 49 */ 1
+/* 49 */ 1,
+/* 50 */ 1,
+/* 51 */ 3
 };
 
 /*!
@@ -189,7 +193,9 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 46 */ dslam_alcatel_73xx_nop,
 /* 47 */ dslam_alcatel_73xx_nop,
 /* 48 */ dslam_alcatel_73xx_nop,
-/* 49 */ dslam_alcatel_73xx_nop
+/* 49 */ dslam_alcatel_73xx_nop,
+/* 50 */ dslam_alcatel_73xx_nop,
+/* 51 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -249,6 +255,8 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 47 */ "admin equipment reboot-shub applicationreset",
 /* 48 */ "configure interface port xdsl-line:%%ARG%% admin-up\r\nexit\r\nexit\r\nexit",
 /* 49 */ "configure interface port xdsl-line:%%ARG%% no admin-up\r\nexit\r\nexit\r\nexit",
+/* 50 */ "configure system security filetransfer protocol %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
+/* 51 */ "configure system security filetransfer server %%ARG%% user-name %%ARG%% password %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
 	NULL
 };
 
