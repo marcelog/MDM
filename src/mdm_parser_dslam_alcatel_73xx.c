@@ -1667,6 +1667,7 @@ dslam_alcatel_73xx_get_backup_status(
 	};
 	const char *tmp1;
 	const char *tmp2;
+	const char *tmp3;
 	char backup_status[64];
 	int i;
 	
@@ -1713,6 +1714,10 @@ dslam_alcatel_73xx_get_backup_status(
 			status->status = MDM_OP_ERROR;
 			sprintf(status->status_message, "Token |sp| not found.");
 			goto dslam_alcatel_73xx_get_backup_status_done;
+		}
+		tmp3 = strchr(tmp1, 13);
+		if (tmp3 < tmp2) {
+			tmp2 = tmp3;
 		}
 		snprintf(backup_status, tmp2 - tmp1 + 1, "%s", tmp1);
 		/*
