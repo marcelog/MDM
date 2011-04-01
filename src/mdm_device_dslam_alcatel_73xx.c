@@ -92,6 +92,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 66 */ "Configure Syslog Destination",
 /* 67 */ "Configure Syslog No route",
 /* 68 */ "Configure Syslog Route",
+/* 69 */ "Restore database to default",
+/* 70 */ "Restore database",
 	NULL
 };
 
@@ -170,7 +172,9 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 65 */ 1,
 /* 66 */ 3,
 /* 67 */ 1,
-/* 68 */ 2
+/* 68 */ 2,
+/* 69 */ 1,
+/* 70 */ 1
 };
 
 /*!
@@ -247,7 +251,9 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 65 */ dslam_alcatel_73xx_nop,
 /* 66 */ dslam_alcatel_73xx_nop,
 /* 67 */ dslam_alcatel_73xx_nop,
-/* 68 */ dslam_alcatel_73xx_nop
+/* 68 */ dslam_alcatel_73xx_nop,
+/* 69 */ dslam_alcatel_73xx_nop,
+/* 70 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -326,6 +332,8 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 66 */ "configure system syslog destination %%ARG%% type udp:%%ARG%%:%%ARG%%:unlimited\r\nexit\r\nexit\r\nexit\r\nexit", // name:ip:port
 /* 67 */ "configure system syslog no route %%ARG%% msg-type all\r\nexit\r\nexit\r\nexit", // name
 /* 68 */ "configure system syslog route %%ARG%% msg-type all emergency alert critical error warning notice information debug facility %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit\r\nexit", // name:facility
+/* 69 */ "admin software-mngt oswp %%ARG%% activate with-default-db\r\nexit\r\nexit\r\nexit\r\nexit",
+/* 70 */ "admin software-mngt oswp %%ARG%% activate with-linked-db\r\nexit\r\nexit\r\nexit\r\nexit",
 	NULL
 };
 

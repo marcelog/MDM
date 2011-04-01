@@ -140,6 +140,9 @@ class MDMAlcatel73xx extends MDMDevice
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_SYSLOG_DESTINATION = 66;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_SYSLOG_NOROUTE = 67;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_SYSLOG_ROUTE = 68;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_DATABASE_DEFAULT = 69;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_DATABASE_RESTORE = 70;
+
 
     /**
      * Return NTP info.
