@@ -136,6 +136,10 @@ class MDMAlcatel73xx extends MDMDevice
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_PORT_BRIDGE = 62;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_PORT_BRIDGE_VLAN_ID = 63;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_PORT_BRIDGE_PV_ID = 64;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_SYSLOG_NO_DESTINATION = 65;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_SYSLOG_DESTINATION = 66;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_SYSLOG_NOROUTE = 67;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_SYSLOG_ROUTE = 68;
 
     /**
      * Return NTP info.

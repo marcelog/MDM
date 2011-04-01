@@ -88,6 +88,10 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 62 */ "Configure port bridge",
 /* 63 */ "Configure port bridge vlan id",
 /* 64 */ "Configure port bridge pvid",
+/* 65 */ "Configure Syslog No Destination",
+/* 66 */ "Configure Syslog Destination",
+/* 67 */ "Configure Syslog No route",
+/* 68 */ "Configure Syslog Route",
 	NULL
 };
 
@@ -162,7 +166,11 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 61 */ 1,
 /* 62 */ 3,
 /* 63 */ 4,
-/* 64 */ 4
+/* 64 */ 4,
+/* 65 */ 1,
+/* 66 */ 3,
+/* 67 */ 1,
+/* 68 */ 2
 };
 
 /*!
@@ -236,6 +244,10 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 62 */ dslam_alcatel_73xx_nop,
 /* 63 */ dslam_alcatel_73xx_nop,
 /* 64 */ dslam_alcatel_73xx_nop
+/* 65 */ dslam_alcatel_73xx_nop,
+/* 66 */ dslam_alcatel_73xx_nop,
+/* 67 */ dslam_alcatel_73xx_nop,
+/* 68 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -310,6 +322,10 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 62 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit", // port:vpi:vci
 /* 63 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%% vlan-id %%ARG%%\r\nexit\r\nexit", // port:vpi:vci:vlan id
 /* 64 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%% pvid %%ARG%%\r\nexit\r\nexit", // port:vpi:vci:vlan id
+/* 65 */ "configure system syslog no destination %%ARG%%\r\nexit\r\nexit\r\nexit",
+/* 66 */ "configure system syslog destination %%ARG%% type udp:%%ARG%%:%%ARG%%:unlimited\r\nexit\r\nexit\r\nexit\r\nexit", // name:ip:port
+/* 67 */ "configure system syslog no route %%ARG%% msg-type all\r\nexit\r\nexit\r\nexit", // name
+/* 68 */ "configure system syslog route %%ARG%% msg-type all emergency alert critical error warning notice information debug facility %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit\r\nexit", // name:facility
 	NULL
 };
 
