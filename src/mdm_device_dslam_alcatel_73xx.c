@@ -94,6 +94,9 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 68 */ "Configure Syslog Route",
 /* 69 */ "Restore database to default",
 /* 70 */ "Restore database",
+/* 71 */ "Set NTP server",
+/* 72 */ "Enable NTP server",
+/* 73 */ "Disable NTP server",
 	NULL
 };
 
@@ -174,7 +177,10 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 67 */ 1,
 /* 68 */ 2,
 /* 69 */ 1,
-/* 70 */ 1
+/* 70 */ 1,
+/* 71 */ 1,
+/* 72 */ 0,
+/* 73 */ 0
 };
 
 /*!
@@ -247,13 +253,16 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 61 */ dslam_alcatel_73xx_nop,
 /* 62 */ dslam_alcatel_73xx_nop,
 /* 63 */ dslam_alcatel_73xx_nop,
-/* 64 */ dslam_alcatel_73xx_nop
+/* 64 */ dslam_alcatel_73xx_nop,
 /* 65 */ dslam_alcatel_73xx_nop,
 /* 66 */ dslam_alcatel_73xx_nop,
 /* 67 */ dslam_alcatel_73xx_nop,
 /* 68 */ dslam_alcatel_73xx_nop,
 /* 69 */ dslam_alcatel_73xx_nop,
-/* 70 */ dslam_alcatel_73xx_nop
+/* 70 */ dslam_alcatel_73xx_nop,
+/* 71 */ dslam_alcatel_73xx_nop,
+/* 72 */ dslam_alcatel_73xx_nop,
+/* 73 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -334,6 +343,9 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 68 */ "configure system syslog route %%ARG%% msg-type all emergency alert critical error warning notice information debug facility %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit\r\nexit", // name:facility
 /* 69 */ "admin software-mngt oswp %%ARG%% activate with-default-db\r\nexit\r\nexit\r\nexit\r\nexit",
 /* 70 */ "admin software-mngt oswp %%ARG%% activate with-linked-db\r\nexit\r\nexit\r\nexit\r\nexit",
+/* 71 */ "configure system sntp server-ip-addr %%ARG%%\r\nexit\r\nexit\r\nexit",
+/* 72 */ "configure system sntp enable\r\nexit\r\nexit\r\nexit",
+/* 73 */ "configure system sntp no enable\r\nexit\r\nexit\r\nexit",
 	NULL
 };
 
