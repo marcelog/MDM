@@ -80,6 +80,8 @@ class MDMZTE9xxx extends MDMDevice
     public static $MDM_DSLAM_ZTE_9xxx_CMD_CREATE_SERVICE_PROFILE = 14;
     public static $MDM_DSLAM_ZTE_9xxx_CMD_CONFIGURE_SERVICE_PROFILE = 15;
     public static $MDM_DSLAM_ZTE_9xxx_CMD_DELETE_SERVICE_PROFILE = 16;
+    public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_SLOT_MAC = 17;
+    public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_PORT_MAC = 18;
 
     /**
      * Return service profile info.

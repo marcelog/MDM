@@ -36,6 +36,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_9xxx_STR[] =
 /* 14 */ "Create Service Profile",
 /* 15 */ "Configure Service Profile",
 /* 16 */ "Delete Service Profile",
+/* 17 */ "Get mac addresses in slots",
+/* 18 */ "Get mac addresses in port",
 	NULL
 };
 
@@ -76,7 +78,9 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_ARGSN[] =
 /* 13 */ 1,
 /* 14 */ 1,
 /* 15 */ 12,
-/* 16 */ 1
+/* 16 */ 1,
+/* 17 */ 1,
+/* 18 */ 1
 };
 
 /*!
@@ -101,7 +105,9 @@ MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_PROCESS[] =
 /* 13 */ dslam_zte_9xxx_get_service_profile,
 /* 14 */ dslam_zte_9xxx_create_service_profile,
 /* 15 */ dslam_zte_9xxx_configure_service_profile,
-/* 16 */ dslam_zte_9xxx_delete_service_profile
+/* 16 */ dslam_zte_9xxx_delete_service_profile,
+/* 17 */ dslam_zte_9xxx_get_port_mac,
+/* 18 */ dslam_zte_9xxx_get_port_mac
 };
 
 /*!
@@ -126,6 +132,8 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_STR[] =
 /* 14 */ "configure adsl-profile %%ARG%%\r\ny",
 /* 15 */ "configure adsl-profile %%ARG%%\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n%%ARG%%\r\n%%ARG%%\r\n%%ARG%%\r\n%%ARG%%\r\n%%ARG%%\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n%%ARG%%\r\n%%ARG%%\r\n%%ARG%%\r\n%%ARG%%\r\n%%ARG%%\r\n\r\n%%ARG%%\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
 /* 16 */ "configure no adsl-profile %%ARG%%",
+/* 17 */ "sh fdb slot %%ARG%%",
+/* 18 */ "sh fdb %%ARG%%",
 	NULL
 };
 

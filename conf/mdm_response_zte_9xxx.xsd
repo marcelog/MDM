@@ -238,6 +238,23 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+                        <xs:element name="zte_9xxx_port_mac">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="device" type="xs:string"/>
+                                                <xs:element name="mac" type="xs:string"/>
+                                                <xs:element name="vlan" type="xs:string"/>
+                                                <xs:element name="pvc" type="xs:string"/>
+                                                <xs:element name="macnumber" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>

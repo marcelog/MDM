@@ -1342,6 +1342,94 @@ dslam_zte_9xxx_get_service_profile_done:
 	return;
 }
 
+void
+dslam_zte_9xxx_get_port_mac(
+		mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+	xmlDocPtr doc = NULL; /* document pointer */
+	xmlNodePtr root_node = NULL;
+	xmlNodePtr node = NULL;
+	xmlBufferPtr psBuf = NULL;
+	char buffer[64];
+	char *tokensnames[] = { "device", "mac", "vlan", "pvc", "macnumber" };
+	char *tmp1;
+	char *tmp2;
+	char *tmp3;
+	int i;
+	int j;
+
+	/* Create target buffer. */
+	psBuf = xmlBufferCreate();
+	if(psBuf == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating buffer for xml.");
+		goto dslam_zte_9xxx_get_port_mac_done;
+	}
+
+	/* Creates a new document, a node and set it as a root node */
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	if(doc == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_zte_9xxx_get_port_mac_done;
+	}
+
+	root_node = xmlNewNode(NULL, BAD_CAST "zte_9xxx_port_mac");
+	if(root_node == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_zte_9xxx_get_port_mac_done;
+	}
+	xmlDocSetRootElement(doc, root_node);
+	tmp1 = d->exec_buffer;
+	while((tmp1 = strstr(tmp1, "MAC NUMBER")) != NULL) {
+		tmp1 += 12;
+		for (i = 0; i < 6; i++) {
+			node = xmlNewNode(NULL, BAD_CAST "port");
+			for (j = 0; j < 5; j++) {
+				while(*tmp1 == 9 || *tmp1 == 32 || *tmp1 == 13 || *tmp1 == 10) tmp1++;
+				tmp2 = strchr(tmp1, 32);
+				tmp3 = strchr(tmp1, 13);
+				if (tmp3 == NULL) {
+					tmp3 = d->exec_buffer + d->exec_buffer_len;
+				}
+				if (tmp2 == NULL) {
+					tmp2 = tmp3;
+				}
+				if (tmp2 > tmp3) {
+					tmp2 = tmp3;
+				}
+				snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+				xmlNewChild(
+					node, NULL, BAD_CAST tokensnames[j], BAD_CAST buffer
+				);
+				tmp1 = tmp2;
+			}
+			/* Add resulting node. */
+			xmlAddChild(root_node, node);
+		}
+	}
+	/* Dump the document to a buffer and print it for demonstration purposes. */
+	xmlNodeDump(psBuf, doc, root_node, 99, 1);
+	snprintf(
+		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+		"%s", xmlBufferContent(psBuf)
+	);
+	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+	/* Done. */
+dslam_zte_9xxx_get_port_mac_done:
+	if(doc != NULL)
+		xmlFreeDoc(doc);
+	if(psBuf != NULL)
+		xmlBufferFree(psBuf);
+	return;
+}
+
 /*******************************************************************************
  * CODE ENDS.
  ******************************************************************************/
