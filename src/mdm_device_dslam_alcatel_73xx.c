@@ -98,6 +98,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 72 */ "Enable NTP server",
 /* 73 */ "Disable NTP server",
 /* 74 */ "Get mac for pvc",
+/* 75 */ "Change isadmin password",
 	NULL
 };
 
@@ -182,7 +183,8 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 71 */ 1,
 /* 72 */ 0,
 /* 73 */ 0,
-/* 74 */ 3
+/* 74 */ 3,
+/* 75 */ 1
 };
 
 /*!
@@ -265,7 +267,8 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 71 */ dslam_alcatel_73xx_nop,
 /* 72 */ dslam_alcatel_73xx_nop,
 /* 73 */ dslam_alcatel_73xx_nop,
-/* 74 */ dslam_alcatel_73xx_get_pvc_mac
+/* 74 */ dslam_alcatel_73xx_get_pvc_mac,
+/* 75 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -350,6 +353,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 72 */ "configure system sntp enable\r\nexit\r\nexit\r\nexit",
 /* 73 */ "configure system sntp no enable\r\nexit\r\nexit\r\nexit",
 /* 74 */ "show vlan bridge-port-fdb %%ARG%%:%%ARG%%:%%ARG%%",
+/* 75 */ "configure system security operator isadmin password plain:%%ARG%%",
 	NULL
 };
 

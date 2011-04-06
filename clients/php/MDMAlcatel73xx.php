@@ -146,6 +146,7 @@ class MDMAlcatel73xx extends MDMDevice
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_SET_TIMEZONE_SERVER_ENABLE = 72;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_SET_TIMEZONE_SERVER_DISABLE = 73;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_GET_PVC_MAC = 74;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_CHANGE_ISADMIN_PASSWORD = 75;
 
 
 
