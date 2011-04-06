@@ -2893,7 +2893,7 @@ dslam_alcatel_73xx_get_pvc_mac(
 	xmlNodePtr node = NULL;
 	xmlBufferPtr psBuf = NULL;
 	char buffer[256];
-	char *tokensnames[] = { "vlan-id", "mac", "status", "vlan-id" };
+	char *tokensnames[] = { "vlan-id", "mac", "status", "subvlan-id" };
 	char *tmp1;
 	char *tmp2;
 	int i;
