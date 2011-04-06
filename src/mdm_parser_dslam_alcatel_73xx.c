@@ -2876,6 +2876,109 @@ dslam_alcatel_73xx_nop(
 	return;
 }
 
+/**
+ * Returns the mac for the given port:pvc
+ *
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ *
+ */
+void
+dslam_alcatel_73xx_get_pvc_mac(
+	mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+	xmlDocPtr doc = NULL; /* document pointer */
+	xmlNodePtr root_node = NULL;
+	xmlNodePtr node = NULL;
+	xmlBufferPtr psBuf = NULL;
+	char buffer[256];
+	char *tokensnames[] = { "vlan-id", "mac", "status", "vlan-id" };
+	char *tmp1;
+	char *tmp2;
+	int i;
+
+	/* Create target buffer. */
+	psBuf = xmlBufferCreate();
+	if(psBuf == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating buffer for xml.");
+		goto dslam_alcatel_73xx_get_pvc_mac_done;
+	}
+
+	/* Creates a new document, a node and set it as a root node */
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	if(doc == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_pvc_mac_done;
+	}
+
+	root_node = xmlNewNode(NULL, BAD_CAST "alcatel_73xx_port_mac");
+	if(root_node == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_pvc_mac_done;
+	}
+	xmlDocSetRootElement(doc, root_node);
+	tmp1 = strstr(d->exec_buffer, "+-");
+	if (tmp1 == NULL) {
+		goto dslam_alcatel_73xx_get_pvc_mac_done;
+	}
+	tmp1 = strstr(tmp1, "\n");
+	if (tmp1 == NULL) {
+		goto dslam_alcatel_73xx_get_pvc_mac_done;
+	}
+
+	while((tmp1 = strstr(tmp1, "\n")) != NULL) {
+		tmp1++;
+		if (*tmp1 == '-') {
+			break;
+		}
+		node = xmlNewNode(NULL, BAD_CAST "port");
+		tmp2 = strchr(tmp1, ':');
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(
+			node, NULL, BAD_CAST "device", BAD_CAST buffer
+		);
+		tmp1 = tmp2 + 1;
+		tmp2 = strchr(tmp1, 32);
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(
+			node, NULL, BAD_CAST "pvc", BAD_CAST buffer
+		);
+		for (i = 0; i < 4; i++) {
+			tmp1 = tmp2;
+			while(*tmp1 == 9 || *tmp1 == 32 || *tmp1 == 13 || *tmp1 == 10) tmp1++;
+			tmp2 = strchr(tmp1, 32);
+			snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+			xmlNewChild(
+				node, NULL, BAD_CAST tokensnames[i], BAD_CAST buffer
+			);
+		}
+		xmlAddChild(root_node, node);
+		tmp1 = tmp2;
+	}
+	/* Dump the document to a buffer and print it for demonstration purposes. */
+	xmlNodeDump(psBuf, doc, root_node, 99, 1);
+	snprintf(
+		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+		"%s", xmlBufferContent(psBuf)
+	);
+	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+	/* Done. */
+dslam_alcatel_73xx_get_pvc_mac_done:
+	if(doc != NULL)
+		xmlFreeDoc(doc);
+	if(psBuf != NULL)
+		xmlBufferFree(psBuf);
+	return;
+}
+
 /*******************************************************************************
  * CODE ENDS.
  ******************************************************************************/

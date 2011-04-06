@@ -97,6 +97,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 71 */ "Set NTP server",
 /* 72 */ "Enable NTP server",
 /* 73 */ "Disable NTP server",
+/* 74 */ "Get mac for pvc",
 	NULL
 };
 
@@ -180,7 +181,8 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 70 */ 1,
 /* 71 */ 1,
 /* 72 */ 0,
-/* 73 */ 0
+/* 73 */ 0,
+/* 74 */ 3
 };
 
 /*!
@@ -262,7 +264,8 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 70 */ dslam_alcatel_73xx_nop,
 /* 71 */ dslam_alcatel_73xx_nop,
 /* 72 */ dslam_alcatel_73xx_nop,
-/* 73 */ dslam_alcatel_73xx_nop
+/* 73 */ dslam_alcatel_73xx_nop,
+/* 74 */ dslam_alcatel_73xx_get_pvc_mac
 };
 
 /*!
@@ -346,6 +349,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 71 */ "configure system sntp server-ip-addr %%ARG%%\r\nexit\r\nexit\r\nexit",
 /* 72 */ "configure system sntp enable\r\nexit\r\nexit\r\nexit",
 /* 73 */ "configure system sntp no enable\r\nexit\r\nexit\r\nexit",
+/* 74 */ "show vlan bridge-port-fdb %%ARG%%:%%ARG%%:%%ARG%%",
 	NULL
 };
 

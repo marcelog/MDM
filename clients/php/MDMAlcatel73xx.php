@@ -142,6 +142,11 @@ class MDMAlcatel73xx extends MDMDevice
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_SYSLOG_ROUTE = 68;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_DATABASE_DEFAULT = 69;
     public static $MDM_DSLAM_ALCATEL_73xx_CMD_CFG_DATABASE_RESTORE = 70;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_SET_TIMEZONE_SERVER = 71;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_SET_TIMEZONE_SERVER_ENABLE = 72;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_SET_TIMEZONE_SERVER_DISABLE = 73;
+    public static $MDM_DSLAM_ALCATEL_73xx_CMD_GET_PVC_MAC = 74;
+
 
 
     /**
