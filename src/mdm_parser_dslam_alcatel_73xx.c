@@ -1170,9 +1170,12 @@ dslam_alcatel_73xx_port_profile(
 		tmp1 = strstr(tmp1, tokens[i]);
 		if(tmp1 == NULL)
 		{
-			status->status = MDM_OP_ERROR;
-			sprintf(status->status_message, "Token |%s| not found.", tokens[i]);
-			goto dslam_alcatel_73xx_port_profile_done;
+			tmp1 += tokenslen[i];
+			tmp2 = strchr(tmp1, 13);
+			continue;
+			//status->status = MDM_OP_ERROR;
+			//sprintf(status->status_message, "Token |%s| not found.", tokens[i]);
+			//goto dslam_alcatel_73xx_port_profile_done;
 		}
 		tmp1 += tokenslen[i];
 		tmp2 = strchr(tmp1, 13);
