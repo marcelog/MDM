@@ -180,6 +180,21 @@
                                 </xs:sequence>
                             </xs:complexType>
                       </xs:element>
+                        <xs:element name="zte_8426_port_adminoper_status">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="id" type="xs:string"/>
+                                                <xs:element name="admin-status" type="xs:string"/>
+                                                <xs:element name="oper-status" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
