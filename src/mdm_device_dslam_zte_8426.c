@@ -35,6 +35,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_8426_STR[] =
 /* 11 */ "Delete Service Profile",
 /* 12 */ "Get Service Profile",
 /* 13 */ "Get alarms",
+/* 14 */ "Get Port admin/oper status",
 	NULL
 };
 
@@ -64,7 +65,8 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_8426_ARGSN[] =
 /* 10 */ 7,
 /* 11 */ 1,
 /* 12 */ 1,
-/* 13 */ 0
+/* 13 */ 0,
+/* 14 */ 0
 };
 
 /*!
@@ -86,7 +88,8 @@ MDM_DEVICE_CMD_DSLAM_ZTE_8426_PROCESS[] =
 /* 10 */ dslam_zte_8426_create_service_profile,
 /* 11 */ dslam_zte_8426_delete_service_profile,
 /* 12 */ dslam_zte_8426_get_service_profile,
-/* 13 */ dslam_zte_8426_get_alarms
+/* 13 */ dslam_zte_8426_get_alarms,
+/* 14 */ dslam_zte_8426_get_adminoper_status
 };
 
 /*!
@@ -107,7 +110,8 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_8426_STR[] =
 /* 10 */ "dsl\nconfig\naddprf\n1\n%%ARG%%\n%%ARG%%\n%%ARG%%\n%%ARG%%\n%%ARG%%\n%%ARG%%\n%%ARG%%\na\nexit\nhome",
 /* 11 */ "dsl\nconfig\ndelprf\n1\n%%ARG%%\ny\nexit\nhome",
 /* 12 */ "dsl\nshowprf\n1\n%%ARG%%\nhome",
-/* 13 */ "dsl\nshowalarm\nhome"
+/* 13 */ "dsl\nshowalarm\nhome",
+/* 14 */ "dsl\nshowinfo\na\nhome"
 };
 
 /*******************************************************************************

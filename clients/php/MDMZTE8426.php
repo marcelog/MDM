@@ -78,6 +78,7 @@ class MDMZTE8426 extends MDMDevice
     public static $MDM_DSLAM_ZTE_8426_CMD_DELETE_PROFILE = 11;
     public static $MDM_DSLAM_ZTE_8426_CMD_GET_SERVICE_PROFILE = 12;
     public static $MDM_DSLAM_ZTE_8426_CMD_GET_ALARMS = 13;
+    public static $MDM_DSLAM_ZTE_8426_CMD_GET_PORT_ADMINOPER_STATUS = 14;
 
     /**
      * Return information for alarms.
