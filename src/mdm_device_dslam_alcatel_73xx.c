@@ -99,6 +99,16 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 73 */ "Disable NTP server",
 /* 74 */ "Get mac for pvc",
 /* 75 */ "Change isadmin password",
+/* 76 */ "Create Spectrum Profile",
+/* 77 */ "Change Spectrum Profile name",
+/* 78 */ "Set RAD/RAU noise/time up/down",
+/* 79 */ "Enable Spectrum Profile",
+/* 80 */ "Disable Spectrum Profile",
+/* 81 */ "Change noise values",
+/* 82 */ "Delete Spectrum Profile",
+/* 83 */ "Configure Spectrum Profile modes",
+/* 84 */ "Disable RAD/RAU noise/time up/down",
+/* 85 */ "Disable noise values",
 	NULL
 };
 
@@ -184,7 +194,17 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 72 */ 0,
 /* 73 */ 0,
 /* 74 */ 3,
-/* 75 */ 1
+/* 75 */ 1,
+/* 76 */ 2,
+/* 77 */ 2,
+/* 78 */ 7,
+/* 79 */ 1,
+/* 80 */ 1,
+/* 81 */ 9,
+/* 82 */ 1,
+/* 83 */ 27,
+/* 84 */ 1,
+/* 85 */ 1
 };
 
 /*!
@@ -268,7 +288,17 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 72 */ dslam_alcatel_73xx_nop,
 /* 73 */ dslam_alcatel_73xx_nop,
 /* 74 */ dslam_alcatel_73xx_get_pvc_mac,
-/* 75 */ dslam_alcatel_73xx_nop
+/* 75 */ dslam_alcatel_73xx_nop,
+/* 76 */ dslam_alcatel_73xx_nop,
+/* 77 */ dslam_alcatel_73xx_nop,
+/* 78 */ dslam_alcatel_73xx_nop,
+/* 79 */ dslam_alcatel_73xx_nop,
+/* 80 */ dslam_alcatel_73xx_nop,
+/* 81 */ dslam_alcatel_73xx_nop,
+/* 82 */ dslam_alcatel_73xx_nop,
+/* 83 */ dslam_alcatel_73xx_nop,
+/* 84 */ dslam_alcatel_73xx_nop,
+/* 85 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -354,6 +384,16 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 73 */ "configure system sntp no enable\r\nexit\r\nexit\r\nexit",
 /* 74 */ "show vlan bridge-port-fdb %%ARG%%:%%ARG%%:%%ARG%%",
 /* 75 */ "configure system security operator isadmin password plain:%%ARG%%",
+/* 76 */ "configure xdsl spectrum-profile %%ARG%% name %%ARG%%\r\nexit\r\nexit\r\nexit",
+/* 77 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nname %%ARG%%\r\nmodification complete\r\nexit\r\nexit\r\nexit",
+/* 78 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nrau-time-down %%ARG%% rau-time-up %%ARG%% rad-time-down %%ARG%% rad-time-up %%ARG%%\r\nmodification complete\r\nexit\r\nexit\r\nexit",
+/* 79 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nactive\r\nmodification complete\r\nexit\r\nexit\r\nexit",
+/* 80 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno active\r\nmodification complete\r\nexit\r\nexit\r\nexit",
+/* 81 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nrau-noise-down %%ARG%% rau-noise-up %%ARG%% rad-noise-down %%ARG%% rad-noise-up %%ARG%% min-noise-down %%ARG%% min-noise-up %%ARG%% trgt-noise-down %%ARG%% trgt-noise-up %%ARG%% max-noise-down %%ARG%% max-noise-up %%ARG%%\r\nmodification complete\r\nexit\r\nexit\r\nexit",
+/* 82 */ "configure xdsl no spectrum-profile %%ARG%%\r\nexit\r\nexit\r\nexit",
+/* 83 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\n %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% \r\nmodification complete\r\nexit\r\nexit\r\nexit",
+/* 84 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-time-down no rau-time-up no rad-time-down no rad-time-up\r\nmodification complete\r\nexit\r\nexit\r\nexit",
+/* 85 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-noise-down no rau-noise-up no rad-noise-down no rad-noise-up no min-noise-down no min-noise-up no trgt-noise-down no trgt-noise-up no max-noise-down no max-noise-up \r\nmodification complete\r\nexit\r\nexit\r\nexit",
 	NULL
 };
 
