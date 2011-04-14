@@ -232,6 +232,10 @@ mdm_device_dslam_zte_9xxx_open(
 			status->status = MDM_OP_ERROR;
 			sprintf(status->status_message, "Login timeout.");
 			return;
+		} else if(strstr(buffer, "Error: ") != NULL) {
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, buffer);
+			return;
 		}
 	} while(strstr(buffer, "Login:") == NULL);
 	mdm_connection_send(
