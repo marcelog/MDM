@@ -1129,7 +1129,7 @@ dslam_alcatel_73xx_port_profile(
 	};
 	int tokenslen[] = { 16, 17, 3, 14 };
 	char *tokensnames[] = {
-		"spectrumprofile", "serviceprofile", "status", "mode"
+		"serviceprofile", "spectrumprofile", "status", "mode"
 	};
 	xmlDocPtr doc = NULL; /* document pointer */
 	xmlNodePtr root_node = NULL;
