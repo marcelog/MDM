@@ -255,6 +255,22 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="zte_9xxx_routelist">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="route" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="destination" type="xs:string"/>
+                                                <xs:element name="netmask" type="xs:string"/>
+                                                <xs:element name="gateway" type="xs:string"/>
+                                                <xs:element name="status" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
