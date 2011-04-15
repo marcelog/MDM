@@ -83,6 +83,7 @@ class MDMZTE9xxx extends MDMDevice
     public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_SLOT_MAC = 17;
     public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_PORT_MAC = 18;
     public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_ROUTES = 19;
+    public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_PORT_FULL = 20;
 
     /**
      * Return service profile info.

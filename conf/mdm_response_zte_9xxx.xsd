@@ -271,6 +271,95 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="zte_9xxx_port_full">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="id" type="xs:string"/>
+                                                <xs:element name="name" type="xs:string"/>
+                                                <xs:element name="pvid-1" type="xs:string"/>
+                                                <xs:element name="pvid-2" type="xs:string"/>
+                                                <xs:element name="pvid-3" type="xs:string"/>
+                                                <xs:element name="pvid-4" type="xs:string"/>
+                                                <xs:element name="pvid-5" type="xs:string"/>
+                                                <xs:element name="pvid-6" type="xs:string"/>
+                                                <xs:element name="pvid-7" type="xs:string"/>
+                                                <xs:element name="pvid-8" type="xs:string"/>
+                                                <xs:element name="psvid-1" type="xs:string"/>
+                                                <xs:element name="psvid-2" type="xs:string"/>
+                                                <xs:element name="psvid-3" type="xs:string"/>
+                                                <xs:element name="psvid-4" type="xs:string"/>
+                                                <xs:element name="psvid-5" type="xs:string"/>
+                                                <xs:element name="psvid-6" type="xs:string"/>
+                                                <xs:element name="psvid-7" type="xs:string"/>
+                                                <xs:element name="psvid-8" type="xs:string"/>
+                                                <xs:element name="irl-pvc-1" type="xs:string"/>
+                                                <xs:element name="irl-pvc-2" type="xs:string"/>
+                                                <xs:element name="irl-pvc-3" type="xs:string"/>
+                                                <xs:element name="irl-pvc-4" type="xs:string"/>
+                                                <xs:element name="irl-pvc-5" type="xs:string"/>
+                                                <xs:element name="irl-pvc-6" type="xs:string"/>
+                                                <xs:element name="irl-pvc-7" type="xs:string"/>
+                                                <xs:element name="irl-pvc-8" type="xs:string"/>
+                                                <xs:element name="admin-status" type="xs:string"/>
+                                                <xs:element name="atuc-loop-type" type="xs:string"/>
+                                                <xs:element name="oper-status" type="xs:string"/>
+                                                <xs:element name="if-type" type="xs:string"/>
+                                                <xs:element name="if-mtu" type="xs:string"/>
+                                                <xs:element name="cos-pvc-1" type="xs:string"/>
+                                                <xs:element name="cos-pvc-2" type="xs:string"/>
+                                                <xs:element name="cos-pvc-3" type="xs:string"/>
+                                                <xs:element name="cos-pvc-4" type="xs:string"/>
+                                                <xs:element name="cos-pvc-5" type="xs:string"/>
+                                                <xs:element name="cos-pvc-6" type="xs:string"/>
+                                                <xs:element name="cos-pvc-7" type="xs:string"/>
+                                                <xs:element name="cos-pvc-8" type="xs:string"/>
+                                                <xs:element name="trap" type="xs:string"/>
+                                                <xs:element name="max-mac-learn" type="xs:string"/>
+                                                <xs:element name="fast-leave" type="xs:string"/>
+                                                <xs:element name="group-limit" type="xs:string"/>
+                                                <xs:element name="group-band" type="xs:string"/>
+                                                <xs:element name="rmon-history" type="xs:string"/>
+                                                <xs:element name="pppoe-plus" type="xs:string"/>
+                                                <xs:element name="dhcp-option82" type="xs:string"/>
+                                                <xs:element name="dhcp-sub-option" type="xs:string"/>
+                                                <xs:element name="dhcp-sub-option-remote-id" type="xs:string"/>
+                                                <xs:element name="atm-pvc-1" type="xs:string"/>
+                                                <xs:element name="atm-pvc-2" type="xs:string"/>
+                                                <xs:element name="atm-pvc-3" type="xs:string"/>
+                                                <xs:element name="atm-pvc-4" type="xs:string"/>
+                                                <xs:element name="atm-pvc-5" type="xs:string"/>
+                                                <xs:element name="atm-pvc-6" type="xs:string"/>
+                                                <xs:element name="atm-pvc-7" type="xs:string"/>
+                                                <xs:element name="atm-pvc-8" type="xs:string"/>
+                                                <xs:element name="atm-status-pvc-1" type="xs:string"/>
+                                                <xs:element name="atm-status-pvc-2" type="xs:string"/>
+                                                <xs:element name="atm-status-pvc-3" type="xs:string"/>
+                                                <xs:element name="atm-status-pvc-4" type="xs:string"/>
+                                                <xs:element name="atm-status-pvc-5" type="xs:string"/>
+                                                <xs:element name="atm-status-pvc-6" type="xs:string"/>
+                                                <xs:element name="atm-status-pvc-7" type="xs:string"/>
+                                                <xs:element name="atm-status-pvc-8" type="xs:string"/>
+                                                <xs:element name="qos-profile" type="xs:string"/>
+                                                <xs:element name="trust-pvc-1" type="xs:string"/>
+                                                <xs:element name="trust-pvc-2" type="xs:string"/>
+                                                <xs:element name="trust-pvc-3" type="xs:string"/>
+                                                <xs:element name="trust-pvc-4" type="xs:string"/>
+                                                <xs:element name="trust-pvc-5" type="xs:string"/>
+                                                <xs:element name="trust-pvc-6" type="xs:string"/>
+                                                <xs:element name="queue-buffer-1" type="xs:string"/>
+                                                <xs:element name="queue-buffer-2" type="xs:string"/>
+                                                <xs:element name="queue-buffer-3" type="xs:string"/>
+                                                <xs:element name="queue-buffer-4" type="xs:string"/>
+                                                <xs:element name="adsl-profile" type="xs:string"/>
+                                                <xs:element name="alarm-profile" type="xs:string"/>
+                                                <xs:element name="vlan-tag"  minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
+                                                <xs:element name="vlan-untag"  minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>

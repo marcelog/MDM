@@ -67,4 +67,7 @@ extern void dslam_zte_9xxx_get_port_mac(
 extern void dslam_zte_9xxx_get_routes(
 	mdm_device_descriptor_t *, mdm_operation_result_t *
 );
+extern void dslam_zte_9xxx_get_port_full(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
 #endif

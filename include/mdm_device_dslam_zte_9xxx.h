@@ -32,6 +32,7 @@ typedef enum
 /* 17 */ MDM_DSLAM_ZTE_9xxx_CMD_GET_SLOT_MAC,
 /* 18 */ MDM_DSLAM_ZTE_9xxx_CMD_GET_PORT_MAC,
 /* 19 */ MDM_DSLAM_ZTE_9xxx_CMD_GET_ROUTES,
+/* 20 */ MDM_DSLAM_ZTE_9xxx_CMD_GET_PORT_FULL,
 	MDM_DSLAM_ZTE_9xxx_CMD_DUMMY
 } mdm_device_cmd_dslam_zte_9xxx_t;
 

@@ -1519,6 +1519,211 @@ dslam_zte_9xxx_get_routes_done:
 		xmlBufferFree(psBuf);
 	return;
 }
+/*!
+ * This will get full port information.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_zte_9xxx_get_port_full(
+	mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+	xmlDocPtr doc = NULL; /* document pointer */
+	xmlNodePtr root_node = NULL;
+	xmlNodePtr node = NULL;
+	xmlBufferPtr psBuf = NULL;
+	char *tokens[] = {
+		"Interface           : ",
+		"name                : ",
+		"pvid PVC1           : ",
+		"pvid PVC2           : ",
+		"pvid PVC3           : ",
+		"pvid PVC4           : ",
+		"pvid PVC5           : ",
+		"pvid PVC6           : ",
+		"pvid PVC7           : ",
+		"pvid PVC8           : ",
+		"psvid PVC1          : ",
+		"psvid PVC2          : ",
+		"psvid PVC3          : ",
+		"psvid PVC4          : ",
+		"psvid PVC5          : ",
+		"psvid PVC6          : ",
+		"psvid PVC7          : ",
+		"psvid PVC8          : ",
+		"IRL PVC1(kbps)      : ",
+		"IRL PVC2(kbps)      : ",
+		"IRL PVC3(kbps)      : ",
+		"IRL PVC4(kbps)      : ",
+		"IRL PVC5(kbps)      : ",
+		"IRL PVC6(kbps)      : ",
+		"IRL PVC7(kbps)      : ",
+		"IRL PVC8(kbps)      : ",
+		"AdminStatus         : ",
+		"AtucLoopType        : ",
+		"LinkStatus(ADSL)    : ",
+		"ifType              : ",
+		"ifMtu               : ",
+		"CosPriority PVC1    : ",
+		"CosPriority PVC2    : ",
+		"CosPriority PVC3    : ",
+		"CosPriority PVC4    : ",
+		"CosPriority PVC5    : ",
+		"CosPriority PVC6    : ",
+		"CosPriority PVC7    : ",
+		"CosPriority PVC8    : ",
+		"Trap                : ",
+		"MaxMacLearn         : ",
+		"Fast-leave          : ",
+		"Group Limit         : ",
+		"Group Band          : ",
+		"rmon history        : ",
+		"pppoe-plus          : ",
+		"dhcp option82       : ",
+		"dhcp option82 sub-option: ",
+		"dhcp option82 sub-option remote-id: ",
+		"atm pvc1            : ",
+		"atm pvc2            : ",
+		"atm pvc3            : ",
+		"atm pvc4            : ",
+		"atm pvc5            : ",
+		"atm pvc6            : ",
+		"atm pvc7            : ",
+		"atm pvc8            : ",
+		"atm status pvc1     : ",
+		"atm status pvc2     : ",
+		"atm status pvc3     : ",
+		"atm status pvc4     : ",
+		"atm status pvc5     : ",
+		"atm status pvc6     : ",
+		"atm status pvc7     : ",
+		"atm status pvc8     : ",
+		"qos profile         : ",
+		"PVC1 trust          : ",
+		"PVC2 trust          : ",
+		"PVC3 trust          : ",
+		"PVC4 trust          : ",
+		"PVC5 trust          : ",
+		"PVC6 trust          : ",
+		"Queue 1 Buffer size : ",
+		"Queue 2 Buffer size : ",
+		"Queue 3 Buffer size : ",
+		"Queue 4 Buffer size : ",
+		"adsl profile        : ",
+		"adsl alarm-profile  : "
+	};
+	char *tokensnames[] = {
+		"id", "name", "pvid-1", "pvid-2", "pvid-3", "pvid-4", "pvid-5",
+		"pvid-6", "pvid-7", "pvid-8", "psvid-1", "psvid-2",  "psvid-3",
+		"psvid-4", "psvid-5", "psvid-6", "psvid-7", "psvid-8", "irl-pvc-1", "irl-pvc-2",
+		"irl-pvc-3", "irl-pvc-4", "irl-pvc-5", "irl-pvc-6", "irl-pvc-7",
+		"irl-pvc-8", "admin-status", "atuc-loop-type", "oper-status",
+		"if-type", "if-mtu", "cos-pvc-1", "cos-pvc-2", "cos-pvc-3",
+		"cos-pvc-4", "cos-pvc-5", "cos-pvc-6", "cos-pvc-7", "cos-pvc-8",
+		"trap", "max-mac-learn", "fast-leave", "group-limit",
+		"group-band", "rmon-history", "pppoe-plus", "dhcp-option82",
+		"dhcp-sub-option", "dhcp-sub-option-remote-id",
+		"atm-pvc-1", "atm-pvc-2", "atm-pvc-3", "atm-pvc-4", "atm-pvc-5",
+		"atm-pvc-6", "atm-pvc-7", "atm-pvc-8", "atm-status-pvc-1",
+		"atm-status-pvc-2", "atm-status-pvc-3", "atm-status-pvc-4",
+		"atm-status-pvc-5", "atm-status-pvc-6", "atm-status-pvc-7",
+		"atm-status-pvc-8", "qos-profile", "trust-pvc-1", "trust-pvc-2",
+		"trust-pvc-3", "trust-pvc-4", "trust-pvc-5", "trust-pvc-6",
+		"queue-buffer-1", "queue-buffer-2", "queue-buffer-3", "queue-buffer-4",
+		"adsl-profile", "alarm-profile"
+	};
+	int i;
+	char buffer[64];
+	char *tmp1;
+	char *tmp2;
+	char *tmp3;
+
+	char *vlantag = "Tag Vlan List:";
+	char *vlanuntag = "Untag Vlan List:";
+
+	/* Create target buffer. */
+	psBuf = xmlBufferCreate();
+	if(psBuf == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating buffer for xml.");
+		goto dslam_zte_9xxx_get_port_full_done;
+	}
+
+	/* Creates a new document, a node and set it as a root node */
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	if(doc == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_zte_9xxx_get_port_full_done;
+	}
+
+	root_node = xmlNewNode(NULL, BAD_CAST "zte_9xxx_port_full");
+	if(root_node == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_zte_9xxx_get_port_full_done;
+	}
+	xmlDocSetRootElement(doc, root_node);
+	node = xmlNewNode(NULL, BAD_CAST "port");
+	for (i = 0; i < 78; i++) {
+		tmp1 = strstr(d->exec_buffer, tokens[i]);
+		if (tmp1 == NULL) {
+			continue;
+		}
+		tmp1 += strlen(tokens[i]);
+		tmp2 = strchr(tmp1, 32);
+		tmp3 = strchr(tmp1, 13);
+		if ((tmp3 != NULL && tmp3 < tmp2) || (strstr(tokensnames[i], "trust-pvc") != NULL)) {
+			tmp2 = tmp3;
+		}
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(node, NULL, BAD_CAST tokensnames[i], BAD_CAST buffer);
+	}
+	tmp1 = strstr(d->exec_buffer, vlantag);
+	if (tmp1 != NULL) {
+		tmp1 = strchr(tmp1, 13) + 1;
+		while((tmp2 = strchr(tmp1, 13)) != NULL) {
+			snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+			if (strtol(buffer, NULL, 10) == 0) {
+				break;
+			}
+			xmlNewChild(node, NULL, BAD_CAST "vlan-tag", BAD_CAST buffer);
+			tmp1 = tmp2 + 1;
+		}
+	}
+	tmp1 = strstr(d->exec_buffer, vlanuntag);
+	if (tmp1 != NULL) {
+		tmp1 = strchr(tmp1, 13) + 2;
+		while((tmp2 = strchr(tmp1, 13)) != NULL) {
+			snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+			if (strtol(buffer, NULL, 10) == 0) {
+				break;
+			}
+			xmlNewChild(node, NULL, BAD_CAST "vlan-untag", BAD_CAST buffer);
+			tmp1 = tmp2 + 1;
+		}
+	}
+	/* Dump the document to a buffer and print it for demonstration purposes. */
+	xmlAddChild(root_node, node);
+	xmlNodeDump(psBuf, doc, root_node, 99, 1);
+	snprintf(
+		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+		"%s", xmlBufferContent(psBuf)
+	);
+	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+	/* Done. */
+dslam_zte_9xxx_get_port_full_done:
+	if(doc != NULL)
+		xmlFreeDoc(doc);
+	if(psBuf != NULL)
+		xmlBufferFree(psBuf);
+	return;
+}
 /*******************************************************************************
  * CODE ENDS.
  ******************************************************************************/
