@@ -1724,6 +1724,118 @@ dslam_zte_9xxx_get_port_full_done:
 		xmlBufferFree(psBuf);
 	return;
 }
+
+/*!
+ * This will get physical port information.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_zte_9xxx_get_physical_port(
+	mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+	xmlDocPtr doc = NULL; /* document pointer */
+	xmlNodePtr root_node = NULL;
+	xmlNodePtr node = NULL;
+	xmlBufferPtr psBuf = NULL;
+	int i;
+	char buffer[64];
+	char *tokens[] = {
+		"InvVendorID         : ",
+/*		"InvVersionNumber    : ", */
+		"CurrSnrMgn          : ",
+		"CurrAtn             : ",
+		"OutputPwr           : ",
+		"AttainableRate(kbps): ",
+		"InvVendorID         : ",
+/*		"InvVersionNumber    : ", */
+		"CurrAtn             : ",
+		"CurrOutputPwr       : ",
+		"AttainableRate(kbps): ",
+		"adslAtucDMTState    : ",
+		"adslAturDMTState    : ",
+		"zxAdslAtucPrevSnrMgn: ",
+		"zxAdslAtucPrevAtn   : ",
+		"zxAdslAtucPrevAttainableRate: ",
+		"zxAdslAturPrevSnrMgn: ",
+		"zxAdslAturPrevAtn   : ",
+		"zxAdslAturPrevAttainableRate: "
+	};
+	char *tokensnames[] = {
+		"atuc-vendor", /*"atuc-version",*/
+		"atuc-snrmgn", "atuc-atn", "atuc-output", "atuc-attainable",
+		"atur-vendor", /*"atur-version",*/
+		"atur-atn", "atur-output", "atur-attainable",
+		"atuc-dmt", "atur-dmt",
+		"atuc-prevsnrmgn", "atuc-prevatn", "atuc-prev-attainable",
+		"atur-prevsnrmgn", "atur-prevatn", "atur-prev-attainable"
+	};
+	char *tmp1;
+	char *tmp2;
+	char *tmp3;
+
+	/* Create target buffer. */
+	psBuf = xmlBufferCreate();
+	if(psBuf == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating buffer for xml.");
+		goto dslam_zte_9xxx_get_physical_port_done;
+	}
+
+	/* Creates a new document, a node and set it as a root node */
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	if(doc == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_zte_9xxx_get_physical_port_done;
+	}
+
+	root_node = xmlNewNode(NULL, BAD_CAST "zte_9xxx_physicalinfo");
+	if(root_node == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_zte_9xxx_get_physical_port_done;
+	}
+	xmlDocSetRootElement(doc, root_node);
+	tmp1 = d->exec_buffer;
+	for(i = 0; i < 17; i++)
+	{
+		tmp1 = strstr(tmp1, tokens[i]);
+		if (tmp1 == NULL) {
+			continue;
+		}
+		tmp1 += strlen(tokens[i]);
+		tmp2 = strchr(tmp1, 32);
+		tmp3 = strchr(tmp1, 13);
+		if ((tmp3 != NULL && tmp3 < tmp2)) {
+			tmp2 = tmp3;
+		}
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(root_node, NULL, BAD_CAST tokensnames[i], BAD_CAST buffer);
+		tmp1 = tmp2;
+	}
+
+	/* Dump the document to a buffer and print it for demonstration purposes. */
+	xmlNodeDump(psBuf, doc, root_node, 99, 1);
+	snprintf(
+		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+		"%s", xmlBufferContent(psBuf)
+	);
+	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+	/* Done. */
+dslam_zte_9xxx_get_physical_port_done:
+	if(doc != NULL)
+		xmlFreeDoc(doc);
+	if(psBuf != NULL)
+		xmlBufferFree(psBuf);
+	return;
+}
+
 /*******************************************************************************
  * CODE ENDS.
  ******************************************************************************/

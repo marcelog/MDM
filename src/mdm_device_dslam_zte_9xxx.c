@@ -40,6 +40,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_9xxx_STR[] =
 /* 18 */ "Get mac addresses in port",
 /* 19 */ "Get Routes",
 /* 20 */ "Get full port information",
+/* 21 */ "Get physical port information",
 	NULL
 };
 
@@ -84,7 +85,8 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_ARGSN[] =
 /* 17 */ 1,
 /* 18 */ 1,
 /* 19 */ 0,
-/* 20 */ 1
+/* 20 */ 1,
+/* 21 */ 1
 };
 
 /*!
@@ -113,7 +115,8 @@ MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_PROCESS[] =
 /* 17 */ dslam_zte_9xxx_get_port_mac,
 /* 18 */ dslam_zte_9xxx_get_port_mac,
 /* 19 */ dslam_zte_9xxx_get_routes,
-/* 20 */ dslam_zte_9xxx_get_port_full
+/* 20 */ dslam_zte_9xxx_get_port_full,
+/* 21 */ dslam_zte_9xxx_get_physical_port
 };
 
 /*!
@@ -142,6 +145,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_STR[] =
 /* 18 */ "sh fdb %%ARG%%",
 /* 19 */ "show ip route",
 /* 20 */ "show interface %%ARG%% full",
+/* 21 */ "show adsl physical %%ARG%%",
 	NULL
 };
 

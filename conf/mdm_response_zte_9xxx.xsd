@@ -360,6 +360,35 @@
                                             </xs:sequence>
                                         </xs:complexType>
                                     </xs:element>
+                        <xs:element name="zte_9xxx_physicalinfo">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="atuc-vendor" type="xs:string"/>
+                                                <xs:element name="atuc-snrmgn" type="xs:string"/>
+                                                <xs:element name="atuc-atn" type="xs:string"/>
+                                                <xs:element name="atuc-output" type="xs:string"/>
+                                                <xs:element name="atuc-attainable" type="xs:string"/>
+                                                <xs:element name="atur-vendor" type="xs:string"/>
+                                                <xs:element name="atur-atn" type="xs:string"/>
+                                                <xs:element name="atur-output" type="xs:string"/>
+                                                <xs:element name="atur-attainable" type="xs:string"/>
+                                                <xs:element name="atuc-dmt" type="xs:string"/>
+                                                <xs:element name="atur-dmt" type="xs:string"/>
+                                                <xs:element name="atuc-prevsnrmgn" type="xs:string"/>
+                                                <xs:element name="atuc-prevatn" type="xs:string"/>
+                                                <xs:element name="atuc-prev-attainable" type="xs:string"/>
+                                                <xs:element name="atur-prevsnrmgn" type="xs:string"/>
+                                                <xs:element name="atur-prevatn" type="xs:string"/>
+                                                <xs:element name="atur-prev-attainable" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
