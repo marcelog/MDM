@@ -41,6 +41,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_9xxx_STR[] =
 /* 19 */ "Get Routes",
 /* 20 */ "Get full port information",
 /* 21 */ "Get physical port information",
+/* 22 */ "Get Network information",
 	NULL
 };
 
@@ -86,7 +87,8 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_ARGSN[] =
 /* 18 */ 1,
 /* 19 */ 0,
 /* 20 */ 1,
-/* 21 */ 1
+/* 21 */ 1,
+/* 22 */ 0
 };
 
 /*!
@@ -116,7 +118,8 @@ MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_PROCESS[] =
 /* 18 */ dslam_zte_9xxx_get_port_mac,
 /* 19 */ dslam_zte_9xxx_get_routes,
 /* 20 */ dslam_zte_9xxx_get_port_full,
-/* 21 */ dslam_zte_9xxx_get_physical_port
+/* 21 */ dslam_zte_9xxx_get_physical_port,
+/* 22 */ dslam_zte_9xxx_get_network_info
 };
 
 /*!
@@ -146,6 +149,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_STR[] =
 /* 19 */ "show ip route",
 /* 20 */ "show interface %%ARG%% full",
 /* 21 */ "show adsl physical %%ARG%%",
+/* 22 */ "show ip subnet",
 	NULL
 };
 
@@ -642,7 +646,7 @@ mdm_device_dslam_zte_9xxx_exec(
 #if MDM_DEBUG_MESSAGES > 0
 		MDM_LOGDEBUG("Stripping cmd.");
 #endif
-		d->exec_buffer_len = strlen(foundcmd);
+		d->exec_buffer_len = strlen(foundcmd) + 1;
 		snprintf(d->exec_buffer, d->exec_buffer_len, "%s", foundcmd);
 	} else {
 #if MDM_DEBUG_MESSAGES > 0
