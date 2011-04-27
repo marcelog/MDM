@@ -403,6 +403,26 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="zte_9xxx_channel_info">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="atuc-interdelay" type="xs:string"/>
+                                    <xs:element name="atuc-currtxrate" type="xs:string"/>
+                                    <xs:element name="atuc-prevtxrate" type="xs:string"/>
+                                    <xs:element name="atuc-crclen" type="xs:string"/>
+                                    <xs:element name="atur-interdelay" type="xs:string"/>
+                                    <xs:element name="atur-currtxrate" type="xs:string"/>
+                                    <xs:element name="atur-prevtxrate" type="xs:string"/>
+                                    <xs:element name="atur-crclen" type="xs:string"/>
+                                    <xs:element name="atuc-rssymbols" minOccurs="0" maxOccurs="unbounded"/>
+                                    <xs:element name="atuc-rsdepth" minOccurs="0" maxOccurs="unbounded"/>
+                                    <xs:element name="atuc-rsredundancy" minOccurs="0" maxOccurs="unbounded"/>
+                                    <xs:element name="atur-rssymbols" minOccurs="0" maxOccurs="unbounded"/>
+                                    <xs:element name="atur-rsdepth" minOccurs="0" maxOccurs="unbounded"/>
+                                    <xs:element name="atur-rsredundancy" minOccurs="0" maxOccurs="unbounded"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>

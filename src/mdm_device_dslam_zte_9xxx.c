@@ -42,6 +42,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_9xxx_STR[] =
 /* 20 */ "Get full port information",
 /* 21 */ "Get physical port information",
 /* 22 */ "Get Network information",
+/* 23 */ "Get channel information",
 	NULL
 };
 
@@ -88,7 +89,8 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_ARGSN[] =
 /* 19 */ 0,
 /* 20 */ 1,
 /* 21 */ 1,
-/* 22 */ 0
+/* 22 */ 0,
+/* 23 */ 1
 };
 
 /*!
@@ -119,7 +121,8 @@ MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_PROCESS[] =
 /* 19 */ dslam_zte_9xxx_get_routes,
 /* 20 */ dslam_zte_9xxx_get_port_full,
 /* 21 */ dslam_zte_9xxx_get_physical_port,
-/* 22 */ dslam_zte_9xxx_get_network_info
+/* 22 */ dslam_zte_9xxx_get_network_info,
+/* 23 */ dslam_zte_9xxx_get_channel_info
 };
 
 /*!
@@ -150,6 +153,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_STR[] =
 /* 20 */ "show interface %%ARG%% full",
 /* 21 */ "show adsl physical %%ARG%%",
 /* 22 */ "show ip subnet",
+/* 23 */ "show adsl channel %%ARG%%",
 	NULL
 };
 

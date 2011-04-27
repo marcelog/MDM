@@ -76,4 +76,7 @@ extern void dslam_zte_9xxx_get_physical_port(
 extern void dslam_zte_9xxx_get_network_info(
 	mdm_device_descriptor_t *, mdm_operation_result_t *
 );
+extern void dslam_zte_9xxx_get_channel_info(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
 #endif
