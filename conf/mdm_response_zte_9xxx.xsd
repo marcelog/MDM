@@ -357,6 +357,10 @@
                                                 <xs:element name="queue-buffer-4" type="xs:string"/>
                                                 <xs:element name="adsl-profile" type="xs:string"/>
                                                 <xs:element name="alarm-profile" type="xs:string"/>
+                                                <xs:element name="fast-leave" type="xs:string"/>
+                                                <xs:element name="type" type="xs:string"/>
+                                                <xs:element name="coding" type="xs:string"/>
+                                                <xs:element name="pvc" type="xs:string"/>
                                                 <xs:element name="vlan-tag"  minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
                                                 <xs:element name="vlan-untag"  minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
                                             </xs:sequence>

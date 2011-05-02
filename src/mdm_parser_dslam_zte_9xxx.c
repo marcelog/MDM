@@ -1614,7 +1614,12 @@ dslam_zte_9xxx_get_port_full(
 		"Queue 3 Buffer size : ",
 		"Queue 4 Buffer size : ",
 		"adsl profile        : ",
-		"adsl alarm-profile  : "
+		"adsl alarm-profile  : ",
+		"Fast-leave          : ",
+		"adsl linetype       : ",
+		"adsl linecoding     : ",
+		"atm pvc             : "
+
 	};
 	char *tokensnames[] = {
 		"id", "name", "pvid-1", "pvid-2", "pvid-3", "pvid-4", "pvid-5",
@@ -1634,7 +1639,7 @@ dslam_zte_9xxx_get_port_full(
 		"atm-status-pvc-8", "qos-profile", "trust-pvc-1", "trust-pvc-2",
 		"trust-pvc-3", "trust-pvc-4", "trust-pvc-5", "trust-pvc-6",
 		"queue-buffer-1", "queue-buffer-2", "queue-buffer-3", "queue-buffer-4",
-		"adsl-profile", "alarm-profile"
+		"adsl-profile", "alarm-profile", "fast-leave", "type", "coding", "pvc"
 	};
 	int i;
 	char buffer[64];
@@ -1672,7 +1677,7 @@ dslam_zte_9xxx_get_port_full(
 	}
 	xmlDocSetRootElement(doc, root_node);
 	node = xmlNewNode(NULL, BAD_CAST "port");
-	for (i = 0; i < 78; i++) {
+	for (i = 0; i < 82; i++) {
 		tmp1 = strstr(d->exec_buffer, tokens[i]);
 		if (tmp1 == NULL) {
 			continue;
