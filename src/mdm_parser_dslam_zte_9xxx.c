@@ -555,7 +555,7 @@ dslam_zte_9xxx_show_slot_ports(
 	xmlNodePtr node = NULL;
 	xmlBufferPtr psBuf = NULL;
 	char *tokensnames[] = {
-		"admin-status", "link-status", "up", "down", "service-profile"
+		"admin-status", "link-status", "up", "down", "coding", "type", "service-profile"
 	};
 	int i;
 	int j;
@@ -605,7 +605,7 @@ dslam_zte_9xxx_show_slot_ports(
 		goto dslam_zte_9xxx_show_slot_ports_done;
 	}
 
-	for(i = 0; i < 48; i++)
+	while(strchr(tmp1, 13) != NULL)
 	{
 		/* Now name. */
 		node = xmlNewNode(NULL, BAD_CAST "port");

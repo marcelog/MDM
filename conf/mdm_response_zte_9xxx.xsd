@@ -33,6 +33,8 @@
 												<xs:element name="link-status" type="xs:string"/>
 												<xs:element name="up" type="xs:string"/>
 												<xs:element name="down" type="xs:string"/>
+                                    <xs:element name="coding" type="xs:string"/>
+                                    <xs:element name="type" type="xs:string"/>
 												<xs:element name="service-profile" type="xs:string"/>
 											</xs:sequence>
 										</xs:complexType>
