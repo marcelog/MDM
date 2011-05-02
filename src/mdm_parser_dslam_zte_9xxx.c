@@ -165,6 +165,9 @@ dslam_zte_9xxx_get_service_profiles(
 		node = xmlNewNode(NULL, BAD_CAST "serviceprofile");
 		tmp1++;
 		tmp2 = strchr(tmp1, 13);
+      if (tmp2 == NULL) {
+         break;
+      }
 
 		/* Store value. */
 		snprintf(profile_buffer, tmp2 - tmp1 + 1, "%s", tmp1);
