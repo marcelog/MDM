@@ -2032,10 +2032,11 @@ dslam_zte_9xxx_get_channel_info(
 	tmp1 = d->exec_buffer;
 	for(i = 0; i < 14; i++)
 	{
-		tmp1 = strstr(tmp1, tokens[i]);
-		if (tmp1 == NULL) {
+		tmp3 = strstr(tmp1, tokens[i]);
+		if (tmp3 == NULL) {
 			continue;
 		}
+		tmp1 = tmp3;
 		tmp1 += strlen(tokens[i]);
 		tmp2 = strchr(tmp1, 32);
 		tmp3 = strchr(tmp1, 13);
