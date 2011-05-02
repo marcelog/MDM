@@ -1807,10 +1807,11 @@ dslam_zte_9xxx_get_physical_port(
 	tmp1 = d->exec_buffer;
 	for(i = 0; i < 17; i++)
 	{
-		tmp1 = strstr(tmp1, tokens[i]);
-		if (tmp1 == NULL) {
-			continue;
-		}
+      tmp3 = strstr(tmp1, tokens[i]);
+      if (tmp3 == NULL) {
+         continue;
+      }
+      tmp1 = tmp3;
 		tmp1 += strlen(tokens[i]);
 		tmp2 = strchr(tmp1, 32);
 		tmp3 = strchr(tmp1, 13);
