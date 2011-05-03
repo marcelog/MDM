@@ -1641,7 +1641,7 @@ dslam_zte_9xxx_get_port_full(
 		"trust-pvc-3", "trust-pvc-4", "trust-pvc-5", "trust-pvc-6",
 		"queue-buffer-1", "queue-buffer-2", "queue-buffer-3", "queue-buffer-4",
 		"adsl-profile", "alarm-profile", "fast-leave", "type", "coding", "pvc",
-		"link-status", "duplex-speed"
+		"duplex-speed", "link-status"
 
 	};
 	int i;
