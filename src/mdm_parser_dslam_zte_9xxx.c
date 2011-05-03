@@ -557,6 +557,11 @@ dslam_zte_9xxx_show_slot_ports(
 	char *tokensnames[] = {
 		"admin-status", "link-status", "up", "down", "coding", "type", "service-profile"
 	};
+	char *tokensnames2[] = {
+		"admin-status", "link-status", "up", "down", "service-profile"
+	};
+	char **dotokens;
+
 	int i;
 	int j;
 	char slot_ports[64];
@@ -597,6 +602,13 @@ dslam_zte_9xxx_show_slot_ports(
 		sprintf(status->status_message, "Token not found.");
 		goto dslam_zte_9xxx_show_slot_ports_done;
 	}
+	if (strstr(d->exec_buffer, "LineCoding") != NULL) {
+		dotokens = tokensnames;
+		i = 7;
+	} else {
+		dotokens = tokensnames2;
+		i = 5;
+	}
 	tmp1 = strchr(tmp1, 13);
 	if(tmp1 == NULL)
 	{
@@ -619,7 +631,7 @@ dslam_zte_9xxx_show_slot_ports(
 		snprintf(slot_ports, tmp2 - tmp1 + 1, "%s", tmp1);
 		xmlNewChild(node, NULL, BAD_CAST "port", BAD_CAST slot_ports);
 
-		for(j = 0; j < 5; j++)
+		for(j = 0; j < i; j++)
 		{
 			tmp1 = tmp2 + 1;
 			while(*tmp2 == 32) tmp2++;
@@ -629,7 +641,7 @@ dslam_zte_9xxx_show_slot_ports(
 			if((tmp2 > tmp3) || (tmp2 == NULL))
 				tmp2 = tmp3;
 			snprintf(slot_ports, tmp2 - tmp1 + 1, "%s", tmp1);
-			xmlNewChild(node, NULL, BAD_CAST tokensnames[j], BAD_CAST slot_ports);
+			xmlNewChild(node, NULL, BAD_CAST dotokens[j], BAD_CAST slot_ports);
 		}
 		tmp1 = tmp2 + 1;
 		
