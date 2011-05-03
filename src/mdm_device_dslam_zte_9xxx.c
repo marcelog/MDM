@@ -613,6 +613,9 @@ mdm_device_dslam_zte_9xxx_exec(
 				{
 					return;
 				}
+				if (pagebufferlen == 0) {
+					break;
+				}
 			} while(*pagebuffer == 32 || *pagebuffer == 13 || *pagebuffer == 10);
 			tempbuffer[tempbufferlen] = *pagebuffer;
 			tempbufferlen++;
