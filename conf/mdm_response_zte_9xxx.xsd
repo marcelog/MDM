@@ -361,6 +361,8 @@
                                                 <xs:element name="type" type="xs:string"/>
                                                 <xs:element name="coding" type="xs:string"/>
                                                 <xs:element name="pvc" type="xs:string"/>
+                                                <xs:element name="link-status" type="xs:string"/>
+                                                <xs:element name="duplex-speed" type="xs:string"/>
                                                 <xs:element name="vlan-tag"  minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
                                                 <xs:element name="vlan-untag"  minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
                                             </xs:sequence>
