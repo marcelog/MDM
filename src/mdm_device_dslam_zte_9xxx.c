@@ -551,6 +551,9 @@ mdm_device_dslam_zte_9xxx_exec(
 	char pagebuffer[64];
 	int pagebufferlen = 0;
 	int i = 0;
+	char *tmp1;
+	char *pagingstr = "Press any key to continue (Q to quit)";
+	int paginglen = strlen(pagingstr) + 1;
 	
 	/* Start. */
 #if MDM_DEBUG_MESSAGES > 0
@@ -586,21 +589,23 @@ mdm_device_dslam_zte_9xxx_exec(
 			sprintf(status->status_message, "Receive timeout.");
 			return;
 		}
-		if(strstr(tempbuffer, "(Q to quit)") != NULL)
+		//fprintf(stdout, "|1|%s|1|\n", tempbuffer);
+		tmp1 = strstr(tempbuffer, pagingstr);
+		if(tmp1 != NULL)
 		{
 #if MDM_DEBUG_MESSAGES > 0
 			MDM_LOGDEBUG("Paging");
 #endif
-			tempbufferlen -= 38;
+			tempbufferlen -= paginglen;
 			sleep(1);
 			d->connection.send(&d->connection.descriptor, "", 0, status);
 			if(status->status == MDM_OP_ERROR)
 			{
 				return;
 			}
-			for(i = 0; i < 39; i++)
+			pagebufferlen = 1;//paginglen;
+			do
 			{
-				pagebufferlen = 1;
 				mdm_connection_recv(
 					&d->connection, pagebuffer, &pagebufferlen, status
 				);
@@ -608,10 +613,12 @@ mdm_device_dslam_zte_9xxx_exec(
 				{
 					return;
 				}
-			}
+			} while(*pagebuffer == 32 || *pagebuffer == 13 || *pagebuffer == 10);
+			tempbuffer[tempbufferlen] = *pagebuffer;
+			tempbufferlen++;
 		}
-		d->exec_buffer_len += tempbufferlen;
 		strncat(d->exec_buffer, tempbuffer, tempbufferlen);
+		d->exec_buffer_len += tempbufferlen;
 		prompt = strstr(d->exec_buffer, "$ ");
 		if(prompt != NULL)
 		{
