@@ -589,37 +589,6 @@ mdm_device_dslam_zte_9xxx_exec(
 			sprintf(status->status_message, "Receive timeout.");
 			return;
 		}
-		//fprintf(stdout, "|1|%s|1|\n", tempbuffer);
-		tmp1 = strstr(tempbuffer, pagingstr);
-		if(tmp1 != NULL || (strstr(tempbuffer, "(Q to quit)") != NULL))
-		{
-#if MDM_DEBUG_MESSAGES > 0
-			MDM_LOGDEBUG("Paging");
-#endif
-			tempbufferlen -= paginglen;
-			sleep(1);
-			d->connection.send(&d->connection.descriptor, "", 0, status);
-			if(status->status == MDM_OP_ERROR)
-			{
-				return;
-			}
-			pagebufferlen = 1;//paginglen;
-			do
-			{
-				mdm_connection_recv(
-					&d->connection, pagebuffer, &pagebufferlen, status
-				);
-				if(status->status == MDM_OP_ERROR)
-				{
-					return;
-				}
-				if (pagebufferlen == 0) {
-					break;
-				}
-			} while(*pagebuffer == 32 || *pagebuffer == 13 || *pagebuffer == 10);
-			tempbuffer[tempbufferlen] = *pagebuffer;
-			tempbufferlen++;
-		}
 		strncat(d->exec_buffer, tempbuffer, tempbufferlen);
 		d->exec_buffer_len += tempbufferlen;
 		prompt = strstr(d->exec_buffer, "$ ");
@@ -634,6 +603,39 @@ mdm_device_dslam_zte_9xxx_exec(
 			if(lastlinebeforeprompt != NULL)
 				*lastlinebeforeprompt = 0;
 			break;
+		}
+		tmp1 = strstr(d->exec_buffer, pagingstr);
+		if(tmp1 != NULL)
+		{
+#if MDM_DEBUG_MESSAGES > 0
+			MDM_LOGDEBUG("Paging");
+#endif
+			d->exec_buffer_len -= paginglen;
+			sleep(1);
+			d->connection.send(&d->connection.descriptor, "", 0, status);
+			if(status->status == MDM_OP_ERROR)
+			{
+				return;
+			}
+			pagebufferlen = 1;//paginglen;
+			do
+			{
+				MDM_LOGDEBUG("Reading paging");
+				mdm_connection_recv(
+					&d->connection, pagebuffer, &pagebufferlen, status
+				);
+				if(status->status == MDM_OP_ERROR)
+				{
+					return;
+				}
+				MDM_LOGDEBUG("Reading paging %c", *pagebuffer);
+				if (pagebufferlen == 0) {
+					break;
+				}
+			} while(*pagebuffer == 32 || *pagebuffer == 13 || *pagebuffer == 10);
+			d->exec_buffer[d->exec_buffer_len] = *pagebuffer;
+			d->exec_buffer_len++;
+			d->exec_buffer[d->exec_buffer_len] = 0;
 		}
 	} while(1);
 	/*
