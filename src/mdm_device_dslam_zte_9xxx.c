@@ -591,7 +591,7 @@ mdm_device_dslam_zte_9xxx_exec(
 		}
 		//fprintf(stdout, "|1|%s|1|\n", tempbuffer);
 		tmp1 = strstr(tempbuffer, pagingstr);
-		if(tmp1 != NULL)
+		if(tmp1 != NULL || (strstr(tempbuffer, "(Q to quit)") != NULL))
 		{
 #if MDM_DEBUG_MESSAGES > 0
 			MDM_LOGDEBUG("Paging");
