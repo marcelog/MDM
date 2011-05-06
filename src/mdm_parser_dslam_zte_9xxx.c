@@ -1832,8 +1832,8 @@ dslam_zte_9xxx_get_physical_port(
 		if (tmp3 == NULL) {
 			continue;
 		}
-		tmp1 = tmp3;
-		tmp1 = strchr(tmp1, 32);
+		tmp1 = tmp3 + strlen(tokens[i]);
+		while(*tmp1 == 32) tmp1++;
 		while(*tmp1 != ':') tmp1++;
 		tmp1++;
 		while(*tmp1 == 32) tmp1++;
