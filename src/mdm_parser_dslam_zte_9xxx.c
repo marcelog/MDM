@@ -1765,30 +1765,31 @@ dslam_zte_9xxx_get_physical_port(
 	int i;
 	char buffer[64];
 	char *tokens[] = {
-		"InvVendorID         : ",
+		"InvVendorID",
 /*		"InvVersionNumber    : ", */
-		"CurrSnrMgn          : ",
-		"CurrAtn             : ",
-		"OutputPwr           : ",
-		"AttainableRate(kbps): ",
-		"InvVendorID         : ",
+		"CurrSnrMgn",
+		"CurrAtn",
+		"OutputPwr",
+		"AttainableRate(kbps)",
+		"InvVendorID",
 /*		"InvVersionNumber    : ", */
-		"CurrAtn             : ",
-		"CurrOutputPwr       : ",
-		"AttainableRate(kbps): ",
-		"adslAtucDMTState    : ",
-		"adslAturDMTState    : ",
-		"zxAdslAtucPrevSnrMgn: ",
-		"zxAdslAtucPrevAtn   : ",
-		"zxAdslAtucPrevAttainableRate: ",
-		"zxAdslAturPrevSnrMgn: ",
-		"zxAdslAturPrevAtn   : ",
-		"zxAdslAturPrevAttainableRate: "
+		"CurrSnrMgn",
+		"CurrAtn",
+		"CurrOutputPwr",
+		"AttainableRate(kbps)",
+		"adslAtucDMTState",
+		"adslAturDMTState",
+		"zxAdslAtucPrevSnrMgn",
+		"zxAdslAtucPrevAtn",
+		"zxAdslAtucPrevAttainableRate",
+		"zxAdslAturPrevSnrMgn",
+		"zxAdslAturPrevAtn",
+		"zxAdslAturPrevAttainableRate"
 	};
 	char *tokensnames[] = {
 		"atuc-vendor", /*"atuc-version",*/
 		"atuc-snrmgn", "atuc-atn", "atuc-output", "atuc-attainable",
-		"atur-vendor", /*"atur-version",*/
+		"atur-vendor", /*"atur-version",*/ "atur-snrmgn",
 		"atur-atn", "atur-output", "atur-attainable",
 		"atuc-dmt", "atur-dmt",
 		"atuc-prevsnrmgn", "atuc-prevatn", "atuc-prev-attainable",
@@ -1825,14 +1826,17 @@ dslam_zte_9xxx_get_physical_port(
 	}
 	xmlDocSetRootElement(doc, root_node);
 	tmp1 = d->exec_buffer;
-	for(i = 0; i < 17; i++)
+	for(i = 0; i < 18; i++)
 	{
-      tmp3 = strstr(tmp1, tokens[i]);
-      if (tmp3 == NULL) {
-         continue;
-      }
-      tmp1 = tmp3;
-		tmp1 += strlen(tokens[i]);
+		tmp3 = strstr(tmp1, tokens[i]);
+		if (tmp3 == NULL) {
+			continue;
+		}
+		tmp1 = tmp3;
+		tmp1 = strchr(tmp1, 32);
+		while(*tmp1 != ':') tmp1++;
+		tmp1++;
+		while(*tmp1 == 32) tmp1++;
 		tmp2 = strchr(tmp1, 32);
 		tmp3 = strchr(tmp1, 13);
 		if ((tmp3 != NULL && tmp3 < tmp2)) {
@@ -1859,6 +1863,7 @@ dslam_zte_9xxx_get_physical_port_done:
 		xmlBufferFree(psBuf);
 	return;
 }
+
 /*!
  * This will get physical port information.
  * \param d Device descriptor.

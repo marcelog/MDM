@@ -377,6 +377,7 @@
                                     <xs:element name="atuc-output" type="xs:string"/>
                                     <xs:element name="atuc-attainable" type="xs:string"/>
                                     <xs:element name="atur-vendor" type="xs:string"/>
+                                    <xs:element name="atur-snrmgn" type="xs:string"/>
                                     <xs:element name="atur-atn" type="xs:string"/>
                                     <xs:element name="atur-output" type="xs:string"/>
                                     <xs:element name="atur-attainable" type="xs:string"/>
