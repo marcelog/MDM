@@ -87,6 +87,7 @@ class MDMZTE9xxx extends MDMDevice
     public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_PHYSICAL_PORT_INFO = 21;
     public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_NETWORK_INFO = 22;
     public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_CHANNEL_INFO = 23;
+    public static $MDM_DSLAM_ZTE_9xxx_CMD_GET_FANS_INFO = 24;
 
     /**
      * Return service profile info.

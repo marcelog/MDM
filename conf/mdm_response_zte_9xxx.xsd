@@ -412,6 +412,20 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="zte_9xxx_fans_info">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="fan" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="id" type="xs:string"/>
+                                                <xs:element name="status" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="zte_9xxx_channel_info">
                             <xs:complexType>
                                 <xs:sequence>
