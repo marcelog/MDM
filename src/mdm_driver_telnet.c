@@ -56,7 +56,7 @@ static const telnet_telopt_t telopts[] = {
 	{ TELNET_TELOPT_TTYLOC,				TELNET_WONT, TELNET_DONT },
 	{ TELNET_TELOPT_3270REGIME,		TELNET_WONT, TELNET_DONT },
 	{ TELNET_TELOPT_X3PAD,				TELNET_WONT, TELNET_DONT },
-	{ TELNET_TELOPT_NAWS,				TELNET_WONT, TELNET_DONT },
+	{ TELNET_TELOPT_NAWS,				TELNET_WILL, TELNET_DONT },
 	{ TELNET_TELOPT_TSPEED,				TELNET_WONT, TELNET_DONT },
 	{ TELNET_TELOPT_LFLOW,				TELNET_WONT, TELNET_DONT },
 	{ TELNET_TELOPT_LINEMODE,			TELNET_WONT, TELNET_DONT },
@@ -226,6 +226,13 @@ _event_handler(telnet_t *telnet, telnet_event_t *ev, void *user_data)
 			break;
 		/* request to enable local feature (or receipt) */
 		case TELNET_EV_DO:
+			if(
+				ev->telopt == TELNET_TELOPT_NAWS
+			)
+			{
+				char buffer[5] = { 0, 80, 0, 254, 255};
+				telnet_subnegotiation(telnet, TELNET_TELOPT_NAWS, buffer, 5);
+			}
 #if MDM_DEBUG_MESSAGES > 0
 			MDM_LOGDEBUG("TELNET_EV_DO");
 #endif
