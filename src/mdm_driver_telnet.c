@@ -230,7 +230,7 @@ _event_handler(telnet_t *telnet, telnet_event_t *ev, void *user_data)
 				ev->telopt == TELNET_TELOPT_NAWS
 			)
 			{
-				char buffer[5] = { 0, 80, 0, 254, 255};
+				char buffer[5] = { 0, 80, 0, (char)254, (char)255};
 				telnet_subnegotiation(telnet, TELNET_TELOPT_NAWS, buffer, 5);
 			}
 #if MDM_DEBUG_MESSAGES > 0
