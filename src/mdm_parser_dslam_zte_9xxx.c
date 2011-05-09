@@ -1760,7 +1760,6 @@ dslam_zte_9xxx_get_physical_port(
 {
 	xmlDocPtr doc = NULL; /* document pointer */
 	xmlNodePtr root_node = NULL;
-	xmlNodePtr node = NULL;
 	xmlBufferPtr psBuf = NULL;
 	int i;
 	char buffer[64];
@@ -1998,7 +1997,6 @@ dslam_zte_9xxx_get_channel_info(
 {
 	xmlDocPtr doc = NULL; /* document pointer */
 	xmlNodePtr root_node = NULL;
-	xmlNodePtr node = NULL;
 	xmlBufferPtr psBuf = NULL;
 	int i;
 	char buffer[64];
@@ -2133,10 +2131,10 @@ dslam_zte_9xxx_get_fans_info(
 		goto dslam_zte_9xxx_get_fans_info_done;
 	}
 	xmlDocSetRootElement(doc, root_node);
+	tmp1 = d->exec_buffer;
 	if (strstr(tmp1, "Sorry") != NULL) {
 		goto dslam_zte_9xxx_get_fans_info_done;
 	}
-	tmp1 = d->exec_buffer;
 	do
 	{
 		tmp1+=2;

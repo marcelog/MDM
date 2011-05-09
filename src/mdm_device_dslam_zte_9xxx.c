@@ -254,7 +254,7 @@ mdm_device_dslam_zte_9xxx_open(
 #endif
 			if(strstr(buffer, "Error: ") != NULL) {
 				status->status = MDM_OP_ERROR;
-				sprintf(status->status_message, buffer);
+				sprintf(status->status_message, "%s", buffer);
 				return;
 		}
 		} else if(bufflen != MDM_TELNET_DRIVER_ONLY_TELNET_DATA) {
@@ -554,7 +554,6 @@ mdm_device_dslam_zte_9xxx_exec(
 	float linestoskip = ceilf((float)(d->exec_buffer_cmd_len) / (float)(80));
 	char pagebuffer[64];
 	int pagebufferlen = 0;
-	int i = 0;
 	char *tmp1;
 	char *pagingstr = "Press any key to continue (Q to quit)";
 	int paginglen = strlen(pagingstr) + 1;
