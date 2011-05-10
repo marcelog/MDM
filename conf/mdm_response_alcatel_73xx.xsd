@@ -500,6 +500,38 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+						<xs:element name="alcatel_73xx_cpu_info">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="cpu" minOccurs="0" maxOccurs="unbounded">
+			                            <xs:complexType>
+			                                <xs:sequence>
+		                                        <xs:element name="slot" type="xs:string"/>
+		                                        <xs:element name="monitor-start-time" type="xs:string"/>
+		                                        <xs:element name="average" type="xs:string"/>
+		                                        <xs:element name="oper-status" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+						</xs:element>
+                        <xs:element name="alcatel_73xx_mem_info">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="mem" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="slot" type="xs:string"/>
+                                                <xs:element name="total" type="xs:string"/>
+                                                <xs:element name="used" type="xs:string"/>
+                                                <xs:element name="used-portion" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="alcatel_73xx_port_mac">
                             <xs:complexType>
                                 <xs:sequence>

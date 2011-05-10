@@ -157,7 +157,8 @@ class MDMAlcatel73xx extends MDMDevice
     public static $MDM_DSLAM_ALCATEL_73XX_CMD_CFG_MODES = 83;
     public static $MDM_DSLAM_ALCATEL_73XX_CMD_CFG_NO_RAURAD = 84;
     public static $MDM_DSLAM_ALCATEL_73XX_CMD_CFG_NO_NOISE = 85;
-
+    public static $MDM_DSLAM_ALCATEL_73XX_CMD_SHOW_CPU_INFO = 86;
+    public static $MDM_DSLAM_ALCATEL_73XX_CMD_SHOW_MEM_INFO = 87;
 
     /**
      * Return NTP info.

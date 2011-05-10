@@ -109,6 +109,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 83 */ "Configure Spectrum Profile modes",
 /* 84 */ "Disable RAD/RAU noise/time up/down",
 /* 85 */ "Disable noise values",
+/* 86 */ "Get CPU info",
+/* 87 */ "Get MEM info",
 	NULL
 };
 
@@ -204,7 +206,9 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 82 */ 1,
 /* 83 */ 28,
 /* 84 */ 1,
-/* 85 */ 1
+/* 85 */ 1,
+/* 86 */ 0,
+/* 87 */ 0
 };
 
 /*!
@@ -298,7 +302,9 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 82 */ dslam_alcatel_73xx_nop,
 /* 83 */ dslam_alcatel_73xx_nop,
 /* 84 */ dslam_alcatel_73xx_nop,
-/* 85 */ dslam_alcatel_73xx_nop
+/* 85 */ dslam_alcatel_73xx_nop,
+/* 86 */ dslam_alcatel_73xx_get_cpu_info,
+/* 87 */ dslam_alcatel_73xx_get_mem_info
 };
 
 /*!
@@ -394,6 +400,8 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 83 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\n %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% \r\nmodification complete\r\nexit\r\nexit\r\nexit",
 /* 84 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-time-down no rau-time-up no rad-time-down no rad-time-up\r\nmodification complete\r\nexit\r\nexit\r\nexit",
 /* 85 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-noise-down no rau-noise-up no rad-noise-down no rad-noise-up no min-noise-down no min-noise-up no trgt-noise-down no trgt-noise-up no max-noise-down no max-noise-up \r\nmodification complete\r\nexit\r\nexit\r\nexit",
+/* 86 */ "show system cpu-load detail",
+/* 87 */ "show system memory-usage detail",
 	NULL
 };
 
