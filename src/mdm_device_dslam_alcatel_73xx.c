@@ -111,6 +111,9 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 85 */ "Disable noise values",
 /* 86 */ "Get CPU info",
 /* 87 */ "Get MEM info",
+/* 88 */ "Get shub misc info",
+/* 89 */ "Get shub sw version",
+/* 90 */ "Get shub ip",
 	NULL
 };
 
@@ -208,7 +211,10 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 84 */ 1,
 /* 85 */ 1,
 /* 86 */ 0,
-/* 87 */ 0
+/* 87 */ 0,
+/* 88 */ 0,
+/* 89 */ 0,
+/* 90 */ 0
 };
 
 /*!
@@ -304,7 +310,10 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 84 */ dslam_alcatel_73xx_nop,
 /* 85 */ dslam_alcatel_73xx_nop,
 /* 86 */ dslam_alcatel_73xx_get_cpu_info,
-/* 87 */ dslam_alcatel_73xx_get_mem_info
+/* 87 */ dslam_alcatel_73xx_get_mem_info,
+/* 88 */ dslam_alcatel_73xx_get_misc_shub_info,
+/* 89 */ dslam_alcatel_73xx_get_shub_version,
+/* 90 */ dslam_alcatel_73xx_get_shub_ip
 };
 
 /*!
@@ -402,6 +411,9 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 85 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-noise-down no rau-noise-up no rad-noise-down no rad-noise-up no min-noise-down no min-noise-up no trgt-noise-down no trgt-noise-up no max-noise-down no max-noise-up \r\nmodification complete\r\nexit\r\nexit\r\nexit",
 /* 86 */ "show system cpu-load detail",
 /* 87 */ "show system memory-usage detail",
+/* 88 */ "show system shub entry misc detail",
+/* 89 */ "show system shub entry version detail",
+/* 90 */ "show system shub entry ip",
 	NULL
 };
 

@@ -3169,6 +3169,277 @@ dslam_alcatel_73xx_get_mem_info_done:
 		xmlBufferFree(psBuf);
 	return;
 }
+
+/**
+ * Returns the misc shub info
+ *
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ *
+ */
+void
+dslam_alcatel_73xx_get_misc_shub_info(
+	mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+	xmlDocPtr doc = NULL; /* document pointer */
+	xmlNodePtr root_node = NULL;
+	xmlBufferPtr psBuf = NULL;
+	char buffer[256];
+	char *tokens[] = { "def-intf : ", "base-bdg-addr : ", "sys-mac-addr : " };
+	char *tokensnames[] = { "def-intf", "base-bdg-addr", "sys-mac-addr" };
+	char *tmp1;
+	char *tmp2;
+	int i;
+
+	/* Create target buffer. */
+	psBuf = xmlBufferCreate();
+	if(psBuf == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating buffer for xml.");
+		goto dslam_alcatel_73xx_get_misc_shub_info_done;
+	}
+
+	/* Creates a new document, a node and set it as a root node */
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	if(doc == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_misc_shub_info_done;
+	}
+
+	root_node = xmlNewNode(NULL, BAD_CAST "alcatel_73xx_cpu_info");
+	if(root_node == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_misc_shub_info_done;
+	}
+	xmlDocSetRootElement(doc, root_node);
+	tmp1 = d->exec_buffer;
+	for(i = 0; i < 3; i++)
+	{
+		tmp1 = strstr(tmp1, tokens[i]);
+		if(tmp1 == NULL)
+		{
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, "Token |%s| not found.", tokens[i]);
+			goto dslam_alcatel_73xx_get_misc_shub_info_done;
+		}
+		tmp1 += strlen(tokens[i]);
+		tmp2 = strchr(tmp1, ' ');
+		if(tmp2 == NULL)
+		{
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, "Token |sp| not found.");
+			goto dslam_alcatel_73xx_get_misc_shub_info_done;
+		}
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(
+			root_node, NULL, BAD_CAST tokensnames[i], BAD_CAST buffer
+		);
+		/* Neeext. */
+		tmp1 = tmp2;
+	}
+	/* Dump the document to a buffer and print it for demonstration purposes. */
+	xmlNodeDump(psBuf, doc, root_node, 99, 1);
+	snprintf(
+		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+		"%s", xmlBufferContent(psBuf)
+	);
+	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+	/* Done. */
+dslam_alcatel_73xx_get_misc_shub_info_done:
+	if(doc != NULL)
+		xmlFreeDoc(doc);
+	if(psBuf != NULL)
+		xmlBufferFree(psBuf);
+	return;
+}
+
+/**
+ * Returns the shub version info
+ *
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ *
+ */
+void
+dslam_alcatel_73xx_get_shub_version(
+	mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+	xmlDocPtr doc = NULL; /* document pointer */
+	xmlNodePtr root_node = NULL;
+	xmlBufferPtr psBuf = NULL;
+	char buffer[256];
+	char *tokens[] = { "sw-release-num : " };
+	char *tokensnames[] = { "sw-release-num" };
+	char *tmp1;
+	char *tmp2;
+	int i;
+
+	/* Create target buffer. */
+	psBuf = xmlBufferCreate();
+	if(psBuf == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating buffer for xml.");
+		goto dslam_alcatel_73xx_get_shub_version_done;
+	}
+
+	/* Creates a new document, a node and set it as a root node */
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	if(doc == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_shub_version_done;
+	}
+
+	root_node = xmlNewNode(NULL, BAD_CAST "alcatel_73xx_shub_version");
+	if(root_node == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_shub_version_done;
+	}
+	xmlDocSetRootElement(doc, root_node);
+	tmp1 = d->exec_buffer;
+	for(i = 0; i < 1; i++)
+	{
+		tmp1 = strstr(tmp1, tokens[i]);
+		if(tmp1 == NULL)
+		{
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, "Token |%s| not found.", tokens[i]);
+			goto dslam_alcatel_73xx_get_shub_version_done;
+		}
+		tmp1 += strlen(tokens[i]);
+		tmp2 = strchr(tmp1, ' ');
+		if(tmp2 == NULL)
+		{
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, "Token |sp| not found.");
+			goto dslam_alcatel_73xx_get_shub_version_done;
+		}
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(
+			root_node, NULL, BAD_CAST tokensnames[i], BAD_CAST buffer
+		);
+		/* Neeext. */
+		tmp1 = tmp2;
+	}
+	/* Dump the document to a buffer and print it for demonstration purposes. */
+	xmlNodeDump(psBuf, doc, root_node, 99, 1);
+	snprintf(
+		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+		"%s", xmlBufferContent(psBuf)
+	);
+	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+	/* Done. */
+dslam_alcatel_73xx_get_shub_version_done:
+	if(doc != NULL)
+		xmlFreeDoc(doc);
+	if(psBuf != NULL)
+		xmlBufferFree(psBuf);
+	return;
+}
+
+/**
+ * Returns the shub ip info.
+ *
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ *
+ */
+void
+dslam_alcatel_73xx_get_shub_ip(
+	mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+	xmlDocPtr doc = NULL; /* document pointer */
+	xmlNodePtr root_node = NULL;
+	xmlBufferPtr psBuf = NULL;
+	char buffer[256];
+	char *tokens[] = { "ip-addr-cfg-mode : ", "eff-ip-addr : "};
+	char *tokensnames[] = { "ip-addr-cfg-mode", "eff-ip-addr" };
+	char *tmp1;
+	char *tmp2;
+	int i;
+
+	/* Create target buffer. */
+	psBuf = xmlBufferCreate();
+	if(psBuf == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating buffer for xml.");
+		goto dslam_alcatel_73xx_get_shub_ip_done;
+	}
+
+	/* Creates a new document, a node and set it as a root node */
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	if(doc == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_shub_ip_done;
+	}
+
+	root_node = xmlNewNode(NULL, BAD_CAST "alcatel_73xx_shub_ip");
+	if(root_node == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_shub_ip_done;
+	}
+	xmlDocSetRootElement(doc, root_node);
+	tmp1 = d->exec_buffer;
+	for(i = 0; i < 2; i++)
+	{
+		tmp1 = strstr(tmp1, tokens[i]);
+		if(tmp1 == NULL)
+		{
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, "Token |%s| not found.", tokens[i]);
+			goto dslam_alcatel_73xx_get_shub_ip_done;
+		}
+		tmp1 += strlen(tokens[i]);
+		tmp2 = strchr(tmp1, ' ');
+		if(tmp2 == NULL)
+		{
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, "Token |sp| not found.");
+			goto dslam_alcatel_73xx_get_shub_ip_done;
+		}
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(
+			root_node, NULL, BAD_CAST tokensnames[i], BAD_CAST buffer
+		);
+		/* Neeext. */
+		tmp1 = tmp2;
+	}
+	/* Dump the document to a buffer and print it for demonstration purposes. */
+	xmlNodeDump(psBuf, doc, root_node, 99, 1);
+	snprintf(
+		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+		"%s", xmlBufferContent(psBuf)
+	);
+	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+	/* Done. */
+dslam_alcatel_73xx_get_shub_ip_done:
+	if(doc != NULL)
+		xmlFreeDoc(doc);
+	if(psBuf != NULL)
+		xmlBufferFree(psBuf);
+	return;
+}
+
 /*******************************************************************************
  * CODE ENDS.
  ******************************************************************************/

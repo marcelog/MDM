@@ -141,4 +141,13 @@ extern void dslam_alcatel_73xx_get_cpu_info(
 extern void dslam_alcatel_73xx_get_mem_info(
 	mdm_device_descriptor_t *, mdm_operation_result_t *
 );
+extern void dslam_alcatel_73xx_get_misc_shub_info(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
+extern void dslam_alcatel_73xx_get_shub_version(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
+extern void dslam_alcatel_73xx_get_shub_ip(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
 #endif

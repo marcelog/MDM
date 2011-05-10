@@ -532,6 +532,30 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="alcatel_73xx_shub_version">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="sw-release-num" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="alcatel_73xx_misc_shub_info">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="def-intf" type="xs:string"/>
+                                    <xs:element name="base-bdg-addr" type="xs:string"/>
+                                    <xs:element name="sys-mac-addr" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="alcatel_73xx_shub_ip">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="ip-addr-cfg-mode" type="xs:string"/>
+                                    <xs:element name="eff-ip-addr" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="alcatel_73xx_port_mac">
                             <xs:complexType>
                                 <xs:sequence>
