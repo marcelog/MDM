@@ -3038,9 +3038,7 @@ dslam_alcatel_73xx_get_cpu_info(
 		tmp1 = strstr(tmp1, tokens[i]);
 		if(tmp1 == NULL)
 		{
-			status->status = MDM_OP_ERROR;
-			sprintf(status->status_message, "Token |%s| not found.", tokens[i]);
-			goto dslam_alcatel_73xx_get_cpu_info_done;
+			break;
 		}
 		tmp1 += strlen(tokens[i]);
 		tmp2 = strchr(tmp1, ' ');
@@ -3132,9 +3130,7 @@ dslam_alcatel_73xx_get_mem_info(
 		tmp1 = strstr(tmp1, tokens[i]);
 		if(tmp1 == NULL)
 		{
-			status->status = MDM_OP_ERROR;
-			sprintf(status->status_message, "Token |%s| not found.", tokens[i]);
-			goto dslam_alcatel_73xx_get_mem_info_done;
+			break;
 		}
 		tmp1 += strlen(tokens[i]);
 		tmp2 = strchr(tmp1, ' ');
