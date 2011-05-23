@@ -1769,6 +1769,7 @@ dslam_alcatel_73xx_get_databases(
 	};
 	const char *tmp1;
 	const char *tmp2;
+	const char *tmp3;
 	char database_buffer[64];
 	int i;
 	int j;
@@ -1831,6 +1832,10 @@ dslam_alcatel_73xx_get_databases(
 
 			/* Find end of token. */
 			tmp2 = strchr(tmp1, ' ');
+			tmp3 = strchr(tmp1, 13);
+			if (tmp3 != NULL && tmp3 < tmp2) {
+				tmp2 = tmp3;
+			}
 			if(tmp2 == NULL)
 			{
 				status->status = MDM_OP_ERROR;
