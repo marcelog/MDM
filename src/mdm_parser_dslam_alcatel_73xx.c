@@ -3544,7 +3544,7 @@ dslam_alcatel_73xx_get_syslog_destinations(
 		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
 		"%s", xmlBufferContent(psBuf)
 	);
-	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+d->exec_buffer_post_len = xmlBufferLength(psBuf);
 	/* Done. */
 	dslam_alcatel_73xx_get_syslog_destinations_done:
 	if(doc != NULL)
@@ -3553,8 +3553,6 @@ dslam_alcatel_73xx_get_syslog_destinations(
 		xmlBufferFree(psBuf);
 	return;
 }
-//configure system syslog destination mdm type udp:192.168.0.75:514:unlimited disable
-//configure system syslog destination aserversyslog type udp:10.100.16.16:514:514
 
 /**
  * Returns the syslog routes.
