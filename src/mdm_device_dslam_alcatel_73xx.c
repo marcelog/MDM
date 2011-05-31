@@ -43,8 +43,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 17 */	"Show Port ATM PVC2", /*!< Use like 1/1/1 */
 /* 18 */	"Load Port Detail 2", /*!< Use like 1/1/1 */
 /* 19 */	"Load Port Detail 1",
-/* 20 */	"Syslog Get 1",
-/* 21 */	"Syslog Get 2",
+/* 20 */	"Syslog Get destinations",
+/* 21 */	"Syslog Get routes",
 /* 22 */	"ATM Show PVC Traffic 1",
 /* 23 */	"ATM Show PVC Traffic 2",
 /* 24 */	"ATM Show PVC Traffic 3",
@@ -242,8 +242,8 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 17 */ dslam_alcatel_73xx_get_slot_vlans,
 /* 18 */ dslam_alcatel_73xx_load_ports,
 /* 19 */ dslam_alcatel_73xx_load_ports_all,
-/* 20 */ NULL,
-/* 21 */ NULL,
+/* 20 */ dslam_alcatel_73xx_get_syslog_destinations,
+/* 21 */ dslam_alcatel_73xx_get_syslog_routes,
 /* 22 */ NULL,
 /* 23 */ NULL,
 /* 24 */ NULL,
@@ -343,8 +343,8 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 17 */	"info configure interface flat | match exact:\"vlan-port:%%ARG%%/\"", /*!< Use like 1/1/1 */
 /* 18 */	"info configure interface flat | match exact:\"xdsl-line:%%ARG%%/\"", /*!< Use like 1/1/1 */
 /* 19 */	"info configure xdsl line flat",
-/* 20 */	"info configure system syslog destination mdm | match exact:mdm",
-/* 21 */	"info configure system syslog flat | match exact:\"route mdm\"",
+/* 20 */	"info configure system syslog destination flat",
+/* 21 */	"info configure system syslog flat",
 /* 22 */	"show vlan port-curr-day-stats %%ARG%%:%%ARG%%:%%ARG%% detail | match exact:byte",
 /* 23 */	"show vlan port-curr-day-stats detail | match before exact:%%ARG%%/ | match after exact:%%ARG%%/",
 /* 24 */	"show equipment slot | match after exact:\"%%ARG%% \"",

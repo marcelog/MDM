@@ -150,4 +150,11 @@ extern void dslam_alcatel_73xx_get_shub_version(
 extern void dslam_alcatel_73xx_get_shub_ip(
 	mdm_device_descriptor_t *, mdm_operation_result_t *
 );
+extern void dslam_alcatel_73xx_get_syslog_destinations(
+	mdm_device_descriptor_t *d, mdm_operation_result_t *status
+);
+extern void dslam_alcatel_73xx_get_syslog_routes(
+	mdm_device_descriptor_t *d, mdm_operation_result_t *status
+);
+
 #endif

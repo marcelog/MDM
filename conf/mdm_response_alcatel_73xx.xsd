@@ -574,6 +574,23 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="alcatel_73xx_syslog_destinations">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="destination" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="name" type="xs:string"/>
+                                                <xs:element name="protocol" type="xs:string"/>
+                                                <xs:element name="ip" type="xs:string"/>
+                                                <xs:element name="port" type="xs:string"/>
+                                                <xs:element name="disabled" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
