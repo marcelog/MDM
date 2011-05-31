@@ -3566,6 +3566,83 @@ dslam_alcatel_73xx_get_syslog_routes(
 	mdm_device_descriptor_t *d, mdm_operation_result_t *status
 )
 {
+	xmlDocPtr doc = NULL; /* document pointer */
+	xmlNodePtr root_node = NULL;
+	xmlNodePtr node = NULL;
+	xmlBufferPtr psBuf = NULL;
+	char buffer[256];
+	char *tmp1;
+	char *tmp2;
+
+	/* Create target buffer. */
+	psBuf = xmlBufferCreate();
+	if(psBuf == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating buffer for xml.");
+		goto dslam_alcatel_73xx_get_syslog_routes_done;
+	}
+
+	/* Creates a new document, a node and set it as a root node */
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	if(doc == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_syslog_routes_done;
+	}
+
+	root_node = xmlNewNode(NULL, BAD_CAST "alcatel_73xx_syslog_routes");
+	if(root_node == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_alcatel_73xx_get_syslog_routes_done;
+	}
+	xmlDocSetRootElement(doc, root_node);
+	tmp1 = d->exec_buffer;
+	while((tmp1 = strstr(tmp1, "route")) != NULL)
+	{
+		node = xmlNewNode(NULL, BAD_CAST "route");
+		tmp1 += strlen("route") + 1;
+		tmp2 = strchr(tmp1, 32);
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(
+			node, NULL, BAD_CAST "destination", BAD_CAST buffer
+		);
+		tmp1 = strstr(tmp1, "msg-type") + strlen("msg-type") + 1;
+		tmp2 = strchr(tmp1, 32);
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(
+			node, NULL, BAD_CAST "type", BAD_CAST buffer
+		);
+		tmp1 = tmp2;
+		tmp1 = strstr(tmp1, "facility") + strlen("facility") + 1;
+		tmp2 = strchr(tmp1, 13);
+		if (tmp2 == NULL) {
+			tmp2 = d->exec_buffer + d->exec_buffer_len;
+		}
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		xmlNewChild(
+			node, NULL, BAD_CAST "facilities", BAD_CAST buffer
+		);
+		/* Add resulting node. */
+		xmlAddChild(root_node, node);
+	}
+	/* Dump the document to a buffer and print it for demonstration purposes. */
+	xmlNodeDump(psBuf, doc, root_node, 99, 1);
+	snprintf(
+		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+		"%s", xmlBufferContent(psBuf)
+	);
+	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+	/* Done. */
+dslam_alcatel_73xx_get_syslog_routes_done:
+	if(doc != NULL)
+		xmlFreeDoc(doc);
+	if(psBuf != NULL)
+		xmlBufferFree(psBuf);
+	return;
 }
 /*******************************************************************************
  * CODE ENDS.

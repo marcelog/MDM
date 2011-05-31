@@ -591,6 +591,21 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="alcatel_73xx_syslog_routes">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="route" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="destination" type="xs:string"/>
+                                                <xs:element name="type" type="xs:string"/>
+                                                <xs:element name="facilities" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>

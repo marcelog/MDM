@@ -343,7 +343,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 17 */	"info configure interface flat | match exact:\"vlan-port:%%ARG%%/\"", /*!< Use like 1/1/1 */
 /* 18 */	"info configure interface flat | match exact:\"xdsl-line:%%ARG%%/\"", /*!< Use like 1/1/1 */
 /* 19 */	"info configure xdsl line flat",
-/* 20 */	"info configure system syslog destination flat",
+/* 20 */	"info configure system syslog destination flat | match exact:route",
 /* 21 */	"info configure system syslog flat",
 /* 22 */	"show vlan port-curr-day-stats %%ARG%%:%%ARG%%:%%ARG%% detail | match exact:byte",
 /* 23 */	"show vlan port-curr-day-stats detail | match before exact:%%ARG%%/ | match after exact:%%ARG%%/",
