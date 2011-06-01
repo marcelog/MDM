@@ -757,7 +757,6 @@ dslam_alcatel_73xx_show_service_profiles(
 	const char *tmp2;
 	const char *tmp3;
 	char service_prf_buffer[64];
-	int nl;
 	int i;
 	
 	/* Create target buffer. */
@@ -804,41 +803,34 @@ dslam_alcatel_73xx_show_service_profiles(
 			node, NULL, BAD_CAST tokensnames[0], BAD_CAST service_prf_buffer
 		);
 		tmp1 = tmp2;
-		/* nl is used to identify new lines, truncated service profiles. */
-		nl = 0;
-		for(i = 1; (i < 13) && !nl; i++)
+
+		for(i = 1; i < 13; i++)
 		{
-			tmp3 = strchr(tmp1, 13);
 			tmp2 = strstr(tmp1, tokens[i]);
-			if((tmp3 < tmp2) || tmp2 == NULL)
-			{
+			tmp3 = strchr(tmp1, 13);
+			if (tmp2 == NULL) {
 				continue;
 			}
-			tmp1 = tmp2;
-			tmp1 += tokenslen[i];
-			if(i == 12)
-				tmp2 = strchr(tmp1, 13);
-			else
-				tmp2 = strchr(tmp1, 32);
-			if(tmp2 == NULL)
-			{
-				tmp2 = strchr(tmp1, 13);
-				nl = 1;
+			if ((tmp3 != NULL) && (tmp3 < tmp2)) {
+				continue;
 			}
-			if(tmp2 == NULL)
-			{
-				status->status = MDM_OP_ERROR;
-				sprintf(
-					status->status_message, "Token |sp| (%s) not found.", tokens[i]
-				);
-				goto dslam_alcatel_73xx_show_service_profiles_done;
+			tmp2 += strlen(tokens[i]);
+			tmp1 = tmp2;
+			tmp2 = strchr(tmp1, 32);
+			tmp3 = strchr(tmp1, 13);
+			if (tmp2 == NULL) {
+				tmp2 = tmp3;
+			} else {
+				if(tmp3 < tmp2)
+				{
+					tmp2 = tmp3;
+				}
 			}
 			snprintf(service_prf_buffer, tmp2 - tmp1 + 1, "%s", tmp1);
 			xmlNewChild(
 				node, NULL, BAD_CAST tokensnames[i], BAD_CAST service_prf_buffer
 			);
 		}
-
 		/* Add resulting node. */
 		xmlAddChild(root_node, node);
 	}
