@@ -44,6 +44,9 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_9xxx_STR[] =
 /* 22 */ "Get Network information",
 /* 23 */ "Get channel information",
 /* 24 */ "Get fans information",
+/* 25 */ "Configure NTP Server",
+/* 26 */ "Enable NTP",
+/* 27 */ "Disable NTP",
 	NULL
 };
 
@@ -92,7 +95,10 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_ARGSN[] =
 /* 21 */ 1,
 /* 22 */ 0,
 /* 23 */ 1,
-/* 24 */ 0
+/* 24 */ 0,
+/* 25 */ 1,
+/* 26 */ 0,
+/* 27 */ 0
 };
 
 /*!
@@ -125,7 +131,10 @@ MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_PROCESS[] =
 /* 21 */ dslam_zte_9xxx_get_physical_port,
 /* 22 */ dslam_zte_9xxx_get_network_info,
 /* 23 */ dslam_zte_9xxx_get_channel_info,
-/* 24 */ dslam_zte_9xxx_get_fans_info
+/* 24 */ dslam_zte_9xxx_get_fans_info,
+/* 25 */ dslam_zte_9xxx_nop,
+/* 26 */ dslam_zte_9xxx_nop,
+/* 27 */ dslam_zte_9xxx_nop,
 };
 
 /*!
@@ -158,6 +167,9 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_STR[] =
 /* 22 */ "show ip subnet",
 /* 23 */ "show adsl channel %%ARG%%",
 /* 24 */ "show fans",
+/* 25 */ "configure ip ntp server %%ARG%%",
+/* 26 */ "configure ip ntp enable",
+/* 27 */ "configure ip ntp disable",
 	NULL
 };
 
