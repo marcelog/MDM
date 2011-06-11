@@ -1082,24 +1082,25 @@ dslam_alcatel_73xx_get_port_description(
 	const char *tmp2;
 	
 	tmp1 = strstr(d->exec_buffer, tokens[0]);
-	if(tmp1 == NULL)
+	if(tmp1 != NULL)
 	{
-		status->status = MDM_OP_ERROR;
-		sprintf(status->status_message, "Token not found 2.");
-		return;
+		tmp1 += tokenslen[0];
+
+		/* Find end of the value. */
+		tmp2 = strchr(tmp1, 13);
+
+		/* Store value. */
+		snprintf(
+			d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+			"<alcatel_73xx_portdescription>%.*s</alcatel_73xx_portdescription>",
+			(int)(tmp2 - tmp1), tmp1
+		);
+	} else {
+		snprintf(
+			d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+			"<alcatel_73xx_portdescription/>"
+		);
 	}
-	tmp1 += tokenslen[0];
-
-	/* Find end of the value. */
-	tmp2 = strchr(tmp1, 13);
-
-	/* Store value. */
-	snprintf(
-		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
-		"<alcatel_73xx_portdescription>%.*s</alcatel_73xx_portdescription>",
-		(int)(tmp2 - tmp1), tmp1
-	);
-	
 	/* Done. */
 	d->exec_buffer_post_len = strlen(d->exec_buffer_post);
 	return;
