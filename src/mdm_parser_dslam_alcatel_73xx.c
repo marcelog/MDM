@@ -3594,10 +3594,10 @@ dslam_alcatel_73xx_get_syslog_routes(
 	}
 	xmlDocSetRootElement(doc, root_node);
 	tmp1 = d->exec_buffer;
-	while((tmp1 = strstr(tmp1, "route")) != NULL)
+	while((tmp1 = strstr(tmp1, " route")) != NULL)
 	{
 		node = xmlNewNode(NULL, BAD_CAST "route");
-		tmp1 += strlen("route") + 1;
+		tmp1 += strlen(" route") + 1;
 		tmp2 = strchr(tmp1, 32);
 		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
 		xmlNewChild(
