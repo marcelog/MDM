@@ -116,6 +116,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 88 */ "Get shub misc info",
 /* 89 */ "Get shub sw version",
 /* 90 */ "Get shub ip",
+/* 91 */ "Configure default gateway",
 	NULL
 };
 
@@ -216,7 +217,8 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 87 */ 1,
 /* 88 */ 0,
 /* 89 */ 0,
-/* 90 */ 0
+/* 90 */ 0,
+/* 91 */ 1
 };
 
 /*!
@@ -315,7 +317,8 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 87 */ dslam_alcatel_73xx_get_mem_info,
 /* 88 */ dslam_alcatel_73xx_get_misc_shub_info,
 /* 89 */ dslam_alcatel_73xx_get_shub_version,
-/* 90 */ dslam_alcatel_73xx_get_shub_ip
+/* 90 */ dslam_alcatel_73xx_get_shub_ip,
+/* 91 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -416,6 +419,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 88 */ "show system shub entry misc detail",
 /* 89 */ "show system shub entry version detail",
 /* 90 */ "show system shub entry ip",
+/* 91 */ "configure system management default-route %%ARG%%",
 	NULL
 };
 
