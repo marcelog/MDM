@@ -122,6 +122,7 @@ typedef struct
 /*! This will hold internal data regarding the current connection. */
 typedef struct
 {
+	char prompt[80];
 	int promptlen; /*!< We need the prompt length because when the dslam
 	echoes our issued command, it adds the prompt length to make the command
 	fit in 80 columns. */

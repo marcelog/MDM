@@ -18,6 +18,8 @@
 #define	DSLAM_ALCATEL_73xx_CMD_ARG	"%%ARG%%" /*!< Use this string to identify
 	where arguments go inside the command. */
 
+#define DSLAM_ALCATEL_73xx_DEFAULT_PASSWORD "i$@mad-"
+
 /*!
  * Corresponding command names from #mdm_device_cmd_dslam_alcatel_73xx_t
  */
@@ -353,7 +355,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 27 */	"show interface shub statistics %%ARG%% detail",
 /* 28 */	"show interface shub port",
 /* 29 */	"show alarm delta-log %%ARG%% | match exact count",
-/* 30 */ "show transport system-parameters",
+/* 30 */ "",
 /* 31 */ "configure system sntp timezone-offset %%ARG%%",
 /* 32 */ "info configure system sntp",
 /* 33 */ "configure xdsl service-profile %%ARG%% name %%ARG%%",
@@ -371,44 +373,44 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 45 */ "admin equipment reboot-isam hot-restart",
 /* 46 */ "admin equipment reboot-isam with-self-test",
 /* 47 */ "admin equipment reboot-shub applicationreset",
-/* 48 */ "configure interface port xdsl-line:%%ARG%% admin-up\r\nexit\r\nexit\r\nexit",
-/* 49 */ "configure interface port xdsl-line:%%ARG%% no admin-up\r\nexit\r\nexit\r\nexit",
-/* 50 */ "configure system security filetransfer protocol %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
-/* 51 */ "configure system security filetransfer server %%ARG%% user-name %%ARG%% password %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
-/* 52 */ "admin software-mngt database upload actual-active:%%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
-/* 53 */ "admin software-mngt database download %%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
-/* 54 */ "admin alarm delta-log clr-%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit",
-/* 55 */ "configure atm pvc %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit\r\nexit", // port:vpi:vci
-/* 56 */ "configure atm no pvc %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit", // port:vpi:vci
-/* 57 */ "configure bridge no port %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit", // port:vpi:vci
-/* 58 */ "configure vlan shub id %%ARG%% mode residential-bridge\r\nexit\r\nexit\r\nexit", // vlan id
-/* 59 */ "configure vlan id %%ARG%% mode residential-bridge\r\nexit\r\nexit\r\nexit", // vlan id
-/* 60 */ "configure vlan shub id %%ARG%% egress-port lt:%%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit\r\nexit", // vlan id, slot
-/* 61 */ "configure vlan id %%ARG%% mode cross-connect\r\nexit\r\nexit\r\nexit", // vlan id
-/* 62 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%%\r\nexit\r\nexit", // port:vpi:vci
-/* 63 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%% vlan-id %%ARG%%\r\nexit\r\nexit", // port:vpi:vci:vlan id
-/* 64 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%% pvid %%ARG%%\r\nexit\r\nexit", // port:vpi:vci:vlan id
-/* 65 */ "configure system syslog no destination %%ARG%%\r\nexit\r\nexit\r\nexit",
-/* 66 */ "configure system syslog destination %%ARG%% type udp:%%ARG%%:%%ARG%%:unlimited\r\nexit\r\nexit\r\nexit\r\nexit", // name:ip:port
-/* 67 */ "configure system syslog no route %%ARG%% msg-type all\r\nexit\r\nexit\r\nexit", // name
-/* 68 */ "configure system syslog route %%ARG%% msg-type all emergency alert critical error warning notice information debug facility %%ARG%%\r\nexit\r\nexit\r\nexit\r\nexit\r\nexit", // name:facility
-/* 69 */ "admin software-mngt oswp %%ARG%% activate with-default-db\r\nexit\r\nexit\r\nexit\r\nexit",
-/* 70 */ "admin software-mngt oswp %%ARG%% activate with-linked-db\r\nexit\r\nexit\r\nexit\r\nexit",
-/* 71 */ "configure system sntp server-ip-addr %%ARG%%\r\nexit\r\nexit\r\nexit",
-/* 72 */ "configure system sntp enable\r\nexit\r\nexit\r\nexit",
-/* 73 */ "configure system sntp no enable\r\nexit\r\nexit\r\nexit",
+/* 48 */ "configure interface port xdsl-line:%%ARG%% admin-up",
+/* 49 */ "configure interface port xdsl-line:%%ARG%% no admin-up",
+/* 50 */ "configure system security filetransfer protocol %%ARG%%",
+/* 51 */ "configure system security filetransfer server %%ARG%% user-name %%ARG%% password %%ARG%%",
+/* 52 */ "admin software-mngt database upload actual-active:%%ARG%%:%%ARG%%",
+/* 53 */ "admin software-mngt database download %%ARG%%:%%ARG%%",
+/* 54 */ "admin alarm delta-log clr-%%ARG%%",
+/* 55 */ "configure atm pvc %%ARG%%:%%ARG%%:%%ARG%%", // port:vpi:vci
+/* 56 */ "configure atm no pvc %%ARG%%:%%ARG%%:%%ARG%%", // port:vpi:vci
+/* 57 */ "configure bridge no port %%ARG%%:%%ARG%%:%%ARG%%", // port:vpi:vci
+/* 58 */ "configure vlan shub id %%ARG%% mode residential-bridge", // vlan id
+/* 59 */ "configure vlan id %%ARG%% mode residential-bridge", // vlan id
+/* 60 */ "configure vlan shub id %%ARG%% egress-port lt:%%ARG%%", // vlan id, slot
+/* 61 */ "configure vlan id %%ARG%% mode cross-connect", // vlan id
+/* 62 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%%", // port:vpi:vci
+/* 63 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%% vlan-id %%ARG%%", // port:vpi:vci:vlan id
+/* 64 */ "configure bridge port %%ARG%%:%%ARG%%:%%ARG%% pvid %%ARG%%", // port:vpi:vci:vlan id
+/* 65 */ "configure system syslog no destination %%ARG%%",
+/* 66 */ "configure system syslog destination %%ARG%% type udp:%%ARG%%:%%ARG%%:unlimited", // name:ip:port
+/* 67 */ "configure system syslog no route %%ARG%% msg-type all", // name
+/* 68 */ "configure system syslog route %%ARG%% msg-type all emergency alert critical error warning notice information debug facility %%ARG%%", // name:facility
+/* 69 */ "admin software-mngt oswp %%ARG%% activate with-default-db",
+/* 70 */ "admin software-mngt oswp %%ARG%% activate with-linked-db",
+/* 71 */ "configure system sntp server-ip-addr %%ARG%%",
+/* 72 */ "configure system sntp enable",
+/* 73 */ "configure system sntp no enable",
 /* 74 */ "show vlan bridge-port-fdb %%ARG%%:%%ARG%%:%%ARG%%",
 /* 75 */ "configure system security operator isadmin password plain:%%ARG%%",
-/* 76 */ "configure xdsl spectrum-profile %%ARG%% name %%ARG%%\r\nexit\r\nexit\r\nexit",
-/* 77 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nname %%ARG%%\r\nmodification complete\r\nexit\r\nexit\r\nexit",
-/* 78 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nrau-time-down %%ARG%% rau-time-up %%ARG%% rad-time-down %%ARG%% rad-time-up %%ARG%%\r\nmodification complete\r\nexit\r\nexit\r\nexit",
-/* 79 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nactive\r\nmodification complete\r\nexit\r\nexit\r\nexit",
-/* 80 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno active\r\nmodification complete\r\nexit\r\nexit\r\nexit",
-/* 81 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nrau-noise-down %%ARG%% rau-noise-up %%ARG%% rad-noise-down %%ARG%% rad-noise-up %%ARG%% min-noise-down %%ARG%% min-noise-up %%ARG%% trgt-noise-down %%ARG%% trgt-noise-up %%ARG%% max-noise-down %%ARG%% max-noise-up %%ARG%%\r\nmodification complete\r\nexit\r\nexit\r\nexit",
-/* 82 */ "configure xdsl no spectrum-profile %%ARG%%\r\nexit\r\nexit\r\nexit",
-/* 83 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\n %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% \r\nmodification complete\r\nexit\r\nexit\r\nexit",
-/* 84 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-time-down no rau-time-up no rad-time-down no rad-time-up\r\nmodification complete\r\nexit\r\nexit\r\nexit",
-/* 85 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-noise-down no rau-noise-up no rad-noise-down no rad-noise-up no min-noise-down no min-noise-up no trgt-noise-down no trgt-noise-up no max-noise-down no max-noise-up \r\nmodification complete\r\nexit\r\nexit\r\nexit",
+/* 76 */ "configure xdsl spectrum-profile %%ARG%% name %%ARG%%",
+/* 77 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nname %%ARG%%\r\nmodification complete",
+/* 78 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nrau-time-down %%ARG%% rau-time-up %%ARG%% rad-time-down %%ARG%% rad-time-up %%ARG%%\r\nmodification complete",
+/* 79 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nactive\r\nmodification complete",
+/* 80 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno active\r\nmodification complete",
+/* 81 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nrau-noise-down %%ARG%% rau-noise-up %%ARG%% rad-noise-down %%ARG%% rad-noise-up %%ARG%% min-noise-down %%ARG%% min-noise-up %%ARG%% trgt-noise-down %%ARG%% trgt-noise-up %%ARG%% max-noise-down %%ARG%% max-noise-up %%ARG%%\r\nmodification complete",
+/* 82 */ "configure xdsl no spectrum-profile %%ARG%%",
+/* 83 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\n %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% \r\nmodification complete",
+/* 84 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-time-down no rau-time-up no rad-time-down no rad-time-up\r\nmodification complete",
+/* 85 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-noise-down no rau-noise-up no rad-noise-down no rad-noise-up no min-noise-down no min-noise-up no trgt-noise-down no trgt-noise-up no max-noise-down no max-noise-up \r\nmodification complete",
 /* 86 */ "show system cpu-load %%ARG%% detail",
 /* 87 */ "show system memory-usage %%ARG%% detail",
 /* 88 */ "show system shub entry misc detail",
@@ -445,11 +447,12 @@ mdm_device_dslam_alcatel_73xx_open(
 	mdm_connection_options_t *conn_options;
 	int i;
 	char *envcmds[] = {
-		"environment terminal-timeout timeout:5",
+		"environment terminal-timeout timeout:99",
 		"environment print no-more",
-		"environment inhibit-alarms"
+		"environment inhibit-alarms",
+		"environment mode batch",
 	};
-	int envcmdslen[] = { 38, 25, 26};
+	int envcmdslen[] = { 39, 26, 26, 22};
 	char buffer[4096];
 	int bufflen;
 	mdm_device_dslam_alcatel_73xx_data_t *data =
@@ -618,12 +621,23 @@ mdm_device_dslam_alcatel_73xx_open(
 				sprintf(status->status_message, "Login timeout.");
 				return;
 			}
-		if(strstr(buffer, "Login incorrect") != NULL)
+	   	if(strstr(buffer, "Login incorrect") != NULL)
 		{
 			status->status = MDM_OP_ERROR;
 			sprintf(status->status_message, "Login incorrect!");
 			return;
 		}
+      if (strstr(buffer, "expired") != NULL) {
+          sprintf(options->password, "%s!", DSLAM_ALCATEL_73xx_DEFAULT_PASSWORD);
+          mdm_connection_send(&d->connection, options->password, strlen(options->password), status);
+          mdm_connection_send(&d->connection, options->password, strlen(options->password), status);
+          bufflen = sizeof(buffer);
+          memset(buffer, 0, bufflen);
+          mdm_connection_recv(&d->connection, buffer, &bufflen, status);
+          sprintf(status->status_message, "New Password: i$@mad-!");
+          status->status = MDM_OP_ERROR;
+          return;
+      }
 	} while(strstr(buffer, ">#") == NULL);
 	
 	/* It doesn't matter the prompt, but we need the length so we can strip
@@ -633,8 +647,10 @@ mdm_device_dslam_alcatel_73xx_open(
 	if(host_port_token < buffer)
 	{
 		data->promptlen = strlen(buffer);
+		snprintf(data->prompt, data->promptlen - 2, "%s", buffer);
 	} else {
 		data->promptlen = strlen(buffer) - (strrchr(buffer, '\n') - buffer);
+		snprintf(data->prompt, data->promptlen - 2, "%s", strrchr(buffer, '\n') + 1);
 	}
 	/* Set environment properties. */
 	for(i = 0; i < 3; i++)
@@ -865,18 +881,13 @@ mdm_device_dslam_alcatel_73xx_exec(
 {
 	char tempbuffer[256];
 	int tempbufferlen;
-	char *lastlinebeforeprompt = NULL;
 	char *foundcmd = NULL;
-	char *prompt = NULL;
-	char *promptlast = NULL;
+	int done = 0;
 	mdm_device_dslam_alcatel_73xx_data_t *data =
 		(mdm_device_dslam_alcatel_73xx_data_t *)d->data;
-	/* We have to skip the issued command *plus* the length of the prompt ;) */
-	float linestoskip = ceilf((float)(
-		d->exec_buffer_cmd_len + data->promptlen) / (float)(80)
-	);
+	char *lastlinestrtmp = NULL;
 	int i, j;
-		
+
 	/* Start. */
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Start.");
@@ -914,21 +925,16 @@ mdm_device_dslam_alcatel_73xx_exec(
 #endif
 		d->exec_buffer_len += tempbufferlen;
 		strncat(d->exec_buffer, tempbuffer, tempbufferlen);
-		promptlast = NULL;
-		prompt = d->exec_buffer;
-		while((prompt = strstr(prompt, ">")) != NULL)
-		{
-			prompt++;
-			promptlast = prompt;
+		lastlinestrtmp = strstr(d->exec_buffer + d->exec_buffer_cmd_len, "# ");
+		if (lastlinestrtmp == NULL) {
+			lastlinestrtmp = strstr(d->exec_buffer + d->exec_buffer_cmd_len, "$ ");
 		}
-		if((promptlast != NULL) && strchr(promptlast, 13) == NULL)
-		{
-			lastlinebeforeprompt = strrchr(d->exec_buffer, 13);
-			*lastlinebeforeprompt = 0;
-			break;
+		if (lastlinestrtmp != NULL) {
+			if (lastlinestrtmp[1] == 32) {
+				done = 1;
+			}
 		}
-	} while(1);
-
+	} while(!done);
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Stripping spinner");
 #endif
@@ -951,44 +957,40 @@ mdm_device_dslam_alcatel_73xx_exec(
 	 * plus the length of the prompt / 80 columns. Each line has \r\n because
 	 * of the telnet protocol, so we skip that too.
 	 */
-#if MDM_DEBUG_MESSAGES > 0
-	MDM_LOGDEBUG(
-		"Skipping %f lines from cmdlen: %d.", linestoskip, d->exec_buffer_cmd_len
-	);
-#endif
 	/* Allocate space for command stripping. */
-	memcpy(d->exec_buffer_post, d->exec_buffer, strlen(d->exec_buffer));
-	foundcmd = d->exec_buffer_post;
-	do
-	{
-		foundcmd = strstr(foundcmd, "\r\n");
-		if(foundcmd == NULL)
-			break;
-		linestoskip--;
+	foundcmd = strstr(d->exec_buffer, "# ");
+	if (foundcmd == NULL) {
+		foundcmd = strstr(d->exec_buffer, "$ ");
+	}
+	foundcmd += d->exec_buffer_cmd_len;
+	foundcmd += 2;
+	foundcmd = strstr(foundcmd, "\r\n");
+	if (foundcmd != NULL) {
 		foundcmd += 2;
-	} while(linestoskip > 0);
-	if(foundcmd != NULL)
-	{
-#if MDM_DEBUG_MESSAGES > 0
-		MDM_LOGDEBUG("Stripping cmd.");
-#endif
-		d->exec_buffer_len = strlen(foundcmd) + 1;
-		snprintf(d->exec_buffer, d->exec_buffer_len, "%s", foundcmd);
+		memcpy(d->exec_buffer_post, foundcmd, strlen(foundcmd));
 	} else {
-#if MDM_DEBUG_MESSAGES > 0
-		MDM_LOGDEBUG("No output from command?");
-#endif
-		d->exec_buffer_len = strlen(d->exec_buffer_post) - d->exec_buffer_cmd_len;
-		snprintf(
-			d->exec_buffer, d->exec_buffer_len, "%s",
-			d->exec_buffer_post + d->exec_buffer_cmd_len
-		);
+		memcpy(d->exec_buffer_post, d->exec_buffer, strlen(d->exec_buffer));
+	}
+	d->exec_buffer_len = strlen(d->exec_buffer_post) - d->exec_buffer_cmd_len;
+	snprintf(
+		d->exec_buffer, d->exec_buffer_len, "%s",
+		d->exec_buffer_post + d->exec_buffer_cmd_len
+	);
+
+	// Remove last prompt
+	lastlinestrtmp = strstr(d->exec_buffer, data->prompt);
+	if (lastlinestrtmp != NULL) {
+		lastlinestrtmp -= 2;
+		*lastlinestrtmp = 0;
+		d->exec_buffer_len = strlen(d->exec_buffer);
+
 	}
 
 	/* Done. */
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Done.");
 #endif
+
 }
 
 /*!
