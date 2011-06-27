@@ -32,6 +32,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[] =
 /* 10 */ "Show port",
 /* 11 */ "Show syslog output configuration",
 /* 12 */ "Show full port",
+/* 13 */ "Show line profiles",
+/* 14 */ "Show line profile",
 	NULL
 };
 
@@ -52,7 +54,9 @@ static int MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_ARGSN[] =
 /* 9  */ 0,
 /* 10 */ 1,
 /* 11 */ 0,
-/* 12 */ 1
+/* 12 */ 1,
+/* 13 */ 0,
+/* 14 */ 1
 };
 
 /*!
@@ -73,7 +77,9 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 9  */ NULL,
 /* 10 */ NULL,
 /* 11 */ NULL,
-/* 12 */ NULL
+/* 12 */ NULL,
+/* 13 */ NULL,
+/* 14 */ NULL
 };
 
 /*!
@@ -94,6 +100,8 @@ const char *MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[] =
 /* 10 */ "display interface adsl %%ARG%%", /* 0/4/0 */
 /* 11 */ "display syslog output configuration",
 /* 12 */ "display line operation port %%ARG%%\r\ny",
+/* 13 */ "display adsl line-profile\r\n",
+/* 14 */ "display adsl line-profile %%ARG%%",
 	NULL
 };
 
