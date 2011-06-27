@@ -53,7 +53,7 @@ const char *MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[] =
 {
 /* 0  */	"",
 /* 1  */ "display sysuptime",
-/* 2  */ "display version",
+/* 2  */ "display version backplane 0",
 	NULL
 };
 
@@ -89,9 +89,11 @@ mdm_device_dslam_huawei_ma5600_open(
 		"scroll 512",
 		"idle-timeout 255",
 		"undo interactive",
-		"display infolevel cli 1\r\n"
+		"undo terminal monitor",
+		"display infolevel cli 1",
+		"enable"
 	};
-	int envcmdslen[] = { 10, 16, 16 , 27 };
+	int envcmdslen[] = { 10, 16, 16, 21, 23, 6};
 	
 	mdm_device_dslam_huawei_ma5600_data_t *data =
 		(mdm_device_dslam_huawei_ma5600_data_t *)d->data;
@@ -233,14 +235,19 @@ mdm_device_dslam_huawei_ma5600_open(
 	 * the command lines later on. 
 	 */
 	host_port_token = strrchr(buffer, '\n');
+	/**
+	 * TODO: is this ok?
+	 */
 	if(host_port_token < buffer)
 	{
-		data->promptlen = strlen(buffer);
+		data->promptlen = strlen(buffer) - 2;
+		snprintf(data->prompt, data->promptlen, "%s", buffer);
 	} else {
-		data->promptlen = strlen(buffer) - (strrchr(buffer, '\n') - buffer);
+		data->promptlen = strlen(buffer) - (strrchr(buffer, '\n') - buffer) - 2;
+		snprintf(data->prompt, data->promptlen, "%s", strrchr(buffer, '\n') + 1);
 	}
 	/* Set environment properties. */
-	for(i = 0; i < 3; i++)
+	for(i = 0; i < 6; i++)
 	{
 		d->exec_buffer_cmd_len = envcmdslen[i];
 		snprintf(
@@ -253,7 +260,7 @@ mdm_device_dslam_huawei_ma5600_open(
 		}
 	}
 #if MDM_DEBUG_MESSAGES > 0
-	MDM_LOGDEBUG("Login successfull: promptlen: %d", data->promptlen);
+	MDM_LOGDEBUG("Login successful: promptlen: %s %d", data->prompt, data->promptlen);
 #endif
 	return;
 }
@@ -453,6 +460,8 @@ mdm_device_dslam_huawei_ma5600_exec(
 	char *lastlinebeforeprompt = NULL;
 	char *foundcmd = NULL;
 	char *prompt = NULL;
+	mdm_device_dslam_huawei_ma5600_data_t *data =
+		(mdm_device_dslam_huawei_ma5600_data_t *)d->data;
 	/* We have to skip the issued command. */
 	float linestoskip = ceilf((float)(d->exec_buffer_cmd_len) / (float)(80));
 	
@@ -493,11 +502,13 @@ mdm_device_dslam_huawei_ma5600_exec(
 		d->exec_buffer_len += tempbufferlen;
 		strncat(d->exec_buffer, tempbuffer, tempbufferlen);
 		prompt = strstr(d->exec_buffer, ">");
-		if(prompt != NULL)
-		{
-			lastlinebeforeprompt = strrchr(d->exec_buffer, 13) - 1;
-			*lastlinebeforeprompt = 0;
-			break;
+		if (prompt != NULL) {
+			prompt += data->promptlen;
+			if (*prompt == '#' || *prompt == '>') {
+				lastlinebeforeprompt = strrchr(d->exec_buffer, 13) - 1;
+				*lastlinebeforeprompt = 0;
+				break;
+			}
 		}
 	} while(1);
 	/*

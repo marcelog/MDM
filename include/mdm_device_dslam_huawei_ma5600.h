@@ -35,6 +35,7 @@ typedef struct
 typedef struct
 {
 	int promptlen;
+	char prompt[80];
 } mdm_device_dslam_huawei_ma5600_data_t;
 
 /*!
