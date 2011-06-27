@@ -23,6 +23,10 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[] =
 /* 1  */ "Uptime",
 /* 2  */ "Backplane Version",
 /* 3  */ "Slot Version",
+/* 4  */ "Show backplane temperature",
+/* 5  */ "Show backplane memory",
+/* 6  */ "Show board description",
+/* 7  */ "Show board",
 	NULL
 };
 
@@ -31,10 +35,14 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[] =
  */
 static int MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_ARGSN[] =
 {
-/* 0  */	0,
+/* 0  */ 0,
 /* 1  */ 0,
 /* 2  */ 1,
-/* 3  */ 1
+/* 3  */ 1,
+/* 4  */ 1,
+/* 5  */ 1,
+/* 6  */ 1,
+/* 7  */ 1
 };
 
 /*!
@@ -46,7 +54,11 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 0  */ NULL,
 /* 1  */ NULL,
 /* 2  */ NULL,
-/* 3  */ NULL
+/* 3  */ NULL,
+/* 4  */ NULL,
+/* 5  */ NULL,
+/* 6  */ NULL,
+/* 7  */ NULL
 };
 
 /*!
@@ -58,6 +70,10 @@ const char *MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[] =
 /* 1  */ "display sysuptime",
 /* 2  */ "display version backplane %%ARG%%",
 /* 3  */ "display version %%ARG%%",
+/* 4  */ "display temperature %%ARG%%",
+/* 5  */ "display mem %%ARG%%",
+/* 6  */ "display board desc %%ARG%%", /* 0, 0/0, 0/1 */
+/* 7  */ "display board %%ARG%%", /* 0, 0/0, 0/1 */
 	NULL
 };
 
