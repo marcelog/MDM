@@ -38,6 +38,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[] =
 /* 16 */ "Show alarms",
 /* 17 */ "Show CPU",
 /* 18 */ "Show routes",
+/* 19 */ "Show timezone",
 	NULL
 };
 
@@ -64,7 +65,8 @@ static int MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_ARGSN[] =
 /* 15 */ 0,
 /* 16 */ 0,
 /* 17 */ 1,
-/* 18 */ 0
+/* 18 */ 0,
+/* 19 */ 0
 };
 
 /*!
@@ -91,7 +93,8 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 15 */ NULL,
 /* 16 */ NULL,
 /* 17 */ NULL,
-/* 18 */ NULL
+/* 18 */ NULL,
+/* 19 */ NULL
 };
 
 /*!
@@ -118,6 +121,7 @@ const char *MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[] =
 /* 16 */ "display alarm list all\r\n",
 /* 17 */ "display cpu %%ARG%%",
 /* 18 */ "display ip routing-table\r\n",
+/* 19 */ "display timezone",
 	NULL
 };
 
