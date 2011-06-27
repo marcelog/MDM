@@ -27,6 +27,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[] =
 /* 5  */ "Show backplane memory",
 /* 6  */ "Show board description",
 /* 7  */ "Show board",
+/* 8  */ "Display all ports state",
 	NULL
 };
 
@@ -42,7 +43,8 @@ static int MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_ARGSN[] =
 /* 4  */ 1,
 /* 5  */ 1,
 /* 6  */ 1,
-/* 7  */ 1
+/* 7  */ 1,
+/* 8  */ 0
 };
 
 /*!
@@ -58,7 +60,8 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 4  */ NULL,
 /* 5  */ NULL,
 /* 6  */ NULL,
-/* 7  */ NULL
+/* 7  */ NULL,
+/* 8  */ NULL
 };
 
 /*!
@@ -74,6 +77,7 @@ const char *MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[] =
 /* 5  */ "display mem %%ARG%%",
 /* 6  */ "display board desc %%ARG%%", /* 0, 0/0, 0/1 */
 /* 7  */ "display board %%ARG%%", /* 0, 0/0, 0/1 */
+/* 8  */ "display adsl port state all\r\n",
 	NULL
 };
 
