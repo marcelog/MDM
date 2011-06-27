@@ -28,6 +28,10 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[] =
 /* 6  */ "Show board description",
 /* 7  */ "Show board",
 /* 8  */ "Display all ports state",
+/* 9  */ "Display all mac addresses",
+/* 10 */ "Show port",
+/* 11 */ "Show syslog output configuration",
+/* 12 */ "Show full port",
 	NULL
 };
 
@@ -44,7 +48,11 @@ static int MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_ARGSN[] =
 /* 5  */ 1,
 /* 6  */ 1,
 /* 7  */ 1,
-/* 8  */ 0
+/* 8  */ 0,
+/* 9  */ 0,
+/* 10 */ 1,
+/* 11 */ 0,
+/* 12 */ 1
 };
 
 /*!
@@ -61,7 +69,11 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 5  */ NULL,
 /* 6  */ NULL,
 /* 7  */ NULL,
-/* 8  */ NULL
+/* 8  */ NULL,
+/* 9  */ NULL,
+/* 10 */ NULL,
+/* 11 */ NULL,
+/* 12 */ NULL
 };
 
 /*!
@@ -78,6 +90,10 @@ const char *MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[] =
 /* 6  */ "display board desc %%ARG%%", /* 0, 0/0, 0/1 */
 /* 7  */ "display board %%ARG%%", /* 0, 0/0, 0/1 */
 /* 8  */ "display adsl port state all\r\n",
+/* 9  */ "display mac-address all\r\n",
+/* 10 */ "display interface adsl %%ARG%%", /* 0/4/0 */
+/* 11 */ "display syslog output configuration",
+/* 12 */ "display line operation port %%ARG%%\r\ny",
 	NULL
 };
 
@@ -454,15 +470,19 @@ mdm_device_dslam_huawei_ma5600_check_error(
 )
 {
 	const char *error;
+	const char *tmp;
 	/* Start. */
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Start.");
 #endif
 	if((error = strstr(d->exec_buffer, "Failure:")) != NULL) {
-		status->status = MDM_OP_ERROR;
-		snprintf(
-			status->status_message, strrchr(error, '\n') - error, "%s", error
-		);
+		tmp = strchr(d->exec_buffer, '\n');
+		if (tmp == NULL || tmp > error) {
+			status->status = MDM_OP_ERROR;
+			snprintf(
+				status->status_message, strrchr(error, '\n') - error, "%s", error
+			);
+		}
 	}
 	/*% Unknown command*/
 	/* Done. */
