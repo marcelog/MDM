@@ -21,7 +21,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[] =
 {
 /* 0  */ "NOP",
 /* 1  */ "Uptime",
-/* 2  */ "Software Version",
+/* 2  */ "Backplane Version",
+/* 3  */ "Slot Version",
 	NULL
 };
 
@@ -32,7 +33,8 @@ static int MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_ARGSN[] =
 {
 /* 0  */	0,
 /* 1  */ 0,
-/* 2  */ 0
+/* 2  */ 1,
+/* 3  */ 1
 };
 
 /*!
@@ -43,7 +45,8 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 {
 /* 0  */ NULL,
 /* 1  */ NULL,
-/* 2  */ NULL
+/* 2  */ NULL,
+/* 3  */ NULL
 };
 
 /*!
@@ -53,7 +56,8 @@ const char *MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[] =
 {
 /* 0  */	"",
 /* 1  */ "display sysuptime",
-/* 2  */ "display version backplane 0",
+/* 2  */ "display version backplane %%ARG%%",
+/* 3  */ "display version %%ARG%%",
 	NULL
 };
 
@@ -429,11 +433,18 @@ mdm_device_dslam_huawei_ma5600_check_error(
 	mdm_device_descriptor_t *d, mdm_operation_result_t *status
 )
 {
+	const char *error;
 	/* Start. */
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Start.");
 #endif
-/*% Unknown command*/
+	if((error = strstr(d->exec_buffer, "Failure:")) != NULL) {
+		status->status = MDM_OP_ERROR;
+		snprintf(
+			status->status_message, strrchr(error, '\n') - error, "%s", error
+		);
+	}
+	/*% Unknown command*/
 	/* Done. */
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Done.");
