@@ -93,8 +93,8 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 15 */ NULL,
 /* 16 */ NULL,
 /* 17 */ NULL,
-/* 18 */ NULL,
-/* 19 */ NULL
+/* 18 */ dslam_huawei_ma5600_routes,
+/* 19 */ dslam_huawei_ma5600_timezone
 };
 
 /*!

@@ -9,4 +9,10 @@
 #include	<mdm_operation.h>
 #include	<mdm_device.h>
 
+extern void dslam_huawei_ma5600_routes(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
+extern void dslam_huawei_ma5600_timezone(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
 #endif

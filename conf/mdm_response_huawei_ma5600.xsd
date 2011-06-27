@@ -21,6 +21,29 @@
 			<xs:element name="data" minOccurs="0">
 				<xs:complexType>
 					<xs:choice>
+                        <xs:element name="huawei_ma5600_routelist">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="route" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="destination" type="xs:string"/>
+                                                <xs:element name="netmask" type="xs:string"/>
+                                                <xs:element name="gateway" type="xs:string"/>
+                                                <xs:element name="interface" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="huawei_ma5600_timezone">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="timezone" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
