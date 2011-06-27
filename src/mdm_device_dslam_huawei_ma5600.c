@@ -37,6 +37,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[] =
 /* 15 */ "Show service port",
 /* 16 */ "Show alarms",
 /* 17 */ "Show CPU",
+/* 18 */ "Show routes",
 	NULL
 };
 
@@ -62,7 +63,8 @@ static int MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_ARGSN[] =
 /* 14 */ 1,
 /* 15 */ 0,
 /* 16 */ 0,
-/* 17 */ 1
+/* 17 */ 1,
+/* 18 */ 0
 };
 
 /*!
@@ -88,7 +90,8 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 14 */ NULL,
 /* 15 */ NULL,
 /* 16 */ NULL,
-/* 17 */ NULL
+/* 17 */ NULL,
+/* 18 */ NULL
 };
 
 /*!
@@ -113,7 +116,8 @@ const char *MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[] =
 /* 14 */ "display adsl line-profile %%ARG%%",
 /* 15 */ "display service-port all sort-by port",
 /* 16 */ "display alarm list all\r\n",
-/* 17  */ "display cpu %%ARG%%",
+/* 17 */ "display cpu %%ARG%%",
+/* 18 */ "display ip routing-table\r\n",
 	NULL
 };
 
