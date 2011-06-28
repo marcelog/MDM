@@ -64,6 +64,39 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="huawei_ma5600_service_profile">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="index" type="xs:string"/>
+                                    <xs:element name="name" type="xs:string"/>
+                                    <xs:element name="adsl-mode" type="xs:string"/>
+                                    <xs:element name="trellis-mode" type="xs:string"/>
+                                    <xs:element name="up-channel-bit-swap" type="xs:string"/>
+                                    <xs:element name="down-channel-bit-swap" type="xs:string"/>
+                                    <xs:element name="channel-mode" type="xs:string"/>
+                                    <xs:element name="max-delay-down" type="xs:string"/>
+                                    <xs:element name="max-delay-up" type="xs:string"/>
+                                    <xs:element name="snr-down-margin" type="xs:string"/>
+                                    <xs:element name="snr-down-max" type="xs:string"/>
+                                    <xs:element name="snr-down-min" type="xs:string"/>
+                                    <xs:element name="snr-up-margin" type="xs:string"/>
+                                    <xs:element name="snr-up-max" type="xs:string"/>
+                                    <xs:element name="snr-up-min" type="xs:string"/>
+                                    <xs:element name="snr-downstream-down" type="xs:string"/>
+                                    <xs:element name="snr-downstream-up" type="xs:string"/>
+                                    <xs:element name="snr-upstream-down" type="xs:string"/>
+                                    <xs:element name="snr-upstream-up" type="xs:string"/>
+                                    <xs:element name="min-upshift-time-down" type="xs:string"/>
+                                    <xs:element name="min-downshift-time-down" type="xs:string"/>
+                                    <xs:element name="min-upshift-time-up" type="xs:string"/>
+                                    <xs:element name="rate-adaption" type="xs:string"/>
+                                    <xs:element name="min-rate-down" type="xs:string"/>
+                                    <xs:element name="max-rate-down" type="xs:string"/>
+                                    <xs:element name="min-rate-up" type="xs:string"/>
+                                    <xs:element name="max-rate-up" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>

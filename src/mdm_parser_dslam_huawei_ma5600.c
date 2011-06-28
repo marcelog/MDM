@@ -295,6 +295,128 @@ dslam_huawei_ma5600_service_ports_done:
 		xmlBufferFree(psBuf);
 	return;
 }
+/*!
+ * This will try to get a service profile detail.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_huawei_ma5600_service_profile(
+	mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+	char *tokens[] = {
+		"Profile index :",
+		"Name: ",
+		"ADSL transmission mode                        : ",
+		"Trellis mode                                  : ",
+		"Upstream channel bit swap                     : ",
+		"Downstream channel bit swap                   : ",
+		"Channel mode                                  : ",
+		"Maximum downstream interleaved delay(ms)      : ",
+		"Maximum upstream interleaved delay(ms)        : ",
+		"Target downstream SNR margin(dB)              : ",
+		"Maximum acceptable downstream SNR margin(dB)  : ",
+		"Minimum acceptable downstream SNR margin(dB)  : ",
+		"Target upstream SNR margin(dB)                : ",
+		"Maximum acceptable upstream SNR margin(dB)    : ",
+		"Minimum acceptable upstream SNR margin(dB)    : ",
+		"Downstream SNR margin for rate downshift(dB)  : ",
+		"Downstream SNR margin for rate upshift(dB)    : ",
+		"Upstream SNR margin for rate downshift(dB)    : ",
+		"Upstream SNR margin for rate upshift(dB)      : ",
+		"Minimum upshift time in downstream(seconds)   : ",
+		"Minimum downshift time in downstream(seconds) : ",
+		"Minimum upshift time in upstream(seconds)     : ",
+		"Minimum downshift time in upstream(seconds)   : ",
+		"Downstream form of transmit rate adaptation   : ",
+		"Minimum transmit rate downstream(Kbps)        : ",
+		"Maximum transmit rate downstream(Kbps)        : ",
+		"Minimum transmit rate upstream(Kbps)          : ",
+		"Maximum transmit rate upstream(Kbps)          : ",
+	};
+	char *tokensnames[] = {
+		"index", "name", "adsl-mode", "trellis-mode",
+		"up-channel-bit-swap", "down-channel-bit-swap", "channel-mode",
+		"max-delay-down", "max-delay-up",
+		"snr-down-margin", "snr-down-max", "snr-down-min",
+		"snr-up-margin", "snr-up-max", "snr-up-min",
+		"snr-downstream-down", "snr-downstream-up",
+		"snr-upstream-down", "snr-upstream-up",
+		"min-upshift-time-down", "min-downshift-time-down",
+		"min-upshift-time-up", "min-downshift-time-up",
+		"rate-adaption",
+		"min-rate-down", "max-rate-down", "min-rate-up", "max-rate-up"
+	};
+	xmlDocPtr doc = NULL; /* document pointer */
+	xmlBufferPtr psBuf = NULL;
+	xmlNodePtr root_node = NULL;
+	const char *tmp1;
+	const char *tmp2;
+	const char *tmp3;
+	int i;
+	char buffer[64];
+
+	/* Create target buffer. */
+	psBuf = xmlBufferCreate();
+	if(psBuf == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating buffer for xml.");
+		goto dslam_huawei_ma5600_service_profile_done;
+	}
+
+	/* Creates a new document, a node and set it as a root node */
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	if(doc == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_huawei_ma5600_service_profile_done;
+	}
+
+	root_node = xmlNewNode(NULL, BAD_CAST "huawei_ma5600_service_profile");
+	if(root_node == NULL)
+	{
+		status->status = MDM_OP_ERROR;
+		sprintf(status->status_message, "Error creating doc xml.");
+		goto dslam_huawei_ma5600_service_profile_done;
+	}
+	xmlDocSetRootElement(doc, root_node);
+	for (i = 0; i < 28; i++)
+	{
+		tmp1 = strstr(d->exec_buffer, tokens[i]);
+		if (tmp1 == NULL) {
+			continue;
+		}
+		tmp1 += strlen(tokens[i]);
+		tmp2 = strchr(tmp1, 32);
+		tmp3 = strchr(tmp1, 10);
+		if (tmp2 > tmp3) {
+			tmp2 = tmp3;
+		}
+		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
+		if (buffer[tmp2 - tmp1 - 1] == 13) {
+			buffer[tmp2 - tmp1 - 1] = 0;
+		}
+		xmlNewChild(root_node, NULL, BAD_CAST tokensnames[i], BAD_CAST buffer);
+	}
+	/* Dump the document to a buffer and print it for demonstration purposes. */
+	xmlNodeDump(psBuf, doc, root_node, 99, 1);
+	snprintf(
+		d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+		"%s", xmlBufferContent(psBuf)
+	);
+	d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+	/* Done. */
+dslam_huawei_ma5600_service_profile_done:
+	if(doc != NULL)
+		xmlFreeDoc(doc);
+	if(psBuf != NULL)
+		xmlBufferFree(psBuf);
+	return;
+}
 
 /*******************************************************************************
  * CODE ENDS.
