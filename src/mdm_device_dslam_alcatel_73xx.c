@@ -117,6 +117,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 89 */ "Get shub sw version",
 /* 90 */ "Get shub ip",
 /* 91 */ "Configure default gateway",
+/* 92 */ "Configure port service and spectrum",
+/* 93 */ "Configure port description",
 	NULL
 };
 
@@ -218,7 +220,9 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 88 */ 0,
 /* 89 */ 0,
 /* 90 */ 0,
-/* 91 */ 1
+/* 91 */ 1,
+/* 92 */ 3,
+/* 93 */ 2
 };
 
 /*!
@@ -318,7 +322,9 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 88 */ dslam_alcatel_73xx_get_misc_shub_info,
 /* 89 */ dslam_alcatel_73xx_get_shub_version,
 /* 90 */ dslam_alcatel_73xx_get_shub_ip,
-/* 91 */ dslam_alcatel_73xx_nop
+/* 91 */ dslam_alcatel_73xx_nop,
+/* 92 */ dslam_alcatel_73xx_nop,
+/* 93 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -420,6 +426,9 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 89 */ "show system shub entry version detail",
 /* 90 */ "show system shub entry ip",
 /* 91 */ "configure system management default-route %%ARG%%",
+/* 92 */ "configure xdsl line %%ARG%% service-profile %%ARG%% spectrum-profile %%ARG%%",
+/* 93 */ "configure interface port xdsl-line:%%ARG%% user %%ARG%%",
+//  configure equipment slot lt:1/1/11 planned-type nalt-c
 	NULL
 };
 
