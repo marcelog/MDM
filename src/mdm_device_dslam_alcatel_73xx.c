@@ -123,6 +123,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 95 */ "Spectrum profile Deactive",
 /* 96 */ "Service profile active",
 /* 97 */ "Service profile Deactive",
+/* 98 */ "Remove user description",
 	NULL
 };
 
@@ -230,7 +231,8 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 94 */ 1,
 /* 95 */ 1,
 /* 96 */ 1,
-/* 97 */ 1
+/* 97 */ 1,
+/* 98 */ 1
 };
 
 /*!
@@ -336,7 +338,8 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 94 */ dslam_alcatel_73xx_nop,
 /* 95 */ dslam_alcatel_73xx_nop,
 /* 96 */ dslam_alcatel_73xx_nop,
-/* 97 */ dslam_alcatel_73xx_nop
+/* 97 */ dslam_alcatel_73xx_nop,
+/* 98 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -444,6 +447,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 95 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno active\r\nmodification complete",
 /* 96 */ "configure xdsl service-profile %%ARG%% active",
 /* 97 */ "configure xdsl service-profile %%ARG%% no active",
+/* 98 */ "configure interface port xdsl-line:%%ARG%% no user",
 //  configure equipment slot lt:1/1/11 planned-type nalt-c
 	NULL
 };
