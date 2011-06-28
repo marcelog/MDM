@@ -15,4 +15,10 @@ extern void dslam_huawei_ma5600_routes(
 extern void dslam_huawei_ma5600_timezone(
 	mdm_device_descriptor_t *, mdm_operation_result_t *
 );
+extern void dslam_huawei_ma5600_cpu(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
+extern void dslam_huawei_ma5600_service_ports(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
 #endif

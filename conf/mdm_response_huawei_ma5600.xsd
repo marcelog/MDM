@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespaces="http://www.mg.com.ar/MDM-Protocol" xmlns="http://www.mg.com.ar/MDM-Protocol"
+	targetNamespaces="http://www.netlabs.com.ar/MDM-Protocol" xmlns="http://www.netlabs.com.ar/MDM-Protocol"
 	elementFormDefault="qualified"
 >
 
@@ -37,10 +37,30 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
-                        <xs:element name="huawei_ma5600_timezone">
+                        <xs:element name="huawei_ma5600_timezone" type="xs:string"/>
+                        <xs:element name="huawei_ma5600_cpu" type="xs:string"/>
+                        <xs:element name="huawei_ma5600_service_ports">
                             <xs:complexType>
                                 <xs:sequence>
-                                    <xs:element name="timezone" type="xs:string"/>
+                                    <xs:element name="service-port" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="index" type="xs:string"/>
+                                                <xs:element name="vlan" type="xs:string"/>
+                                                <xs:element name="vlan-attr" type="xs:string"/>
+                                                <xs:element name="type" type="xs:string"/>
+                                                <xs:element name="frame-slot" type="xs:string"/>
+                                                <xs:element name="port" type="xs:string"/>
+                                                <xs:element name="vpi" type="xs:string"/>
+                                                <xs:element name="vci" type="xs:string"/>
+                                                <xs:element name="flow-type" type="xs:string"/>
+                                                <xs:element name="flow-para" type="xs:string"/>
+                                                <xs:element name="rx" type="xs:string"/>
+                                                <xs:element name="tx" type="xs:string"/>
+                                                <xs:element name="state" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
@@ -51,3 +71,6 @@
 	</xs:complexType>
 </xs:element>
 </xs:schema>
+
+
+

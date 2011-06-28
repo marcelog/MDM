@@ -90,9 +90,9 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 12 */ NULL,
 /* 13 */ NULL,
 /* 14 */ NULL,
-/* 15 */ NULL,
+/* 15 */ dslam_huawei_ma5600_service_ports,
 /* 16 */ NULL,
-/* 17 */ NULL,
+/* 17 */ dslam_huawei_ma5600_cpu,
 /* 18 */ dslam_huawei_ma5600_routes,
 /* 19 */ dslam_huawei_ma5600_timezone
 };
@@ -499,7 +499,6 @@ mdm_device_dslam_huawei_ma5600_check_error(
 {
 	const char *error;
 	const char *tmp;
-	/* Start. */
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Start.");
 #endif
@@ -511,7 +510,13 @@ mdm_device_dslam_huawei_ma5600_check_error(
 				status->status_message, strrchr(error, '\n') - error, "%s", error
 			);
 		}
+	} else if((error = strstr(d->exec_buffer, "% Parameter error")) != NULL) {
+		status->status = MDM_OP_ERROR;
+		snprintf(
+			status->status_message, strrchr(error, '\n') - error, "%s", error
+		);
 	}
+
 	/*% Unknown command*/
 	/* Done. */
 #if MDM_DEBUG_MESSAGES > 0
