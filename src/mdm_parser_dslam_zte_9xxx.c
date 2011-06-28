@@ -2055,12 +2055,14 @@ dslam_zte_9xxx_get_channel_info(
 	tmp1 = d->exec_buffer;
 	for(i = 0; i < 14; i++)
 	{
-		tmp3 = strstr(tmp1, tokens[i]);
+		tmp3 = strstr(d->exec_buffer, tokens[i]);
 		if (tmp3 == NULL) {
 			continue;
 		}
 		tmp1 = tmp3;
-		tmp1 += strlen(tokens[i]);
+		tmp1 = strchr(tmp1, 32);
+		while(*tmp1 != ':') tmp1++;
+		tmp1+=2;
 		tmp2 = strchr(tmp1, 32);
 		tmp3 = strchr(tmp1, 13);
 		if ((tmp3 != NULL && tmp3 < tmp2)) {
@@ -2068,7 +2070,6 @@ dslam_zte_9xxx_get_channel_info(
 		}
 		snprintf(buffer, tmp2 - tmp1 + 1, "%s", tmp1);
 		xmlNewChild(root_node, NULL, BAD_CAST tokensnames[i], BAD_CAST buffer);
-		tmp1 = tmp2;
 	}
 
 	/* Dump the document to a buffer and print it for demonstration purposes. */
