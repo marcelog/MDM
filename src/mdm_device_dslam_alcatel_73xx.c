@@ -119,6 +119,10 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 91 */ "Configure default gateway",
 /* 92 */ "Configure port service and spectrum",
 /* 93 */ "Configure port description",
+/* 94 */ "Spectrum profile active",
+/* 95 */ "Spectrum profile Deactive",
+/* 96 */ "Service profile active",
+/* 97 */ "Service profile Deactive",
 	NULL
 };
 
@@ -222,7 +226,11 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 90 */ 0,
 /* 91 */ 1,
 /* 92 */ 3,
-/* 93 */ 2
+/* 93 */ 2,
+/* 94 */ 1,
+/* 95 */ 1,
+/* 96 */ 1,
+/* 97 */ 1
 };
 
 /*!
@@ -324,7 +332,11 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 90 */ dslam_alcatel_73xx_get_shub_ip,
 /* 91 */ dslam_alcatel_73xx_nop,
 /* 92 */ dslam_alcatel_73xx_nop,
-/* 93 */ dslam_alcatel_73xx_nop
+/* 93 */ dslam_alcatel_73xx_nop,
+/* 94 */ dslam_alcatel_73xx_nop,
+/* 95 */ dslam_alcatel_73xx_nop,
+/* 96 */ dslam_alcatel_73xx_nop,
+/* 97 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -428,6 +440,10 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 91 */ "configure system management default-route %%ARG%%",
 /* 92 */ "configure xdsl line %%ARG%% service-profile %%ARG%% spectrum-profile %%ARG%%",
 /* 93 */ "configure interface port xdsl-line:%%ARG%% user %%ARG%%",
+/* 94 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nactive\r\nmodification complete",
+/* 95 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno active\r\nmodification complete",
+/* 96 */ "configure xdsl service-profile %%ARG%% active",
+/* 97 */ "configure xdsl service-profile %%ARG%% no active",
 //  configure equipment slot lt:1/1/11 planned-type nalt-c
 	NULL
 };
