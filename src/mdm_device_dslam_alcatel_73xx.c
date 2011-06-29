@@ -919,6 +919,7 @@ mdm_device_dslam_alcatel_73xx_exec(
 	mdm_device_dslam_alcatel_73xx_data_t *data =
 		(mdm_device_dslam_alcatel_73xx_data_t *)d->data;
 	char *lastlinestrtmp = NULL;
+	char *lastlinestrtmp2 = NULL;
 	int i, j;
 
 	/* Start. */
@@ -934,7 +935,7 @@ mdm_device_dslam_alcatel_73xx_exec(
 	{
 		return;
 	}
-
+	d->exec_buffer_len = 0;
 	/* Wait for result. */
 	do
 	{
@@ -958,12 +959,17 @@ mdm_device_dslam_alcatel_73xx_exec(
 #endif
 		d->exec_buffer_len += tempbufferlen;
 		strncat(d->exec_buffer, tempbuffer, tempbufferlen);
-		lastlinestrtmp = strstr(d->exec_buffer + d->exec_buffer_cmd_len, "# ");
-		if (lastlinestrtmp == NULL) {
-			lastlinestrtmp = strstr(d->exec_buffer + d->exec_buffer_cmd_len, "$ ");
+		lastlinestrtmp = strrchr(d->exec_buffer, '#');
+		lastlinestrtmp2 = strrchr(d->exec_buffer, '$');
+		if (lastlinestrtmp2 > lastlinestrtmp) {
+			lastlinestrtmp = lastlinestrtmp2;
 		}
 		if (lastlinestrtmp != NULL) {
 			if (lastlinestrtmp[1] == 32) {
+				done = 1;
+			} else if(lastlinestrtmp[1] == 0) {
+				lastlinestrtmp[1] = 32;
+				lastlinestrtmp[2] = 0;
 				done = 1;
 			}
 		}
@@ -1023,7 +1029,6 @@ mdm_device_dslam_alcatel_73xx_exec(
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Done.");
 #endif
-
 }
 
 /*!
