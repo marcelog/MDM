@@ -180,6 +180,31 @@
                                 </xs:sequence>
                             </xs:complexType>
                       </xs:element>
+                        <xs:element name="zte_8426_port_physical">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="coding" type="xs:string"/>
+                                    <xs:element name="type" type="xs:string"/>
+                                    <xs:element name="profile" type="xs:string"/>
+                                    <xs:element name="alarm-profile" type="xs:string"/>
+                                    <xs:element name="atuc-snr" type="xs:string"/>
+                                    <xs:element name="atuc-attenuation" type="xs:string"/>
+                                    <xs:element name="atuc-output-power" type="xs:string"/>
+                                    <xs:element name="atuc-attainable-rate" type="xs:string"/>
+                                    <xs:element name="atuc-interleave-delay" type="xs:string"/>
+                                    <xs:element name="atuc-block-length" type="xs:string"/>
+                                    <xs:element name="atuc-tx" type="xs:string"/>
+                                    <xs:element name="atur-snr" type="xs:string"/>
+                                    <xs:element name="atur-attenuation" type="xs:string"/>
+                                    <xs:element name="atur-output-power" type="xs:string"/>
+                                    <xs:element name="atur-attainable-rate" type="xs:string"/>
+                                    <xs:element name="atur-interleave-delay" type="xs:string"/>
+                                    <xs:element name="atur-tx" type="xs:string"/>
+                                    <xs:element name="atuc-previous-tx" type="xs:string"/>
+                                    <xs:element name="atur-previous-tx" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="zte_8426_port_adminoper_status">
                             <xs:complexType>
                                 <xs:sequence>

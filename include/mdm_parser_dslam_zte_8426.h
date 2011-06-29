@@ -55,4 +55,7 @@ extern void dslam_zte_8426_get_alarms(
 extern void dslam_zte_8426_get_adminoper_status(
 	mdm_device_descriptor_t *, mdm_operation_result_t *
 );
+extern void dslam_zte_8426_get_current_status(
+	mdm_device_descriptor_t *, mdm_operation_result_t *
+);
 #endif
