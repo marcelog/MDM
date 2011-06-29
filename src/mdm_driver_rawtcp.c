@@ -8,6 +8,7 @@
 #include	<string.h>
 #include	<unistd.h>
 #include	<netinet/in.h>
+#include	<netinet/tcp.h>
 #include	<errno.h>
 #include	<poll.h>
 #include	<netdb.h>
@@ -118,6 +119,20 @@ mdm_driver_rawtcp_open(
 		socket_arg = fcntl(data->s, F_GETFL, NULL);
 		socket_arg &= (~O_NONBLOCK);
 		fcntl(data->s, F_SETFL, socket_arg);
+		socket_arg = 1;
+	    if (setsockopt(data->s, IPPROTO_TCP, TCP_NODELAY, &socket_arg, sizeof(long)) == -1) {
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, "Error setting nodelay: %s", strerror(errno));
+			close(data->s);
+			data->s = -1;
+	    }
+	    socket_arg = 1048576;
+	    if (setsockopt(data->s, SOL_SOCKET, SO_SNDBUF, &socket_arg, sizeof(long)) == -1) {
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, "Error setting sndbuf: %s", strerror(errno));
+			close(data->s);
+			data->s = -1;
+	    }
 	} else if(socket_error < 0) {
 		status->status = MDM_OP_ERROR;
 		sprintf(status->status_message, "Error connecting: %s", strerror(errno));
@@ -212,13 +227,24 @@ mdm_driver_rawtcp_send(
 )
 {
 	mdm_driver_rawtcp_data_t *data;
-
+	int i;
+	int sent = 0;
 	data = (mdm_driver_rawtcp_data_t *)d->data;
-	if(send(data->s, buffer, bufflen, 0) != bufflen)
+	while(sent != bufflen)
 	{
-		status->status = MDM_OP_ERROR;
-		sprintf(status->status_message, "%s", strerror(errno));
-		return;
+		i = send(data->s, buffer + sent, bufflen - sent, 0);
+		if (i < 1) {
+			if (errno == 35) {
+				usleep(100000);
+				continue; // try again
+			}
+			status->status = MDM_OP_ERROR;
+			sprintf(status->status_message, "%d:%s", errno, strerror(errno));
+			MDM_LOGDEBUG("%s", status->status_message);
+			break;
+		}
+		sent += i;
+		MDM_LOGDEBUG("Sent: %d/%d", sent, bufflen);
 	}
 	return;
 }
