@@ -281,6 +281,7 @@
                                             <xs:sequence>
                                                 <xs:element name="id" type="xs:string"/>
                                                 <xs:element name="name" type="xs:string"/>
+                                                <xs:element name="pvid" type="xs:string"/>
                                                 <xs:element name="pvid-1" type="xs:string"/>
                                                 <xs:element name="pvid-2" type="xs:string"/>
                                                 <xs:element name="pvid-3" type="xs:string"/>

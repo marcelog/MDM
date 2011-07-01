@@ -1550,6 +1550,7 @@ dslam_zte_9xxx_get_port_full(
 	xmlBufferPtr psBuf = NULL;
 	char *tokens[] = {
 		"Interface           : ",
+		"pvid                : ",
 		"name                : ",
 		"pvid PVC1           : ",
 		"pvid PVC2           : ",
@@ -1635,7 +1636,7 @@ dslam_zte_9xxx_get_port_full(
 		"LinkStatus(Eth)     : "
 	};
 	char *tokensnames[] = {
-		"id", "name", "pvid-1", "pvid-2", "pvid-3", "pvid-4", "pvid-5",
+		"id", "pvid", "name", "pvid-1", "pvid-2", "pvid-3", "pvid-4", "pvid-5",
 		"pvid-6", "pvid-7", "pvid-8", "psvid-1", "psvid-2",  "psvid-3",
 		"psvid-4", "psvid-5", "psvid-6", "psvid-7", "psvid-8", "irl-pvc-1", "irl-pvc-2",
 		"irl-pvc-3", "irl-pvc-4", "irl-pvc-5", "irl-pvc-6", "irl-pvc-7",
@@ -1654,7 +1655,6 @@ dslam_zte_9xxx_get_port_full(
 		"queue-buffer-1", "queue-buffer-2", "queue-buffer-3", "queue-buffer-4",
 		"adsl-profile", "alarm-profile", "fast-leave", "type", "coding", "pvc",
 		"duplex-speed", "link-status"
-
 	};
 	int i;
 	char buffer[64];
@@ -1692,7 +1692,7 @@ dslam_zte_9xxx_get_port_full(
 	}
 	xmlDocSetRootElement(doc, root_node);
 	node = xmlNewNode(NULL, BAD_CAST "port");
-	for (i = 0; i < 82; i++) {
+	for (i = 0; i < 85; i++) {
 		tmp1 = strstr(d->exec_buffer, tokens[i]);
 		if (tmp1 == NULL) {
 			continue;
@@ -1746,6 +1746,7 @@ dslam_zte_9xxx_get_port_full_done:
 	if(psBuf != NULL)
 		xmlBufferFree(psBuf);
 	return;
+
 }
 
 /*!
