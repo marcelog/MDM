@@ -124,6 +124,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ALCATEL_73xx_STR[] =
 /* 96 */ "Service profile active",
 /* 97 */ "Service profile Deactive",
 /* 98 */ "Remove user description",
+/* 99 */ "Spectrum profile start modification",
+/* 100 */ "Spectrum profile complete modification",
 	NULL
 };
 
@@ -211,15 +213,15 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 74 */ 3,
 /* 75 */ 1,
 /* 76 */ 2,
-/* 77 */ 2,
-/* 78 */ 7,
-/* 79 */ 1,
-/* 80 */ 1,
-/* 81 */ 9,
+/* 77 */ 1,
+/* 78 */ 6,
+/* 79 */ 0,
+/* 80 */ 0,
+/* 81 */ 8,
 /* 82 */ 1,
-/* 83 */ 26,
-/* 84 */ 1,
-/* 85 */ 1,
+/* 83 */ 25,
+/* 84 */ 0,
+/* 85 */ 0,
 /* 86 */ 1,
 /* 87 */ 1,
 /* 88 */ 0,
@@ -228,11 +230,13 @@ static int MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_ARGSN[] =
 /* 91 */ 1,
 /* 92 */ 3,
 /* 93 */ 2,
-/* 94 */ 1,
-/* 95 */ 1,
+/* 94 */ 0,
+/* 95 */ 0,
 /* 96 */ 1,
 /* 97 */ 1,
-/* 98 */ 1
+/* 98 */ 1,
+/* 99 */ 1,
+/* 100 */ 1
 };
 
 /*!
@@ -339,7 +343,9 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 95 */ dslam_alcatel_73xx_nop,
 /* 96 */ dslam_alcatel_73xx_nop,
 /* 97 */ dslam_alcatel_73xx_nop,
-/* 98 */ dslam_alcatel_73xx_nop
+/* 98 */ dslam_alcatel_73xx_nop,
+/* 99 */ dslam_alcatel_73xx_nop,
+/* 100 */ dslam_alcatel_73xx_nop
 };
 
 /*!
@@ -426,15 +432,15 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 74 */ "show vlan bridge-port-fdb %%ARG%%:%%ARG%%:%%ARG%%",
 /* 75 */ "configure system security operator isadmin password plain:%%ARG%%",
 /* 76 */ "configure xdsl spectrum-profile %%ARG%% name %%ARG%%",
-/* 77 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nname %%ARG%%\r\nmodification complete",
-/* 78 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nrau-time-down %%ARG%% rau-time-up %%ARG%% rad-time-down %%ARG%% rad-time-up %%ARG%%\r\nmodification complete",
-/* 79 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nactive\r\nmodification complete",
-/* 80 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno active\r\nmodification complete",
-/* 81 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nrau-noise-down %%ARG%% rau-noise-up %%ARG%% rad-noise-down %%ARG%% rad-noise-up %%ARG%% min-noise-down %%ARG%% min-noise-up %%ARG%% trgt-noise-down %%ARG%% trgt-noise-up %%ARG%% max-noise-down %%ARG%% max-noise-up %%ARG%%\r\nmodification complete",
+/* 77 */ "name %%ARG%%",
+/* 78 */ "rau-time-down %%ARG%% rau-time-up %%ARG%% rad-time-down %%ARG%% rad-time-up %%ARG%%",
+/* 79 */ "active",
+/* 80 */ "no active",
+/* 81 */ "rau-noise-down %%ARG%% rau-noise-up %%ARG%% rad-noise-down %%ARG%% rad-noise-up %%ARG%% min-noise-down %%ARG%% min-noise-up %%ARG%% trgt-noise-down %%ARG%% trgt-noise-up %%ARG%% max-noise-down %%ARG%% max-noise-up %%ARG%%",
 /* 82 */ "configure xdsl no spectrum-profile %%ARG%%",
-/* 83 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\n %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% \r\nmodification complete",
-/* 84 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-time-down no rau-time-up no rad-time-down no rad-time-up\r\nmodification complete",
-/* 85 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno rau-noise-down no rau-noise-up no rad-noise-down no rad-noise-up no min-noise-down no min-noise-up no trgt-noise-down no trgt-noise-up no max-noise-down no max-noise-up \r\nmodification complete",
+/* 83 */ "%%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%% %%ARG%%",
+/* 84 */ "no rau-time-down no rau-time-up no rad-time-down no rad-time-up",
+/* 85 */ "no rau-noise-down no rau-noise-up no rad-noise-down no rad-noise-up no min-noise-down no min-noise-up no trgt-noise-down no trgt-noise-up no max-noise-down no max-noise-up",
 /* 86 */ "show system cpu-load %%ARG%% detail",
 /* 87 */ "show system memory-usage %%ARG%% detail",
 /* 88 */ "show system shub entry misc detail",
@@ -443,11 +449,13 @@ const char *MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_STR[] =
 /* 91 */ "configure system management default-route %%ARG%%",
 /* 92 */ "configure xdsl line %%ARG%% service-profile %%ARG%% spectrum-profile %%ARG%%",
 /* 93 */ "configure interface port xdsl-line:%%ARG%% user %%ARG%%",
-/* 94 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nactive\r\nmodification complete",
-/* 95 */ "configure xdsl spectrum-profile %%ARG%% \r\nmodification start\r\nno active\r\nmodification complete",
+/* 94 */ "configure xdsl spectrum-profile %%ARG%% active",
+/* 95 */ "configure xdsl spectrum-profile %%ARG%% no active",
 /* 96 */ "configure xdsl service-profile %%ARG%% active",
 /* 97 */ "configure xdsl service-profile %%ARG%% no active",
 /* 98 */ "configure interface port xdsl-line:%%ARG%% no user",
+/* 99 */ "configure xdsl spectrum-profile %%ARG%% modification start",
+/* 100*/ "configure xdsl spectrum-profile %%ARG%% modification complete",
 //  configure equipment slot lt:1/1/11 planned-type nalt-c
 	NULL
 };
@@ -960,7 +968,7 @@ mdm_device_dslam_alcatel_73xx_exec(
 #endif
 		d->exec_buffer_len += tempbufferlen;
 		strncat(d->exec_buffer, tempbuffer, tempbufferlen);
-		prompt = strrchr(d->exec_buffer, data->prompt);
+		prompt = strstr(d->exec_buffer, data->prompt);
 		if (prompt != NULL) {
 			lastlinestrtmp = strrchr(d->exec_buffer, '#');
 			lastlinestrtmp2 = strrchr(d->exec_buffer, '$');
