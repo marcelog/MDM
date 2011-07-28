@@ -558,6 +558,7 @@ client_handler(void *args)
 	mdm_device_dslam_alcatel_73xx_options_t dslam_alcatel_73xx_options;
 	mdm_device_dslam_zte_8426_options_t dslam_zte_8426_options;
 	mdm_device_dslam_zte_9xxx_options_t dslam_zte_9xxx_options;
+    mdm_device_dslam_huawei_ma5600_options_t dslam_huawei_ma5600_options;
 	mdm_device_t *device;
 	const char *tempbuffer;
 	const char *connection_target;
@@ -1033,6 +1034,91 @@ client_handler(void *args)
 					(mdm_device_options_t)&dslam_zte_9xxx_options
 				;
 				break;
+        case MDM_DEVICE_DSLAM_HUAWEI_MA5600:
+                device_options_len = sizeof(mdm_device_dslam_huawei_ma5600_options_t);
+                /* Get connection target. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/target"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                                -1, "Need target", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                snprintf(
+                        dslam_huawei_ma5600_options.target,
+                        sizeof(dslam_huawei_ma5600_options.target), "%s", tempbuffer
+                );
+                connection_target = dslam_huawei_ma5600_options.target;
+
+                /* Get connection username. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/credential/username"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                                -1, "Need username", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                snprintf(
+                        dslam_huawei_ma5600_options.username,
+                        sizeof(dslam_huawei_ma5600_options.username), "%s", tempbuffer
+                );
+
+                /* Get connection password. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/credential/password"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                                -1, "Need password", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                snprintf(
+                        dslam_huawei_ma5600_options.password,
+                        sizeof(dslam_huawei_ma5600_options.password),
+                        "%s", tempbuffer
+                );
+                /* Get connection timeout. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/connect_timeout"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                            -1, "Need connection timeout", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                dslam_huawei_ma5600_options.to_connect =
+                        strtol(tempbuffer, NULL, 10)
+                ;
+
+                /* Get connection read timeout. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/recv_timeout"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                            -1, "Need connection read timeout", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                dslam_huawei_ma5600_options.to_recv = strtol(tempbuffer, NULL, 10);
+
+                /* Done with this. */
+                command.device_options =
+                        (mdm_device_options_t)&dslam_huawei_ma5600_options
+                               ;
+                               break;
+ 
 			default:
 				command.response = response_form(
 					-1, "Should not get here: invalid device requested",

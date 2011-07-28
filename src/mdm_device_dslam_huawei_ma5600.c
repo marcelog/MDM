@@ -91,7 +91,7 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 13 */ NULL,
 /* 14 */ dslam_huawei_ma5600_service_profile,
 /* 15 */ dslam_huawei_ma5600_service_ports,
-/* 16 */ NULL,
+/* 16 */ dslam_huawei_ma5600_alarms,
 /* 17 */ dslam_huawei_ma5600_cpu,
 /* 18 */ dslam_huawei_ma5600_routes,
 /* 19 */ dslam_huawei_ma5600_timezone

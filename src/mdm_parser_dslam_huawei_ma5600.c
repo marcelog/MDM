@@ -16,6 +16,25 @@
  * CODE STARTS.
  ******************************************************************************/
 /*!
+ * This will try to get alarms
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_huawei_ma5600_alarms(
+       mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+       snprintf(
+               d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+               "<![CDATA[%s]]>", d->exec_buffer
+       );
+       /* Done. */
+       d->exec_buffer_post_len = strlen(d->exec_buffer_post);
+       return;
+}
+
+/*!
  * This will try to get timezone information.
  * \param d Device descriptor.
  * \param status Result of the operation.
