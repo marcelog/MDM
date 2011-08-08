@@ -47,6 +47,18 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_9xxx_STR[] =
 /* 25 */ "Configure NTP Server",
 /* 26 */ "Enable NTP",
 /* 27 */ "Disable NTP",
+/* 28 */ "Copy configuration to startup",
+/* 29 */ "Configure card type",
+/* 30 */ "Reset card",
+/* 31 */ "Switch SCB",
+/* 32 */ "Reboot Slave SCB",
+/* 33 */ "Reboot",
+/* 34 */ "Add VLAN",
+/* 35 */ "Remove VLAN",
+/* 36 */ "Port uplink configure tag vlan",
+/* 37 */ "Port uplink configure untag vlan",
+/* 38 */ "Port admin down",
+/* 39 */ "Port admin up",
 	NULL
 };
 
@@ -98,7 +110,19 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_ARGSN[] =
 /* 24 */ 0,
 /* 25 */ 1,
 /* 26 */ 0,
-/* 27 */ 0
+/* 27 */ 0,
+/* 28 */ 0,
+/* 29 */ 2,
+/* 30 */ 1,
+/* 31 */ 0,
+/* 32 */ 0,
+/* 33 */ 0,
+/* 34 */ 1,
+/* 35 */ 1,
+/* 36 */ 2,
+/* 37 */ 2,
+/* 38 */ 1,
+/* 39 */ 1
 };
 
 /*!
@@ -135,6 +159,18 @@ MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_PROCESS[] =
 /* 25 */ dslam_zte_9xxx_nop,
 /* 26 */ dslam_zte_9xxx_nop,
 /* 27 */ dslam_zte_9xxx_nop,
+/* 28 */ dslam_zte_9xxx_nop,
+/* 29 */ dslam_zte_9xxx_nop,
+/* 30 */ dslam_zte_9xxx_nop,
+/* 31 */ dslam_zte_9xxx_nop,
+/* 32 */ dslam_zte_9xxx_nop,
+/* 33 */ dslam_zte_9xxx_nop,
+/* 34 */ dslam_zte_9xxx_nop,
+/* 35 */ dslam_zte_9xxx_nop,
+/* 36 */ dslam_zte_9xxx_nop,
+/* 37 */ dslam_zte_9xxx_nop,
+/* 38 */ dslam_zte_9xxx_nop,
+/* 39 */ dslam_zte_9xxx_nop
 };
 
 /*!
@@ -170,6 +206,18 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_STR[] =
 /* 25 */ "configure ip ntp server %%ARG%%",
 /* 26 */ "configure ip ntp enable",
 /* 27 */ "configure ip ntp disable",
+/* 28 */ "copy running-config startup-config",
+/* 29 */ "configure card slot %%ARG%% cardtype %%ARG%%",
+/* 30 */ "reset card %%ARG%%\r\ny",
+/* 31 */ "switch scb\r\ny",
+/* 32 */ "reboot slaveSCB\r\ny",
+/* 33 */ "reboot\r\ny",
+/* 34 */ "configure add-vlan %%ARG%%",
+/* 35 */ "configure no add-vlan %%ARG%%",
+/* 36 */ "configure vlan %%ARG%% %%ARG%% tag", // vlan port
+/* 37 */ "configure vlan %%ARG%% %%ARG%% untag", // vlan port
+/* 38 */ "configure interface dsl-mpvc %%ARG%%\r\nshutdown\r\nexit",
+/* 39 */ "configure interface dsl-mpvc %%ARG%%\r\nno shutdown\r\nexit",
 	NULL
 };
 
