@@ -59,6 +59,11 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_9xxx_STR[] =
 /* 37 */ "Port uplink configure untag vlan",
 /* 38 */ "Port admin down",
 /* 39 */ "Port admin up",
+/* 40 */ "Configure port profile",
+/* 41 */ "Configure port pvc",
+/* 42 */ "Enable PVC",
+/* 43 */ "Disable PVC",
+/* 44 */ "Configure PVC vlan",
 	NULL
 };
 
@@ -122,7 +127,12 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_ARGSN[] =
 /* 36 */ 2,
 /* 37 */ 2,
 /* 38 */ 1,
-/* 39 */ 1
+/* 39 */ 1,
+/* 40 */ 2,
+/* 41 */ 4,
+/* 42 */ 2,
+/* 43 */ 2,
+/* 44 */ 3
 };
 
 /*!
@@ -170,7 +180,12 @@ MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_PROCESS[] =
 /* 36 */ dslam_zte_9xxx_nop,
 /* 37 */ dslam_zte_9xxx_nop,
 /* 38 */ dslam_zte_9xxx_nop,
-/* 39 */ dslam_zte_9xxx_nop
+/* 39 */ dslam_zte_9xxx_nop,
+/* 40 */ dslam_zte_9xxx_nop,
+/* 41 */ dslam_zte_9xxx_nop,
+/* 42 */ dslam_zte_9xxx_nop,
+/* 43 */ dslam_zte_9xxx_nop,
+/* 44 */ dslam_zte_9xxx_nop
 };
 
 /*!
@@ -218,6 +233,11 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_STR[] =
 /* 37 */ "configure vlan %%ARG%% %%ARG%% untag", // vlan port
 /* 38 */ "configure interface dsl-mpvc %%ARG%%\r\nshutdown\r\nexit",
 /* 39 */ "configure interface dsl-mpvc %%ARG%%\r\nno shutdown\r\nexit",
+/* 40 */ "configure interface dsl-mpvc %%ARG%%\r\nadsl profile %%ARG%%\r\nexit",
+/* 41 */ "configure interface dsl-mpvc %%ARG%%\r\natm pvc %%ARG%%:%%ARG%% pvc%%ARG%%\r\nexit",
+/* 42 */ "configure interface dsl-mpvc %%ARG%%\r\natm status enable PVC%%ARG%%\r\nexit",
+/* 43 */ "configure interface dsl-mpvc %%ARG%%\r\natm status disable PVC%%ARG%%\r\nexit",
+/* 44 */ "configure interface dsl-mpvc %%ARG%%\r\npvid %%ARG%% PVC%%ARG%%\r\nexit",
 	NULL
 };
 
@@ -585,7 +605,12 @@ mdm_device_dslam_zte_9xxx_check_error(
 	} else if(strstr(d->exec_buffer, "Error: Bad command") != NULL) {
 		status->status = MDM_OP_ERROR;
 		sprintf(status->status_message, "Command syntax error?");
-	}
+    } else if((error = strstr(d->exec_buffer, "unsuccessfully")) != NULL) {
+        status->status = MDM_OP_ERROR;
+        snprintf(
+            status->status_message, d->exec_buffer_len, "%s", d->exec_buffer
+        );
+    }
 
 	/* Done. */
 #if MDM_DEBUG_MESSAGES > 0
