@@ -2129,6 +2129,35 @@ dslam_alcatel_73xx_load_ports_done:
 }
 
 /*!
+ * This will try to get the alarms.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_alcatel_73xx_parse_alarms(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    char *start;
+    char *end;
+    int len;
+    start = strstr(d->exec_buffer_post, "table") + 7;
+    end = strrchr(start, 13);
+    if (end != NULL) {
+        len = end - start;
+        start[len] = 0;
+    } else {
+        start = "";
+    }
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "<alcatel_73xx_alarms><![CDATA[%s]]></alcatel_73xx_alarms>", start
+    );
+    d->exec_buffer_post_len = strlen(d->exec_buffer_post);
+    return;
+}
+
+/*!
  * This will try to get all alarm types.
  * \param d Device descriptor.
  * \param status Result of the operation.

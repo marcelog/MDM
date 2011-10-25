@@ -37,6 +37,7 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+                        <xs:element name="alcatel_73xx_alarms" type="xs:string"/>
 						<xs:element name="alcatel_73xx_ntp">
 							<xs:complexType>
 								<xs:sequence>

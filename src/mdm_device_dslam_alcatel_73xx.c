@@ -270,7 +270,7 @@ MDM_DEVICE_CMD_DSLAM_ALCATEL_73xx_PROCESS[] = {
 /* 23 */ NULL,
 /* 24 */ NULL,
 /* 25 */ NULL,
-/* 26 */ NULL,
+/* 26 */ dslam_alcatel_73xx_parse_alarms,
 /* 27 */ dslam_alcatel_73xx_get_eth_statistics,
 /* 28 */ dslam_alcatel_73xx_get_eth_list,
 /* 29 */ dslam_alcatel_73xx_get_alarm_count,

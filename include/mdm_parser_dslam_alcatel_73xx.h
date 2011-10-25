@@ -156,5 +156,7 @@ extern void dslam_alcatel_73xx_get_syslog_destinations(
 extern void dslam_alcatel_73xx_get_syslog_routes(
 	mdm_device_descriptor_t *d, mdm_operation_result_t *status
 );
-
+extern void dslam_alcatel_73xx_parse_alarms(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+);
 #endif
