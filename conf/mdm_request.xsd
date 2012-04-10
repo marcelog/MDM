@@ -8,12 +8,12 @@
 <xs:element name="mdm_request">
 	<xs:complexType>
 		<xs:sequence>
-			<xs:element name="version" type="xs:string" fixed="0.1.1"/>
+			<xs:element name="version" type="xs:string" fixed="0.1.2"/>
 			<xs:element name="device">
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
 						<xs:minInclusive value="0"/>
-						<xs:maxInclusive value="2"/>
+						<xs:maxInclusive value="4"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>

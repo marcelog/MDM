@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespaces="http://www.netlabs.com.ar/MDM-Protocol" xmlns="http://www.netlabs.com.ar/MDM-Protocol"
+    elementFormDefault="qualified"
+>
+
+<xs:element name="mdm_response">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="version" type="xs:string" fixed="0.1.1"/>
+            <xs:element name="originalresponse" type="xs:string"/>
+            <xs:element name="result">
+                <xs:simpleType>
+                    <xs:restriction base="xs:integer">
+                        <xs:minInclusive value="-1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="message" type="xs:string"/>
+            <xs:element name="data" minOccurs="0">
+                <xs:complexType>
+                    <xs:choice>
+                    </xs:choice>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+</xs:schema>
