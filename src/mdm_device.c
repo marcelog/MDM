@@ -18,6 +18,7 @@ static const char *MDM_DEVICE_TYPE_STRING[] = {
 	"DSLAM_ZTE_9xxx",
 	"DSLAM_HUAWEI_MA5600",
 	"SIEMENS EWSD",
+    "DSLAM_SIEMENS_HIX_5300",
 	"DUMMY"
 };
 

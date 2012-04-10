@@ -49,6 +49,7 @@ typedef enum
 	MDM_DEVICE_DSLAM_ZTE_9xxx,		/*!< DSLAM ZTE 9xxx family. */
 	MDM_DEVICE_DSLAM_HUAWEI_MA5600, /*!< DSLAM HUAWEI MA5600. */
 	MDM_DEVICE_SIEMENS_EWSD,		/*!< Telephone Switch Siemens EWSD. */
+    MDM_DEVICE_SIEMENS_HIX_5300,    /*!< DSLAM SIEMENS HIX 5300. */
 	MDM_DEVICE_DUMMY					/*!< Dummy, dont use it. */
 } mdm_device_type_t;
 
