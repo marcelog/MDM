@@ -25,6 +25,13 @@ extern void dslam_huawei_ma5600_service_profile(
 	mdm_device_descriptor_t *, mdm_operation_result_t *
 );
 extern void dslam_huawei_ma5600_alarms(
-       mdm_device_descriptor_t *, mdm_operation_result_t *
+    mdm_device_descriptor_t *, mdm_operation_result_t *
 );
+extern void dslam_huawei_ma5600_boards(
+    mdm_device_descriptor_t *, mdm_operation_result_t *
+);
+extern void dslam_huawei_ma5600_frames(
+    mdm_device_descriptor_t *, mdm_operation_result_t *
+);
+
 #endif

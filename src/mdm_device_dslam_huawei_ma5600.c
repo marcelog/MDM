@@ -39,6 +39,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[] =
 /* 17 */ "Show CPU",
 /* 18 */ "Show routes",
 /* 19 */ "Show timezone",
+/* 20 */ "Show boards",
+/* 21 */ "Show frames",
 	NULL
 };
 
@@ -66,7 +68,9 @@ static int MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_ARGSN[] =
 /* 16 */ 0,
 /* 17 */ 1,
 /* 18 */ 0,
-/* 19 */ 0
+/* 19 */ 0,
+/* 20 */ 1,
+/* 21 */ 0
 };
 
 /*!
@@ -94,7 +98,9 @@ MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_PROCESS[] =
 /* 16 */ dslam_huawei_ma5600_alarms,
 /* 17 */ dslam_huawei_ma5600_cpu,
 /* 18 */ dslam_huawei_ma5600_routes,
-/* 19 */ dslam_huawei_ma5600_timezone
+/* 19 */ dslam_huawei_ma5600_timezone,
+/* 20 */ dslam_huawei_ma5600_boards,
+/* 21 */ dslam_huawei_ma5600_frames
 };
 
 /*!
@@ -122,6 +128,8 @@ const char *MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[] =
 /* 17 */ "display cpu %%ARG%%",
 /* 18 */ "display ip routing-table\r\n",
 /* 19 */ "display timezone",
+/* 20 */ "display board %%ARG%%", // 0, 0/0
+/* 21 */ "display frame info",
 	NULL
 };
 
@@ -154,14 +162,15 @@ mdm_device_dslam_huawei_ma5600_open(
 	char buffer[4096];
 	int bufflen;
 	char *envcmds[] = {
+        "undo alarm output all",
+        "undo smart",
 		"scroll 512",
 		"idle-timeout 255",
 		"undo interactive",
 		"undo terminal monitor",
-		"display infolevel cli 1",
 		"enable"
 	};
-	int envcmdslen[] = { 10, 16, 16, 21, 23, 6};
+	int envcmdslen[] = { 21, 10, 10, 16, 16, 21, 6};
 	
 	mdm_device_dslam_huawei_ma5600_data_t *data =
 		(mdm_device_dslam_huawei_ma5600_data_t *)d->data;
@@ -297,7 +306,11 @@ mdm_device_dslam_huawei_ma5600_open(
 			status->status = MDM_OP_ERROR;
 			sprintf(status->status_message, "Login incorrect!");
 			return;
-		}
+        } else if(strstr(buffer, "Reenter times have reached the upper limit")) {
+            status->status = MDM_OP_ERROR;
+            sprintf(status->status_message, "No more connections allowed by DSLAM");
+            return;
+        }
 	} while(strstr(buffer, ">") == NULL);
 	/* It doesn't matter the prompt, but we need the length so we can strip
 	 * the command lines later on. 
@@ -315,7 +328,7 @@ mdm_device_dslam_huawei_ma5600_open(
 		snprintf(data->prompt, data->promptlen, "%s", strrchr(buffer, '\n') + 1);
 	}
 	/* Set environment properties. */
-	for(i = 0; i < 6; i++)
+	for(i = 0; i < 7; i++)
 	{
 		d->exec_buffer_cmd_len = envcmdslen[i];
 		snprintf(
@@ -507,7 +520,7 @@ mdm_device_dslam_huawei_ma5600_check_error(
 		if (tmp == NULL || tmp > error) {
 			status->status = MDM_OP_ERROR;
 			snprintf(
-				status->status_message, strrchr(error, '\n') - error, "%s", error
+                status->status_message, d->exec_buffer_len, "%s", d->exec_buffer
 			);
 		}
 	} else if((error = strstr(d->exec_buffer, "% Parameter error")) != NULL) {
@@ -515,7 +528,12 @@ mdm_device_dslam_huawei_ma5600_check_error(
 		snprintf(
 			status->status_message, strrchr(error, '\n') - error, "%s", error
 		);
-	}
+    } else if((error = strstr(d->exec_buffer, "the error locates at")) != NULL) {
+        status->status = MDM_OP_ERROR;
+        snprintf(
+            status->status_message, d->exec_buffer_len, "%s", d->exec_buffer
+        );
+    }
 
 	/*% Unknown command*/
 	/* Done. */
