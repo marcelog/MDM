@@ -37,6 +37,7 @@
 #include	<mdm_device_dslam_zte_8426.h>
 #include	<mdm_device_dslam_zte_9xxx.h>
 #include	<mdm_device_dslam_huawei_ma5600.h>
+#include	<mdm_device_dslam_siemens_hix5300.h>
 
 
 extern void mdm_init(mdm_log_priority_t, int, int, int, const char *);

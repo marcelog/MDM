@@ -51,6 +51,7 @@ BINARIES = \
 	${BINDIR}/mdm_test_device_dslam_zte_8426 \
 	${BINDIR}/mdm_test_device_dslam_zte_9xxx \
 	${BINDIR}/mdm_test_device_dslam_huawei_ma5600 \
+	${BINDIR}/mdm_test_device_dslam_siemens_hix5300 \
 	${BINDIR}/mdm_server
 
 LIBRARY = \
@@ -58,10 +59,12 @@ LIBRARY = \
 	${OBJDIR}/mdm_parser_dslam_zte_9xxx.o \
 	${OBJDIR}/mdm_parser_dslam_huawei_ma5600.o \
 	${OBJDIR}/mdm_parser_dslam_zte_8426.o \
+	${OBJDIR}/mdm_parser_dslam_siemens_hix5300.o \
 	${OBJDIR}/mdm_device_dslam_zte_8426.o \
 	${OBJDIR}/mdm_device_dslam_huawei_ma5600.o \
 	${OBJDIR}/mdm_device_dslam_zte_9xxx.o \
 	${OBJDIR}/mdm_device_dslam_alcatel_73xx.o \
+	${OBJDIR}/mdm_device_dslam_siemens_hix5300.o \
 	${OBJDIR}/mdm.o \
 	${OBJDIR}/mdm_device.o \
 	${OBJDIR}/mdm_config.o \

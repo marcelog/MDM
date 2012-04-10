@@ -18,7 +18,7 @@ static const char *MDM_DEVICE_TYPE_STRING[] = {
 	"DSLAM_ZTE_9xxx",
 	"DSLAM_HUAWEI_MA5600",
 	"SIEMENS EWSD",
-    "DSLAM_SIEMENS_HIX_5300",
+    "DSLAM_SIEMENS_HIX5300",
 	"DUMMY"
 };
 
@@ -93,6 +93,12 @@ mdm_devicecmd_2string(mdm_device_type_t d, mdm_device_cmd_t c)
 				MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[c] :
 				NULL
 			;
+        case MDM_DEVICE_DSLAM_SIEMENS_HIX5300:
+            return
+                mdm_devicecmd_isvalid(d, c) ?
+                MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[c] :
+                NULL
+        ;
 		default:
 			return NULL;
 	}
@@ -137,6 +143,12 @@ mdm_devicecmd_2stringname(mdm_device_type_t d, mdm_device_cmd_t c)
 				MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[c] :
 				NULL
 			;
+        case MDM_DEVICE_DSLAM_SIEMENS_HIX5300:
+            return
+                mdm_devicecmd_isvalid(d, c) ?
+                MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[c] :
+                NULL
+            ;
 		default:
 			return NULL;
 	}
@@ -169,6 +181,9 @@ mdm_devicecmd_isvalid(mdm_device_type_t d, mdm_device_cmd_t c)
 		case MDM_DEVICE_DSLAM_HUAWEI_MA5600:
 			max = MDM_DSLAM_HUAWEI_MA5600_CMD_DUMMY;
 			break;
+        case MDM_DEVICE_DSLAM_SIEMENS_HIX5300:
+            max = MDM_DSLAM_SIEMENS_HIX5300_CMD_DUMMY;
+            break;
 		default:
 			return 0;
 	}
@@ -283,6 +298,9 @@ mdm_device_new(
 		case MDM_DEVICE_DSLAM_HUAWEI_MA5600:
 			mdm_device_dslam_huawei_ma5600_new(d, status);
 			break;
+        case MDM_DEVICE_DSLAM_SIEMENS_HIX5300:
+            mdm_device_dslam_siemens_hix5300_new(d, status);
+            break;
 		case MDM_DEVICE_SIEMENS_EWSD:
 		default:
 			status->status = MDM_OP_ERROR;
@@ -339,6 +357,9 @@ mdm_device_free(mdm_device_t *d)
 		case MDM_DEVICE_DSLAM_HUAWEI_MA5600:
 			mdm_device_dslam_huawei_ma5600_free(d);
 			break;
+        case MDM_DEVICE_DSLAM_SIEMENS_HIX5300:
+            mdm_device_dslam_siemens_hix5300_free(d);
+            break;
 		case MDM_DEVICE_SIEMENS_EWSD:
 			break;
 		default:
