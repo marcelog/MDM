@@ -79,6 +79,7 @@ typedef struct
 typedef struct
 {
 	int promptlen;
+    char prompt[80];
 } mdm_device_dslam_zte_9xxx_data_t;
 
 /*!

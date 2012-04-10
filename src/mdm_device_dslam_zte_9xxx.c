@@ -420,11 +420,13 @@ mdm_device_dslam_zte_9xxx_open(
 	if(host_port_token < buffer)
 	{
 		data->promptlen = strlen(buffer);
+        snprintf(data->prompt, data->promptlen, "%s", buffer);
 	} else {
 		data->promptlen = strlen(buffer) - (strrchr(buffer, '\n') - buffer);
+        snprintf(data->prompt, data->promptlen, "%s", strrchr(buffer, '\n') + 1);
 	}
 #if MDM_DEBUG_MESSAGES > 0
-	MDM_LOGDEBUG("Login successfull: promptlen: %d", data->promptlen);
+    MDM_LOGDEBUG("Login successfull: promptlen: %s %d", data->prompt, data->promptlen);
 #endif		
 	return;
 }
@@ -643,6 +645,8 @@ mdm_device_dslam_zte_9xxx_exec(
 	char *lastlinebeforeprompt = NULL;
 	char *foundcmd = NULL;
 	char *prompt = NULL;
+    mdm_device_dslam_zte_9xxx_data_t *data =
+        (mdm_device_dslam_zte_9xxx_data_t *)d->data;
 	/* We have to skip the issued command. */
 	float linestoskip = ceilf((float)(d->exec_buffer_cmd_len) / (float)(80));
 	char pagebuffer[64];
@@ -687,7 +691,7 @@ mdm_device_dslam_zte_9xxx_exec(
 		}
 		strncat(d->exec_buffer, tempbuffer, tempbufferlen);
 		d->exec_buffer_len += tempbufferlen;
-		prompt = strstr(d->exec_buffer, "$ ");
+        prompt = strstr(d->exec_buffer, data->prompt);
 		if(prompt != NULL)
 		{
 			lastlinebeforeprompt = strrchr(d->exec_buffer, 13);
