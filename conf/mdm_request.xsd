@@ -48,6 +48,7 @@
 								<xs:sequence>
 									<xs:element name="username" maxOccurs="1" minOccurs="1" type="xs:string"/>
 									<xs:element name="password" maxOccurs="1" minOccurs="1" type="xs:string"/>
+									<xs:element name="enable" maxOccurs="1" minOccurs="0" type="xs:string"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
