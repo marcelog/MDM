@@ -264,8 +264,8 @@ mdm_device_dslam_siemens_hix5300_open(
 	 */
 	if(host_port_token < buffer)
 	{
-		data->promptlen = strlen(buffer);
-		snprintf(data->prompt, data->promptlen, "%s", buffer);
+		data->promptlen = strlen(buffer) - 2;
+		snprintf(data->prompt, data->promptlen + 1, "%s", buffer);
 	}
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Login successful: promptlen: |%s| %d", data->prompt, data->promptlen);
@@ -283,6 +283,51 @@ mdm_device_dslam_siemens_hix5300_open(
 			return;
 		}
 	}
+    mdm_connection_send(&d->connection, "enable", 6, status);
+    if(status->status == MDM_OP_ERROR)
+    {
+        return;
+    }
+    do
+    {
+        bufflen = sizeof(buffer);
+        memset(buffer, 0, bufflen);
+        mdm_connection_recv(&d->connection, buffer, &bufflen, status);
+        if(status->status == MDM_OP_ERROR)
+        {
+            return;
+        }
+#if MDM_DEBUG_MESSAGES > 0
+        MDM_LOGDEBUG("Got %s", buffer);
+#endif
+    } while(strstr(buffer, "word") == NULL);
+    mdm_connection_send(&d->connection, options->enable, strlen(options->enable), status);
+    if(status->status == MDM_OP_ERROR)
+    {
+        return;
+    }
+    do {
+        bufflen = sizeof(buffer);
+        memset(buffer, 0, bufflen);
+        mdm_connection_recv(&d->connection, buffer, &bufflen, status);
+        if(status->status == MDM_OP_ERROR)
+        {
+            return;
+        }
+#if MDM_DEBUG_MESSAGES > 0
+        MDM_LOGDEBUG("Got %s", buffer);
+#endif
+        if(strstr(buffer, "word") != NULL)
+        {
+            status->status = MDM_OP_ERROR;
+            sprintf(status->status_message, "Bad enable password");
+            return;
+        }
+    } while(strstr(buffer, "#") == NULL);
+#if MDM_DEBUG_MESSAGES > 0
+               MDM_LOGDEBUG("Enable OK");
+#endif
+
 	return;
 }
 
@@ -545,7 +590,7 @@ mdm_device_dslam_siemens_hix5300_exec(
 		strncat(d->exec_buffer, tempbuffer, tempbufferlen);
 		prompt = strstr(d->exec_buffer, data->prompt);
 		if (prompt != NULL) {
-			prompt += data->promptlen - 2;
+			prompt += data->promptlen;
 			if (*prompt == '#' || *prompt == '>') {
 				lastlinebeforeprompt = strrchr(d->exec_buffer, 13) - 1;
 				*lastlinebeforeprompt = 0;

@@ -24,6 +24,7 @@ typedef struct
 	char target[256]; /*!< If serial, filename. If network, host:port. */
 	char username[16]; /*!< Username for login. */
 	char password[16]; /*!< Password for login. */
+	char enable[16]; /*!< Password for enable. */
 	int to_recv; /*!< If blocking >= 0, wait at most this amount of milliseconds
 		before timeout. If -1, will block. */
 	int to_connect; /*!< If < 1 timeouts when os decides, otherwise, time in

@@ -5,10 +5,9 @@
  * # ./mdm_test_device_dslam_siemens_hix5300 list
  *
  * Will show a list of available commands (by name and command to be run).
- * contype target user pass cmd cmdargs.
  *
  * # ./mdm_test_device_dslam_siemens_hix5300
- * contype connection_timeout read_timeout target user pass cmd cmdargs
+ * contype connection_timeout read_timeout target user pass enable cmd cmdargs
  *
  * Where:
  *
@@ -26,6 +25,8 @@
  * user is the username to use.
  *
  * pass is the password to use.
+ *
+ * enable password.
  *
  * cmd is the id of the command to run.
  *
@@ -115,18 +116,18 @@ main(int argc, char *argv[])
 		}
 		goto done;
 	} else {
-		if(argc < 8)
+		if(argc < 9)
 		{
 			fprintf(
 				stderr,
-				"Use: %s contype conn_to read_to target user pass cmd cmdargs\n",
+				"Use: %s contype conn_to read_to target user pass enable cmd cmdargs\n",
 				argv[0]
 			);
 			retcode = 254;
 			goto done;
 		}
 		fprintf(stdout, "Start.\n");
-		cmd = strtol(argv[7], NULL, 10);
+		cmd = strtol(argv[8], NULL, 10);
 		if(!mdm_devicecmd_isvalid(MDM_DEVICE_DSLAM_SIEMENS_HIX5300, cmd))
 		{
 			fprintf(stderr, "Invalid command.\n");
@@ -136,6 +137,7 @@ main(int argc, char *argv[])
 		snprintf(options.target, sizeof(options.target), "%s", argv[4]);
 		snprintf(options.username, sizeof(options.username), "%s", argv[5]);
 		snprintf(options.password, sizeof(options.password), "%s", argv[6]);
+		snprintf(options.enable, sizeof(options.password), "%s", argv[7]);
 		options.to_connect = strtol(argv[2], NULL, 10);
 		options.to_recv = strtol(argv[3], NULL, 10);
 
@@ -151,7 +153,7 @@ main(int argc, char *argv[])
 			retcode = 254;
 			goto done;
 		}
-		mdm_device_exec(&device, cmd, argc == 9 ? argv[8] : NULL, &status);
+		mdm_device_exec(&device, cmd, argc == 10 ? argv[9] : NULL, &status);
 		if(status.status == MDM_OP_ERROR)
 		{
 			fprintf(stderr, "App Error: %s\n", status.status_message);
