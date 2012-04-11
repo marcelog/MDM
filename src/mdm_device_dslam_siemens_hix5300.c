@@ -45,6 +45,9 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 23 */ "Configure timezone",
 /* 24 */ "Configure syslog",
 /* 25 */ "Unconfigure syslog",
+/* 26 */ "Reset all",
+/* 27 */ "Reset card",
+/* 28 */ "Configure NTP Server",
 	NULL
 };
 
@@ -78,7 +81,10 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 22 */ 0,
 /* 23 */ 1,
 /* 24 */ 2,
-/* 25 */ 2
+/* 25 */ 2,
+/* 26 */ 0,
+/* 27 */ 1,
+/* 28 */ 1
 };
 
 /*!
@@ -112,7 +118,10 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 22 */ dslam_siemens_hix5300_nop,
 /* 23 */ dslam_siemens_hix5300_nop,
 /* 24 */ dslam_siemens_hix5300_nop,
-/* 25 */ dslam_siemens_hix5300_nop
+/* 25 */ dslam_siemens_hix5300_nop,
+/* 26 */ dslam_siemens_hix5300_nop,
+/* 27 */ dslam_siemens_hix5300_nop,
+/* 28 */ dslam_siemens_hix5300_nop
 };
 
 /*!
@@ -144,8 +153,11 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 21 */    "show ip interface brief",
 /* 22 */    "show cpuload",
 /* 23 */    "configure terminal\ntime-zone %%ARG%%\nexit",
-/* 24 */    "syslog output %%ARG%% remote %%ARG%%",
-/* 25 */    "no syslog output %%ARG%% remote %%ARG%%",
+/* 24 */    "configure terminal\nsyslog output %%ARG%% remote %%ARG%%\nexit",
+/* 25 */    "configure terminal\nno syslog output %%ARG%% remote %%ARG%%\nexit",
+/* 26 */    "configure terminal\nreset all\nexit",
+/* 27 */    "configure terminal\nreset card %%ARG%%\nexit",
+/* 28 */    "configure terminal\nntp-client server %%ARG%%\nexit",
 NULL
 };
 
@@ -597,23 +609,10 @@ mdm_device_dslam_siemens_hix5300_check_error(
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Start.");
 #endif
-	if((error = strstr(d->exec_buffer, "Failure:")) != NULL) {
-		tmp = strchr(d->exec_buffer, '\n');
-		if (tmp == NULL || tmp > error) {
-			status->status = MDM_OP_ERROR;
-			snprintf(
-				status->status_message, strrchr(error, '\n') - error, "%s", error
-			);
-		}
-	} else if((error = strstr(d->exec_buffer, "% Parameter error")) != NULL) {
-		status->status = MDM_OP_ERROR;
+    if((error = strstr(d->exec_buffer, "%")) != NULL) {
+	    status->status = MDM_OP_ERROR;
 		snprintf(
-			status->status_message, d->exec_buffer_len, "%s", d->exec_buffer
-		);
-	} else if((error = strstr(d->exec_buffer, "the error locates at")) != NULL) {
-		status->status = MDM_OP_ERROR;
-		snprintf(
-			status->status_message, d->exec_buffer_len, "%s", d->exec_buffer
+            status->status_message, sizeof(status->status_message), "%s", error
 		);
 	}
 	/*% Unknown command*/
