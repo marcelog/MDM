@@ -604,7 +604,6 @@ mdm_device_dslam_siemens_hix5300_check_error(
 )
 {
 	const char *error;
-	const char *tmp;
 	/* Start. */
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Start.");
