@@ -515,6 +515,9 @@ keepalive(void *args)
 						case MDM_DEVICE_DSLAM_ZTE_8426:
 							cmd = MDM_DSLAM_ZTE_8426_CMD_NOP;
 							break;
+						case MDM_DEVICE_DSLAM_SIEMENS_HIX5300:
+							cmd = MDM_DSLAM_SIEMENS_HIX5300_CMD_NOP;
+							break;
 						default:
 							break;
 					}
@@ -559,6 +562,7 @@ client_handler(void *args)
 	mdm_device_dslam_zte_8426_options_t dslam_zte_8426_options;
 	mdm_device_dslam_zte_9xxx_options_t dslam_zte_9xxx_options;
     mdm_device_dslam_huawei_ma5600_options_t dslam_huawei_ma5600_options;
+    mdm_device_dslam_siemens_hix5300_options_t dslam_siemens_hix5300_options;
 	mdm_device_t *device;
 	const char *tempbuffer;
 	const char *connection_target;
@@ -1116,9 +1120,109 @@ client_handler(void *args)
                 /* Done with this. */
                 command.device_options =
                         (mdm_device_options_t)&dslam_huawei_ma5600_options
-                               ;
-                               break;
+                ;
+                break;
  
+        case MDM_DEVICE_DSLAM_SIEMENS_HIX5300:
+                device_options_len = sizeof(mdm_device_dslam_siemens_hix5300_options_t);
+                /* Get connection target. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/target"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                                -1, "Need target", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                snprintf(
+                        dslam_siemens_hix5300_options.target,
+                        sizeof(dslam_siemens_hix5300_options.target), "%s", tempbuffer
+                );
+                connection_target = dslam_siemens_hix5300_options.target;
+
+                /* Get connection username. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/credential/username"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                                -1, "Need username", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                snprintf(
+                        dslam_siemens_hix5300_options.username,
+                        sizeof(dslam_siemens_hix5300_options.username), "%s", tempbuffer
+                );
+
+                /* Get connection password. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/credential/password"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                                -1, "Need password", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                snprintf(
+                        dslam_siemens_hix5300_options.password,
+                        sizeof(dslam_siemens_hix5300_options.password),
+                        "%s", tempbuffer
+                );
+                /* Get connection enable password. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/credential/enable"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                                -1, "Need enable password", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                snprintf(
+                        dslam_siemens_hix5300_options.enable,
+                        sizeof(dslam_siemens_hix5300_options.enable),
+                        "%s", tempbuffer
+                );
+                /* Get connection timeout. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/connect_timeout"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                            -1, "Need connection timeout", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                dslam_siemens_hix5300_options.to_connect =
+                        strtol(tempbuffer, NULL, 10)
+                ;
+
+                /* Get connection read timeout. */
+                tempbuffer = get_xpath_value(
+                        command.xpathCtx, "/mdm_request/connection/recv_timeout"
+                );
+                if(tempbuffer == NULL)
+                {
+                        command.response = response_form(
+                            -1, "Need connection read timeout", NULL, 0, NULL, 0
+                        );
+                        goto work_done;
+                }
+                dslam_siemens_hix5300_options.to_recv = strtol(tempbuffer, NULL, 10);
+
+                /* Done with this. */
+                command.device_options =
+                        (mdm_device_options_t)&dslam_siemens_hix5300_options
+                ;
+                break;
 			default:
 				command.response = response_form(
 					-1, "Should not get here: invalid device requested",
