@@ -21,6 +21,30 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 {
 /* 0  */ "NOP",
 /* 1  */ "Show running config",
+/* 2  */ "Show version",
+/* 3  */ "Show NTP client",
+/* 4  */ "Show alarm list",
+/* 5  */ "Show upgrade",
+/* 6  */ "Show upgrade list",
+/* 7  */ "Show syslog",
+/* 8  */ "Show fan status",
+/* 9  */ "Show slots",
+/* 10 */ "Show uptime",
+/* 11 */ "Show memory",
+/* 12 */ "Show PVID",
+/* 13 */ "Show ATM VC",
+/* 14 */ "Show Port Detail",
+/* 15 */ "Show Port ATUC",
+/* 16 */ "Show Port ATUR",
+/* 17 */ "Show Port line table",
+/* 18 */ "Show Port line config",
+/* 19 */ "Show profiles",
+/* 20 */ "Show arp",
+/* 21 */ "Show net interfaces",
+/* 22 */ "Show CPU load",
+/* 23 */ "Configure timezone",
+/* 24 */ "Configure syslog",
+/* 25 */ "Unconfigure syslog",
 	NULL
 };
 
@@ -30,7 +54,31 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 {
 /* 0  */ 0,
-/* 1  */ 0
+/* 1  */ 0,
+/* 2  */ 0,
+/* 3  */ 0,
+/* 4  */ 0,
+/* 5  */ 0,
+/* 6  */ 0,
+/* 7  */ 0,
+/* 8  */ 0,
+/* 9  */ 0,
+/* 10 */ 0,
+/* 11 */ 0,
+/* 12 */ 0,
+/* 13 */ 1,
+/* 14 */ 1,
+/* 15 */ 1,
+/* 16 */ 1,
+/* 17 */ 1,
+/* 18 */ 1,
+/* 19 */ 0,
+/* 20 */ 0,
+/* 21 */ 0,
+/* 22 */ 0,
+/* 23 */ 1,
+/* 24 */ 2,
+/* 25 */ 2
 };
 
 /*!
@@ -40,7 +88,31 @@ const mdm_device_dslam_siemens_hix5300_post_exec_t
 MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 {
 /* 0  */ dslam_siemens_hix5300_nop,
-/* 1  */ dslam_siemens_hix5300_nop
+/* 1  */ dslam_siemens_hix5300_nop,
+/* 2  */ dslam_siemens_hix5300_nop,
+/* 3  */ dslam_siemens_hix5300_nop,
+/* 4  */ dslam_siemens_hix5300_nop,
+/* 5  */ dslam_siemens_hix5300_nop,
+/* 6  */ dslam_siemens_hix5300_nop,
+/* 7  */ dslam_siemens_hix5300_nop,
+/* 8  */ dslam_siemens_hix5300_nop,
+/* 9  */ dslam_siemens_hix5300_nop,
+/* 10 */ dslam_siemens_hix5300_nop,
+/* 11 */ dslam_siemens_hix5300_nop,
+/* 12 */ dslam_siemens_hix5300_nop,
+/* 13 */ dslam_siemens_hix5300_nop,
+/* 14 */ dslam_siemens_hix5300_nop,
+/* 15 */ dslam_siemens_hix5300_nop,
+/* 16 */ dslam_siemens_hix5300_nop,
+/* 17 */ dslam_siemens_hix5300_nop,
+/* 18 */ dslam_siemens_hix5300_nop,
+/* 19 */ dslam_siemens_hix5300_nop,
+/* 20 */ dslam_siemens_hix5300_nop,
+/* 21 */ dslam_siemens_hix5300_nop,
+/* 22 */ dslam_siemens_hix5300_nop,
+/* 23 */ dslam_siemens_hix5300_nop,
+/* 24 */ dslam_siemens_hix5300_nop,
+/* 25 */ dslam_siemens_hix5300_nop
 };
 
 /*!
@@ -50,6 +122,30 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 {
 /* 0  */	"",
 /* 1  */	"show running-config",
+/* 2  */    "show system-version",
+/* 3  */    "show ntp-client",
+/* 4  */    "show alarm-list",
+/* 5  */    "show upgrade",
+/* 6  */    "show upgrade table",
+/* 7  */    "show syslog",
+/* 8  */    "show status fan",
+/* 9  */    "show slot all flow-ctrl",
+/* 10 */    "show uptime",
+/* 11 */    "show memory",
+/* 12 */    "show pvid",
+/* 13 */    "show lre %%ARG%% atm vc",
+/* 14 */    "show lre %%ARG%% adsl line-config-detail",
+/* 15 */    "show lre %%ARG%% adsl physical atuc",
+/* 16 */    "show lre %%ARG%% adsl physical atur",
+/* 17 */    "show lre %%ARG%% adsl line-table",
+/* 18 */    "show lre %%ARG%% adsl line-config",
+/* 19 */    "show adsl line-config-profile",
+/* 20 */    "show arp",
+/* 21 */    "show ip interface brief",
+/* 22 */    "show cpuload",
+/* 23 */    "configure terminal\ntime-zone %%ARG%%\nexit",
+/* 24 */    "syslog output %%ARG%% remote %%ARG%%",
+/* 25 */    "no syslog output %%ARG%% remote %%ARG%%",
 NULL
 };
 
@@ -547,6 +643,7 @@ mdm_device_dslam_siemens_hix5300_exec(
 	char *lastlinebeforeprompt = NULL;
 	char *foundcmd = NULL;
 	char *prompt = NULL;
+    int keepreading = 1;
 	mdm_device_dslam_siemens_hix5300_data_t *data =
 		(mdm_device_dslam_siemens_hix5300_data_t *)d->data;
 	/* We have to skip the issued command. */
@@ -588,16 +685,18 @@ mdm_device_dslam_siemens_hix5300_exec(
 		}
 		d->exec_buffer_len += tempbufferlen;
 		strncat(d->exec_buffer, tempbuffer, tempbufferlen);
-		prompt = strstr(d->exec_buffer, data->prompt);
-		if (prompt != NULL) {
+        prompt = d->exec_buffer;
+        while((prompt = strstr(prompt, data->prompt)) != NULL) {
+            MDM_LOGDEBUG("Candidate prompt found");
 			prompt += data->promptlen;
 			if (*prompt == '#' || *prompt == '>') {
-				lastlinebeforeprompt = strrchr(d->exec_buffer, 13) - 1;
+				lastlinebeforeprompt = strrchr(d->exec_buffer, 13);
 				*lastlinebeforeprompt = 0;
+                keepreading = 0;
 				break;
 			}
 		}
-	} while(1);
+	} while(keepreading > 0);
 	/*
 	 * Strip command from response: We end up skipping the length of the command.
 	 * Use post buffer as temp.
@@ -623,7 +722,7 @@ mdm_device_dslam_siemens_hix5300_exec(
 		MDM_LOGDEBUG("Stripping cmd.");
 #endif
 		d->exec_buffer_len = strlen(foundcmd);
-		snprintf(d->exec_buffer, d->exec_buffer_len, "%s", foundcmd);
+		snprintf(d->exec_buffer, d->exec_buffer_len + 1, "%s", foundcmd);
 	} else {
 #if MDM_DEBUG_MESSAGES > 0
 		MDM_LOGDEBUG("No output from command?");
