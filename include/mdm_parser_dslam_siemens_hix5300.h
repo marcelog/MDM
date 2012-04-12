@@ -12,4 +12,8 @@
 extern void dslam_siemens_hix5300_nop(
     mdm_device_descriptor_t *, mdm_operation_result_t *
 );
+extern void
+dslam_siemens_hix5300_get_service_profile(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+);
 #endif
