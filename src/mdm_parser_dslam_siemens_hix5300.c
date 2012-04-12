@@ -37,40 +37,41 @@ typedef struct _section_struct
 } section_t;
 
 static section_t *
-section_alloc()
+dslam_siemens_hix5300_section_alloc()
 {
     section_t *section = malloc(sizeof(section_t));
     return section;
 }
 
 static section_t *
-section_create(const char *start, int length)
+dslam_siemens_hix5300_section_create(const char *start, int length)
 {
-    section_t *section = section_alloc();
+    section_t *section = dslam_siemens_hix5300_section_alloc();
     section->start = start;
     section->length = length;
     section->next = NULL;
     return section;
 }
 static void
-section_free(section_t *section)
+dslam_siemens_hix5300_section_free(section_t *section)
 {
     if (section->next != NULL) {
-        section_free(section->next);
+        dslam_siemens_hix5300_section_free(section->next);
     }
     free(section);
 }
 
 static section_t *
-section_add(section_t *addTo, const char *start, int length)
+dslam_siemens_hix5300_section_add(section_t *addTo, const char *start, int length)
 {
-    addTo->next = section_create(start, length);
+    addTo->next = dslam_siemens_hix5300_section_create(start, length);
     return addTo->next;
 }
 
 static void
-parse_with_spaces(const char *subject, const char *key, char *value, int maxLength)
-{
+dslam_siemens_hix5300_parse_with_spaces(
+    const char *subject, const char *key, char *value, int maxLength
+) {
     const char *needle;
     const char *eol;
     int length;
@@ -96,7 +97,7 @@ parse_with_spaces(const char *subject, const char *key, char *value, int maxLeng
 }
 
 static section_t *
-parse_section(const char *subject)
+dslam_siemens_hix5300_parse_section(const char *subject)
 {
     const char *start;
     const char *end;
@@ -127,9 +128,9 @@ parse_section(const char *subject)
         }
         length = end - start;
         if (section != NULL) {
-            section = section_add(section, start, length);
+            section = dslam_siemens_hix5300_section_add(section, start, length);
         } else {
-            section = section_create(start, length);
+            section = dslam_siemens_hix5300_section_create(start, length);
             parentSection = section;
         }
         start = end;
@@ -138,7 +139,7 @@ parse_section(const char *subject)
 }
 
 static int
-xml_alloc(
+dslam_siemens_hix5300_xml_alloc(
     xmlDocPtr *doc, xmlNodePtr *root_node, xmlBufferPtr *psBuf,
     char *rootName, mdm_operation_result_t *status
 ) {
@@ -172,7 +173,7 @@ xml_alloc(
 }
 
 static void
-xml_free(xmlDocPtr *doc, xmlBufferPtr *psBuf)
+dslam_siemens_hix5300_xml_free(xmlDocPtr *doc, xmlBufferPtr *psBuf)
 {
     if(*doc != NULL)
         xmlFreeDoc(*doc);
@@ -181,22 +182,26 @@ xml_free(xmlDocPtr *doc, xmlBufferPtr *psBuf)
 }
 
 static void
-xml_add(xmlNodePtr node, char *nodeName, char *value)
+dslam_siemens_hix5300_xml_add(xmlNodePtr node, char *nodeName, char *value)
 {
     xmlNewChild(node, NULL, BAD_CAST nodeName, BAD_CAST value);
 }
 
 static void
-xml_add_from_section(xmlNodePtr node, char *token, char *nodeName, section_t *section)
-{
+dslam_siemens_hix5300_xml_add_from_section(
+    xmlNodePtr node, char *token, char *nodeName, section_t *section
+) {
     char buffer[4096];
-    parse_with_spaces(section->start, token, buffer, sizeof(buffer));
-    xml_add(node, nodeName, buffer);
+    dslam_siemens_hix5300_parse_with_spaces(
+        section->start, token, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(node, nodeName, buffer);
 }
 
 static void
-parse_speed(char *what, char *line, char *buffer, int maxLength)
-{
+dslam_siemens_hix5300_parse_speed(
+    char *what, char *line, char *buffer, int maxLength
+) {
     char needle[4096];
     char *start;
     char *end;
@@ -222,15 +227,15 @@ parse_speed(char *what, char *line, char *buffer, int maxLength)
 }
 
 static void
-parse_speed_up(char *line, char *buffer, int maxLength)
+dslam_siemens_hix5300_parse_speed_up(char *line, char *buffer, int maxLength)
 {
-    parse_speed("UP ", line, buffer, maxLength);
+    dslam_siemens_hix5300_parse_speed("UP ", line, buffer, maxLength);
 }
 
 static void
-parse_speed_down(char *line, char *buffer, int maxLength)
+dslam_siemens_hix5300_parse_speed_down(char *line, char *buffer, int maxLength)
 {
-    parse_speed("DOWN ", line, buffer, maxLength);
+    dslam_siemens_hix5300_parse_speed("DOWN ", line, buffer, maxLength);
 }
 
 /*!
@@ -250,152 +255,152 @@ dslam_siemens_hix5300_get_service_profile(
     char buffer[4096];
     char buffer2[4096];
 
-    if (xml_alloc(
+    if (dslam_siemens_hix5300_xml_alloc(
         &doc, &root_node, &psBuf, "siemens_hix5300_serviceprofilelist", status
     ) == -1) {
         goto dslam_siemens_hix5300_get_service_profile_done;
     }
-    section_t *sections = parse_section(d->exec_buffer_post);
+    section_t *sections = dslam_siemens_hix5300_parse_section(d->exec_buffer_post);
     section_t *currentSection;
     if (sections != NULL) {
         currentSection = sections;
         do {
-            node = xmlNewNode(NULL, BAD_CAST "profile");
-            xml_add_from_section(node, "Profile Name", "name", currentSection);
-            xml_add_from_section(node, "Ratemode", "ratemode", currentSection);
+            node = xmlNewNode(NULL, BAD_CAST "serviceprofile");
+            dslam_siemens_hix5300_xml_add_from_section(node, "Profile Name", "name", currentSection);
+            dslam_siemens_hix5300_xml_add_from_section(node, "Ratemode", "ratemode", currentSection);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "Target SNR Margin(dB)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "target-snr-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "target-snr-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "target-snr-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "target-snr-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "ATU-C Max SNR Margind(dB)",
                 buffer, sizeof(buffer)
             );
-            parse_speed("", buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atuc-max-snr", buffer2);
+            dslam_siemens_hix5300_parse_speed("", buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atuc-max-snr", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "ATU-C Min SNR Margind(dB)",
                 buffer, sizeof(buffer)
             );
-            parse_speed("", buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atuc-min-snr", buffer2);
+            dslam_siemens_hix5300_parse_speed("", buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atuc-min-snr", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "ATU-R Max SNR Margind(dB)",
                 buffer, sizeof(buffer)
             );
-            parse_speed("", buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atur-max-snr", buffer2);
+            dslam_siemens_hix5300_parse_speed("", buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atur-max-snr", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "ATU-R Min SNR Margind(dB)",
                 buffer, sizeof(buffer)
             );
-            parse_speed("", buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atur-min-snr", buffer2);
+            dslam_siemens_hix5300_parse_speed("", buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atur-min-snr", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "ATU-C Shift SNR Margin(dB)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atuc-shift-snr-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atuc-shift-snr-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atuc-shift-snr-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atuc-shift-snr-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "ATU-R Shift SNR Margin(dB)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atur-shift-snr-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atur-shift-snr-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atur-shift-snr-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atur-shift-snr-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "ATU-C Minimum shift time(sec)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atuc-minshift-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atuc-minshift-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atuc-minshift-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atuc-minshift-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "ATU-R Minimum shift time(sec)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atur-minshift-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "atur-minshift-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atur-minshift-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "atur-minshift-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "Fast Min Rate (kbps)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "fast-min-rate-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "fast-min-rate-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "fast-min-rate-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "fast-min-rate-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "Fast Max Rate (kbps)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "fast-max-rate-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "fast-max-rate-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "fast-max-rate-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "fast-max-rate-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "Interleaved Min Rate (kbps)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "interleave-min-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "interleave-min-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "interleave-min-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "interleave-min-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "Interleaved Max Rate (kbps)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "interleave-max-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "interleave-max-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "interleave-max-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "interleave-max-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "Interleaved Delay (ms)",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "interleave-delay-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "interleave-delay-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "interleave-delay-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "interleave-delay-down", buffer2);
 
-            parse_with_spaces(
+            dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "Interleaved correction time",
                 buffer, sizeof(buffer)
             );
-            parse_speed_up(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "interleave-correction-time-up", buffer2);
-            parse_speed_down(buffer, buffer2, sizeof(buffer2));
-            xml_add(node, "interleave-correction-time-down", buffer2);
+            dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "interleave-correction-time-up", buffer2);
+            dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+            dslam_siemens_hix5300_xml_add(node, "interleave-correction-time-down", buffer2);
 
             xmlAddChild(root_node, node);
             currentSection = currentSection->next;
         } while(currentSection != NULL);
     }
-    section_free(sections);
+    dslam_siemens_hix5300_section_free(sections);
 
     xmlNodeDump(psBuf, doc, root_node, 99, 1);
     snprintf(
@@ -406,7 +411,7 @@ dslam_siemens_hix5300_get_service_profile(
 
     /* Done. */
 dslam_siemens_hix5300_get_service_profile_done:
-    xml_free(&doc, &psBuf);
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }
 
