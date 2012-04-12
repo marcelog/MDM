@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@gmail.com>
+ * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -200,11 +200,11 @@ dslam_siemens_hix5300_xml_add_from_section(
 
 static void
 dslam_siemens_hix5300_parse_speed(
-    char *what, char *line, char *buffer, int maxLength
+    const char *what, const char *line, char *buffer, int maxLength
 ) {
     char needle[4096];
-    char *start;
-    char *end;
+    const char *start;
+    const char *end;
     int length;
     snprintf(needle, sizeof(needle), "%s[", what);
     start = strstr(line, needle);
@@ -227,15 +227,98 @@ dslam_siemens_hix5300_parse_speed(
 }
 
 static void
-dslam_siemens_hix5300_parse_speed_up(char *line, char *buffer, int maxLength)
+dslam_siemens_hix5300_parse_speed_up(const char *line, char *buffer, int maxLength)
 {
     dslam_siemens_hix5300_parse_speed("UP ", line, buffer, maxLength);
 }
 
 static void
-dslam_siemens_hix5300_parse_speed_down(char *line, char *buffer, int maxLength)
+dslam_siemens_hix5300_parse_speed_down(const char *line, char *buffer, int maxLength)
 {
     dslam_siemens_hix5300_parse_speed("DOWN ", line, buffer, maxLength);
+}
+
+static const char *
+dslam_siemens_hix5300_get_word_delimited_by(
+    const char *subject, int subjectLen, char token, char *buffer, int maxLength
+) {
+    const char *start;
+    const char *end;
+    const char *absoluteEnd = subject + subjectLen;
+    int length;
+
+    while(*subject == token) subject++;
+    start = subject;
+    while(*subject != token && *subject != 13 && subject < absoluteEnd) subject++;
+    end = subject;
+    length = end - start;
+    if (length > maxLength)
+    {
+        length = maxLength - 1;
+    }
+    snprintf(buffer, length + 1, "%s", start);
+    return end;
+}
+
+/*!
+ * This will try to get all slots.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_slots(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    const char *start;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_slotlist", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_slots_done;
+    }
+
+    start = strchr(d->exec_buffer_post, 13);
+    start += 2;
+    while((start = strchr(start, 13)) != NULL) {
+        node = xmlNewNode(NULL, BAD_CAST "slot");
+        start += 2;
+        start = dslam_siemens_hix5300_get_word_delimited_by(
+            start, strlen(start), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "id", buffer);
+
+        start = dslam_siemens_hix5300_get_word_delimited_by(
+            start, strlen(start), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "uport", buffer);
+        start = dslam_siemens_hix5300_get_word_delimited_by(
+            start, strlen(start), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "tx-pause", buffer);
+        start = dslam_siemens_hix5300_get_word_delimited_by(
+            start, strlen(start), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "rx-pause", buffer);
+        xmlAddChild(root_node, node);
+    }
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_slots_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
 }
 
 /*!
@@ -252,8 +335,8 @@ dslam_siemens_hix5300_get_service_profile(
     xmlNodePtr root_node = NULL;
     xmlNodePtr node = NULL;
     xmlBufferPtr psBuf = NULL;
-    char buffer[4096];
-    char buffer2[4096];
+    char buffer[128];
+    char buffer2[128];
 
     if (dslam_siemens_hix5300_xml_alloc(
         &doc, &root_node, &psBuf, "siemens_hix5300_serviceprofilelist", status

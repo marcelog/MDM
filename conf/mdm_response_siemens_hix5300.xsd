@@ -21,6 +21,23 @@
             <xs:element name="data" minOccurs="0">
                 <xs:complexType>
                     <xs:choice>
+                        <xs:element name="siemens_hix5300_slotlist">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="slot" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="id" type="xs:string"/>
+                                                <xs:element name="uport" type="xs:string"/>
+                                                <xs:element name="name" type="xs:string"/>
+                                                <xs:element name="tx-pause" type="xs:string"/>
+                                                <xs:element name="tx-pause" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_serviceprofilelist">
                             <xs:complexType>
                                 <xs:sequence>
