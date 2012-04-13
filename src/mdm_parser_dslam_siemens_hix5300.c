@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
+ * \author Marcelo Gornstein <marcelog@gmail.com>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -535,6 +535,91 @@ dslam_siemens_hix5300_get_system_version(
 
     /* Done. */
 dslam_siemens_hix5300_get_system_version_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
+ * This will try to get line config.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_line_config(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char *lineStart;
+    char *lineEnd;
+    char buffer[128];
+    section_t *sections = dslam_siemens_hix5300_parse_section(d->exec_buffer_post);
+    section_t *currentSection = NULL;
+    section_t *currentLine = NULL;
+    section_t *lines = NULL;
+    const char *valueStart;
+    const char *valueEnd;
+    int i = 0;
+    char *tokens[] = {
+        "slot", "port", "admin", "mode", "type", "speed-up", "speed-down",
+        "snr-up", "snr-down", "interleave-delay-up", "interleave-delay-down",
+        NULL
+    };
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_line_config", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_line_config_done;
+    }
+    if (sections != NULL) {
+        currentSection = sections;
+        if (currentSection->next != NULL) {
+            currentSection = currentSection->next;
+        }
+    }
+    if (currentSection != NULL)
+    {
+        lineStart = currentSection->start;
+        lines = dslam_siemens_hix5300_parse_lines(lineStart);
+        if (lines != NULL) {
+            currentLine = lines;
+            do
+            {
+                node = xmlNewNode(NULL, BAD_CAST "line");
+                lineStart = currentLine->start;
+                lineEnd = lineStart + currentLine->length;
+                i = 0;
+                valueStart = lineStart;
+                while(tokens[i] != NULL) {
+                    while(*valueStart == 32 || *valueStart == '/') valueStart++;
+                    valueEnd = valueStart;
+                    while(*valueEnd != 32 && *valueEnd != '/') valueEnd++;
+                    snprintf(buffer, valueEnd - valueStart + 1, "%s", valueStart);
+                    dslam_siemens_hix5300_xml_add(node, tokens[i], buffer);
+                    i++;
+                    valueStart = valueEnd;
+                }
+                xmlAddChild(root_node, node);
+                currentLine = currentLine->next;
+            } while(currentLine != NULL);
+        }
+    }
+    dslam_siemens_hix5300_section_free(sections);
+    if (lines != NULL) {
+        dslam_siemens_hix5300_section_free(lines);
+    }
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_line_config_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }

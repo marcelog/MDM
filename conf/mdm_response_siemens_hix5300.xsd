@@ -48,6 +48,23 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_line_config">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="slot" minOccurs="0"/>
+                                    <xs:element name="port" minOccurs="0"/>
+                                    <xs:element name="admin" minOccurs="0"/>
+                                    <xs:element name="mode" minOccurs="0"/>
+                                    <xs:element name="type" minOccurs="0"/>
+                                    <xs:element name="speed-up" minOccurs="0"/>
+                                    <xs:element name="speed-down" minOccurs="0"/>
+                                    <xs:element name="snr-up" minOccurs="0"/>
+                                    <xs:element name="snr-down" minOccurs="0"/>
+                                    <xs:element name="interleave-delay-up" minOccurs="0"/>
+                                    <xs:element name="interleave-delay-down" minOccurs="0"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_alarms" type="xs:string"/>
                         <xs:element name="siemens_hix5300_physical_ports">
                             <xs:complexType>
