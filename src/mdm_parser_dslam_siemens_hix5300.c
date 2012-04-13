@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
+ * \author Marcelo Gornstein <marcelog@gmail.com>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -325,6 +325,93 @@ dslam_siemens_hix5300_get_word_delimited_by(
     }
     snprintf(buffer, length + 1, "%s", start);
     return end;
+}
+
+/*!
+ * This will try to get alarms.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_alarms(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    char *start;
+    char *end;
+    start = strstr(d->exec_buffer, "Alarm List :");
+    if (start == NULL) {
+        snprintf(
+            d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+            "<siemens_hix5300_alarms/>"
+        );
+        d->exec_buffer_post_len = strlen(d->exec_buffer);
+        return;
+    }
+    start = strchr(start, 13) + 2;
+    end = strstr(start, "All values are decimals");
+    if (end == NULL) {
+        end = start + d->exec_buffer_len;
+    }
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "<siemens_hix5300_alarms><![CDATA[%.*s]]></siemens_hix5300_alarms>",
+        (int)(end - start), start
+    );
+    d->exec_buffer_post_len = strlen(d->exec_buffer_post);
+    return;
+}
+
+/*!
+ * This will try to get ntp information.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_ntp(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    const char *start;
+    const char *end;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_ntp", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_ntp_done;
+    }
+
+    start = strstr(d->exec_buffer_post, "ntp-client server ");
+    if (start != NULL) {
+        start += strlen("ntp-client server ");
+        end = strchr(start, 13);
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(root_node, "server", buffer);
+    }
+
+    start = strstr(d->exec_buffer_post, "ntp-client interval ");
+    if (start != NULL) {
+        start += strlen("ntp-client interval ");
+        end = strchr(start, 13);
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(root_node, "interval", buffer);
+    }
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_ntp_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
 }
 
 /*!

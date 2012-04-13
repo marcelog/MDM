@@ -28,6 +28,15 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_ntp">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="interval" type="xs:string"/>
+                                    <xs:element name="server" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="siemens_hix5300_alarms" type="xs:string"/>
                         <xs:element name="siemens_hix5300_physical_ports">
                             <xs:complexType>
                                 <xs:sequence>
