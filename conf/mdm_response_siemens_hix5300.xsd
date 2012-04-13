@@ -21,6 +21,13 @@
             <xs:element name="data" minOccurs="0">
                 <xs:complexType>
                     <xs:choice>
+                        <xs:element name="siemens_hix5300_version">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="version" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_slotlist">
                             <xs:complexType>
                                 <xs:sequence>

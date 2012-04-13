@@ -48,6 +48,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 26 */ "Reset all",
 /* 27 */ "Reset card",
 /* 28 */ "Configure NTP Server",
+/* 29 */ "Show adsl lre",
+/* 30 */ "Ports config",
 	NULL
 };
 
@@ -84,7 +86,9 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 25 */ 2,
 /* 26 */ 0,
 /* 27 */ 1,
-/* 28 */ 1
+/* 28 */ 1,
+/* 29 */ 1,
+/* 30 */ 0
 };
 
 /*!
@@ -95,7 +99,7 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 {
 /* 0  */ dslam_siemens_hix5300_nop,
 /* 1  */ dslam_siemens_hix5300_nop,
-/* 2  */ dslam_siemens_hix5300_nop,
+/* 2  */ dslam_siemens_hix5300_get_system_version,
 /* 3  */ dslam_siemens_hix5300_nop,
 /* 4  */ dslam_siemens_hix5300_nop,
 /* 5  */ dslam_siemens_hix5300_nop,
@@ -121,7 +125,9 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 25 */ dslam_siemens_hix5300_nop,
 /* 26 */ dslam_siemens_hix5300_nop,
 /* 27 */ dslam_siemens_hix5300_nop,
-/* 28 */ dslam_siemens_hix5300_nop
+/* 28 */ dslam_siemens_hix5300_nop,
+/* 29 */ dslam_siemens_hix5300_get_slot_ports,
+/* 30 */ dslam_siemens_hix5300_nop
 };
 
 /*!
@@ -158,6 +164,8 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 26 */    "configure terminal\nreset all\nexit",
 /* 27 */    "configure terminal\nreset card %%ARG%%\nexit",
 /* 28 */    "configure terminal\nntp-client server %%ARG%%\nexit",
+/* 29 */    "show lre s%%ARG%% adsl",
+/* 30 */    "show running-config | include lre",
 NULL
 };
 

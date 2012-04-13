@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
+ * \author Marcelo Gornstein <marcelog@gmail.com>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -31,7 +31,7 @@ dslam_siemens_hix5300_nop(
 
 typedef struct _section_struct
 {
-    const char *start;
+    char *start;
     int length;
     struct _section_struct *next;
 } section_t;
@@ -39,7 +39,7 @@ typedef struct _section_struct
 static section_t *
 dslam_siemens_hix5300_section_alloc()
 {
-    section_t *section = malloc(sizeof(section_t));
+    section_t *section = (section_t *)MDM_MALLOC(sizeof(section_t));
     return section;
 }
 
@@ -47,7 +47,8 @@ static section_t *
 dslam_siemens_hix5300_section_create(const char *start, int length)
 {
     section_t *section = dslam_siemens_hix5300_section_alloc();
-    section->start = start;
+    section->start = (char *)MDM_MALLOC(length + 1);
+    memcpy(section->start, start, length);
     section->length = length;
     section->next = NULL;
     return section;
@@ -58,7 +59,8 @@ dslam_siemens_hix5300_section_free(section_t *section)
     if (section->next != NULL) {
         dslam_siemens_hix5300_section_free(section->next);
     }
-    free(section);
+    MDM_MFREE(&section->start);
+    MDM_MFREE(&section);
 }
 
 static section_t *
@@ -66,6 +68,43 @@ dslam_siemens_hix5300_section_add(section_t *addTo, const char *start, int lengt
 {
     addTo->next = dslam_siemens_hix5300_section_create(start, length);
     return addTo->next;
+}
+
+static void
+dslam_siemens_hix5300_parse_with_slash(
+    const char *subject, char *value1, int maxLength1, char *value2, int maxLength2
+) {
+    const char *slash = strchr(subject, '/');
+    const char *start;
+    const char *end;
+    const char *maxSubjectLength = subject + strlen(subject);
+    int length = 0;
+    if (slash == NULL)
+    {
+        *value1 = 0;
+        *value2 = 0;
+        return;
+    }
+    start = subject;
+    while(*start == 32) start++;
+    end = slash;
+    length = end - start;
+    if (length > maxLength1)
+    {
+        length = maxLength1 - 1;
+    }
+    snprintf(value1, length + 1, "%s", start);
+    end++;
+    start = end;
+    while(*start == 32) start++;
+    end = start;
+    while(*end != 32 && *end != 13 && end < maxSubjectLength) end++;
+    length = end - start;
+    if (length > maxLength2)
+    {
+        length = maxLength2 - 1;
+    }
+    snprintf(value2, length + 1, "%s", start);
 }
 
 static void
@@ -94,6 +133,34 @@ dslam_siemens_hix5300_parse_with_spaces(
         length = maxLength - 1;
     }
     snprintf(value, length + 1, "%s", needle);
+}
+
+static section_t *
+dslam_siemens_hix5300_parse_lines(const char *subject)
+{
+    const char *start;
+    const char *end;
+    const char *absoluteEnd = subject + strlen(subject);
+    int length;
+    section_t *section = NULL;
+    section_t *parentSection = NULL;
+    start = subject;
+    do
+    {
+        end = strchr(start, 13);
+        if (end == NULL) {
+            end = absoluteEnd;
+        }
+        length = end - start;
+        if (section != NULL) {
+            section = dslam_siemens_hix5300_section_add(section, start, length);
+        } else {
+            section = dslam_siemens_hix5300_section_create(start, length);
+            parentSection = section;
+        }
+        start = end + 2;
+    } while(start < absoluteEnd);
+    return parentSection;
 }
 
 static section_t *
@@ -258,6 +325,130 @@ dslam_siemens_hix5300_get_word_delimited_by(
     }
     snprintf(buffer, length + 1, "%s", start);
     return end;
+}
+
+/*!
+ * This will try to get system version
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_system_version(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_version", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_system_version_done;
+    }
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer_post, "System version",
+        buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "version", buffer);
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_system_version_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
+ * This will try to get all slot ports.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_slot_ports(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char *lineStart;
+    char *lineEnd;
+    char buffer[128];
+    section_t *sections = dslam_siemens_hix5300_parse_section(d->exec_buffer_post);
+    section_t *currentSection = NULL;
+    section_t *currentLine = NULL;
+    section_t *lines = NULL;
+    const char *valueStart;
+    const char *valueEnd;
+    int i = 0;
+    char *tokens[] = {
+        "slot", "port", "admin", "oper", "speed-up", "speed-down",
+        "snr-up", "snr-down", "attenuation-up", "attenuation-down",
+        "tx-up", "tx-down", "attainable-up", "attainable-down", NULL
+    };
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_slotports", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_slot_ports_done;
+    }
+    if (sections != NULL) {
+        currentSection = sections;
+        if (currentSection->next != NULL) {
+            currentSection = currentSection->next;
+        }
+    }
+    if (currentSection != NULL)
+    {
+        lineStart = currentSection->start;
+        lines = dslam_siemens_hix5300_parse_lines(lineStart);
+        if (lines != NULL) {
+            currentLine = lines;
+            do
+            {
+                node = xmlNewNode(NULL, BAD_CAST "port");
+                lineStart = currentLine->start;
+                lineEnd = lineStart + currentLine->length;
+                i = 0;
+                valueStart = lineStart;
+                while(tokens[i] != NULL) {
+                    while(*valueStart == 32 || *valueStart == '/') valueStart++;
+                    valueEnd = valueStart;
+                    while(*valueEnd != 32 && *valueEnd != '/') valueEnd++;
+                    snprintf(buffer, valueEnd - valueStart + 1, "%s", valueStart);
+                    dslam_siemens_hix5300_xml_add(node, tokens[i], buffer);
+                    i++;
+                    valueStart = valueEnd;
+                }
+                xmlAddChild(root_node, node);
+                currentLine = currentLine->next;
+            } while(currentLine != NULL);
+        }
+    }
+    dslam_siemens_hix5300_section_free(sections);
+    if (lines != NULL) {
+        dslam_siemens_hix5300_section_free(lines);
+    }
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_slot_ports_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
 }
 
 /*!
