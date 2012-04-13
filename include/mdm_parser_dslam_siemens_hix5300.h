@@ -48,4 +48,8 @@ extern void
 dslam_siemens_hix5300_get_line_config(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
 );
+extern void
+dslam_siemens_hix5300_get_syslog(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+);
 #endif

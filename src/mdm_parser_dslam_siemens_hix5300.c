@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@gmail.com>
+ * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -535,6 +535,71 @@ dslam_siemens_hix5300_get_system_version(
 
     /* Done. */
 dslam_siemens_hix5300_get_system_version_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
+ * This will try to get syslog config.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_syslog(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char *absoluteEnd = d->exec_buffer + d->exec_buffer_len;
+    char *start;
+    char *end;
+    char buffer[128];
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_syslog", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_syslog_done;
+    }
+
+    start = strchr(d->exec_buffer, 13);
+    if (start == NULL) {
+        goto dslam_siemens_hix5300_get_syslog_done;
+    }
+    start += 2;
+    while((start = strchr(start, 13)) != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "syslog_route");
+
+        start += 2;
+        end = strchr(start, 32);
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "level", buffer);
+        start = end;
+        while(*start == 32) start++;
+        end = strchr(start, 32);
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "type", buffer);
+        start = end + 1;
+        end = strchr(start, 13);
+        if (end == NULL)
+        {
+            end = absoluteEnd;
+        }
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "destination", buffer);
+        xmlAddChild(root_node, node);
+    }
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_syslog_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }
