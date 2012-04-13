@@ -28,6 +28,26 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_physical_ports">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="physicalport" minOccurs="1" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="slot" type="xs:string"/>
+                                                <xs:element name="port" type="xs:string"/>
+                                                <xs:element name="line-profile" type="xs:string"/>
+                                                <xs:element name="alarm-profile" type="xs:string"/>
+                                                <xs:element name="line-type" type="xs:string"/>
+                                                <xs:element name="atuc-capability" type="xs:string"/>
+                                                <xs:element name="atur-capability" type="xs:string"/>
+                                                <xs:element name="atuc-actualcapability" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_slotlist">
                             <xs:complexType>
                                 <xs:sequence>

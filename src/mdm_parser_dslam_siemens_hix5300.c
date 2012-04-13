@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@gmail.com>
+ * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -508,6 +508,123 @@ dslam_siemens_hix5300_get_slots(
 
     /* Done. */
 dslam_siemens_hix5300_get_slots_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
+ * This will try to get physical port information.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_physical_port_info(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[512];
+    const char *start;
+    const char *end;
+    const char *tmpend;
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_physical_ports", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_physical_port_info_done;
+    }
+    start = d->exec_buffer_post;
+    while((start = strstr(start, "Port ")) != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "physicalport");
+
+        // slot
+        start += 5;
+        end = strchr(start, '/');
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "slot", buffer);
+        end++;
+
+        start = end;
+        while(*end != 13 && *end != 32) end++;
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "port", buffer);
+
+        start = strstr(start, "Line Profile Name") + strlen("Line Profile Name");
+        start = strchr(start, ':') + 1;
+        while(*start == 32) start++;
+        end = start;
+        while(*end != 13 && *end != 32) end++;
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "line-profile", buffer);
+
+        start = strstr(start, "Alarm Profile Name") + strlen("Alarm Profile Name");
+        start = strchr(start, ':') + 1;
+        while(*start == 32) start++;
+        end = start;
+        while(*end != 13 && *end != 32) end++;
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "alarm-profile", buffer);
+
+        start = strstr(start, "LineType") + strlen("LineType");
+        start = strchr(start, ':') + 1;
+        while(*start == 32) start++;
+        end = start;
+        while(*end != 13 && *end != 32 && *end != ',') end++;
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "line-type", buffer);
+
+        start = strstr(start, "ATUC Capability") + strlen("ATUC Capability");
+        start = strchr(start, 13) + 2;
+        end = strstr(start, "ATUC Capability");
+        memset(buffer, 0, sizeof(buffer));
+        while(start < end)
+        {
+            while(*start == 32 || *start == '-') start++;
+            tmpend = strchr(start, 13);
+            strncat(buffer, start, tmpend - start);
+            strcat(buffer, " ");
+            start = tmpend + 2;
+        }
+        dslam_siemens_hix5300_xml_add(node, "atuc-capability", buffer);
+        start = end;
+
+        start = strstr(start, "ATUR Capability") + strlen("ATUR Capability");
+        start = strchr(start, 13) + 2;
+        end = strstr(start, "ATUR Capability");
+        memset(buffer, 0, sizeof(buffer));
+        while(start < end)
+        {
+            while(*start == 32 || *start == '-') start++;
+            tmpend = strchr(start, 13);
+            strncat(buffer, start, tmpend - start);
+            strcat(buffer, " ");
+            start = tmpend + 2;
+        }
+        dslam_siemens_hix5300_xml_add(node, "atur-capability", buffer);
+        start = end;
+
+        start = strstr(start, "ATUC ActualCapability") + strlen("ATUC ActualCapability");
+        start = strchr(start, ':') + 1;
+        while(*start == 32) start++;
+        end = start;
+        while(*end != 13 && *end != 32) end++;
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "atuc-actualcapability", buffer);
+
+        xmlAddChild(root_node, node);
+    }
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_physical_port_info_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }
