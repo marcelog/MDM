@@ -104,7 +104,7 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 2  */ dslam_siemens_hix5300_get_system_version,
 /* 3  */ dslam_siemens_hix5300_get_ntp,
 /* 4  */ dslam_siemens_hix5300_get_alarms,
-/* 5  */ dslam_siemens_hix5300_nop,
+/* 5  */ dslam_siemens_hix5300_get_soft_versions,
 /* 6  */ dslam_siemens_hix5300_nop,
 /* 7  */ dslam_siemens_hix5300_nop,
 /* 8  */ dslam_siemens_hix5300_nop,

@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@gmail.com>
+ * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -325,6 +325,92 @@ dslam_siemens_hix5300_get_word_delimited_by(
     }
     snprintf(buffer, length + 1, "%s", start);
     return end;
+}
+/*
+OS1:     she-r15-cxu_b-o.1205
+                length=9736192 Bytes ->Default OS ->Trial OS, used for reboot
+OS2:     she-r15-cxu_b-o.1196
+                length=9719808 Bytes
+running: she-r15-cxu_b-o.1205 # build=#1 Thu Mar 22 11:07:04 CST 2007
+(running is OS1)
+*/
+
+/*!
+ * This will try to get software versions.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_soft_versions(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    const char *start;
+    const char *end;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_soft_versions", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_soft_versions_done;
+    }
+
+    start = strstr(d->exec_buffer_post, "OS1:");
+    if (start != NULL) {
+        start += strlen("OS1:") + 1;
+        while(*start == 32) start++;
+        end = strchr(start, 13);
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(root_node, "os1-version", buffer);
+        start = end + 2;
+        while(*start == 32 || *start == 9) start++;
+        end = strchr(start, 13);
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(root_node, "os1-description", buffer);
+    }
+
+    start = strstr(d->exec_buffer_post, "OS2:");
+    if (start != NULL) {
+        start += strlen("OS2:") + 1;
+        while(*start == 32) start++;
+        end = strchr(start, 13);
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(root_node, "os2-version", buffer);
+        start = end + 2;
+        while(*start == 32 || *start == 9) start++;
+        end = strchr(start, 13);
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(root_node, "os2-description", buffer);
+    }
+
+    start = strstr(d->exec_buffer_post, "running: ");
+    if (start != NULL) {
+        start += strlen("running: ");
+        end = strchr(start, 13);
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(root_node, "running-version", buffer);
+    }
+
+    if (strstr(d->exec_buffer_post, "(running is OS1)") != NULL) {
+        dslam_siemens_hix5300_xml_add(root_node, "running-slot", "1");
+    } else {
+        dslam_siemens_hix5300_xml_add(root_node, "running-slot", "2");
+    }
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_soft_versions_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
 }
 
 /*!

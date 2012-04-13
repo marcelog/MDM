@@ -36,6 +36,18 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_soft_versions">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="os1-version" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                    <xs:element name="os1-description" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                    <xs:element name="os2-version" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                    <xs:element name="os2-description" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                    <xs:element name="running-version" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                    <xs:element name="running-slot" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_alarms" type="xs:string"/>
                         <xs:element name="siemens_hix5300_physical_ports">
                             <xs:complexType>
