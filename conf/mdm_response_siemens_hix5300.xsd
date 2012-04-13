@@ -94,6 +94,7 @@
                             </xs:complexType>
                         </xs:element>
                         <xs:element name="siemens_hix5300_alarms" type="xs:string"/>
+                        <xs:element name="siemens_hix5300_uptime" type="xs:string"/>
                         <xs:element name="siemens_hix5300_physical_ports">
                             <xs:complexType>
                                 <xs:sequence>
