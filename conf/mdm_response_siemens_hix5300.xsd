@@ -48,6 +48,19 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_fans">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="fan" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="status" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_syslog">
                             <xs:complexType>
                                 <xs:sequence>

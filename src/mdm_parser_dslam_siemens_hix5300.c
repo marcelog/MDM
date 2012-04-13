@@ -449,6 +449,59 @@ dslam_siemens_hix5300_get_alarms(
 }
 
 /*!
+ * This will try to get fan information.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_fans(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    char *start = strstr(d->exec_buffer, "Fan State");
+    char *end;
+    int i = 1;
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_fans", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_fans_done;
+    }
+
+    start = strchr(start, 13);
+    for (; (start = strstr(start, "Fan ")) != NULL; i++)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "fan");
+        start += 4;
+        while (*start != 32) start++;
+        while (*start == 32) start++;
+        end = start;
+        while (*end != 32 && *end != 13) end++;
+        snprintf(buffer, end - start + 1, "%s", start);
+        dslam_siemens_hix5300_xml_add(node, "status", buffer);
+        xmlAddChild(root_node, node);
+        start = end;
+    }
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_fans_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
  * This will try to get ntp information.
  * \param d Device descriptor.
  * \param status Result of the operation.
