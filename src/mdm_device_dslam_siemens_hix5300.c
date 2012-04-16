@@ -54,6 +54,21 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 32 */ "Unconfigure NTP Server",
 /* 33 */ "Configure NTP interval",
 /* 34 */ "Show mac in ports",
+/* 35 */ "Create line profile",
+/* 36 */ "Delete line profile",
+/* 37 */ "Set line profile to fast",
+/* 38 */ "Set line profile to interleaved",
+/* 39 */ "Set line profile standard",
+/* 40 */ "Set atuc fast max tx rate",
+/* 41 */ "Set atuc fast min tx rate",
+/* 42 */ "Set atur fast max tx rate",
+/* 43 */ "Set atur fast min tx rate",
+/* 44 */ "Set atuc interleaved max tx rate",
+/* 45 */ "Set atuc interleaved min tx rate",
+/* 46 */ "Set atur interleaved max tx rate",
+/* 47 */ "Set atur interleaved min tx rate",
+/* 48 */ "Set max tx rate",
+/* 49 */ "Set min tx rate",
 	NULL
 };
 
@@ -96,7 +111,22 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 31 */ 2,
 /* 32 */ 1,
 /* 33 */ 1,
-/* 34 */ 1
+/* 34 */ 1,
+/* 35 */ 1,
+/* 36 */ 1,
+/* 37 */ 1,
+/* 38 */ 1,
+/* 39 */ 2,
+/* 40 */ 2,
+/* 41 */ 2,
+/* 42 */ 2,
+/* 43 */ 2,
+/* 44 */ 2,
+/* 45 */ 2,
+/* 46 */ 2,
+/* 47 */ 2,
+/* 48 */ 2,
+/* 49 */ 2
 };
 
 /*!
@@ -139,7 +169,22 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 31 */ dslam_siemens_hix5300_get_physical_port_info,
 /* 32 */ dslam_siemens_hix5300_nop,
 /* 33 */ dslam_siemens_hix5300_nop,
-/* 34 */ dslam_siemens_hix5300_get_mac_ports
+/* 34 */ dslam_siemens_hix5300_get_mac_ports,
+/* 35 */ dslam_siemens_hix5300_nop,
+/* 36 */ dslam_siemens_hix5300_nop,
+/* 37 */ dslam_siemens_hix5300_nop,
+/* 38 */ dslam_siemens_hix5300_nop,
+/* 39 */ dslam_siemens_hix5300_nop,
+/* 40 */ dslam_siemens_hix5300_nop,
+/* 41 */ dslam_siemens_hix5300_nop,
+/* 42 */ dslam_siemens_hix5300_nop,
+/* 43 */ dslam_siemens_hix5300_nop,
+/* 44 */ dslam_siemens_hix5300_nop,
+/* 45 */ dslam_siemens_hix5300_nop,
+/* 46 */ dslam_siemens_hix5300_nop,
+/* 47 */ dslam_siemens_hix5300_nop,
+/* 48 */ dslam_siemens_hix5300_nop,
+/* 49 */ dslam_siemens_hix5300_nop
 };
 
 /*!
@@ -182,6 +227,21 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 32 */    "configure terminal\nno ntp-client server %%ARG%%\nexit",
 /* 33 */    "configure terminal\nntp-client interval %%ARG%%\nexit",
 /* 34 */    "show mac port %%ARG%%",
+/* 35 */    "configure terminal\nbridge\nadsl add line-config-profile %%ARG%%\nexit\nexit",
+/* 36 */    "configure terminal\nbridge\nadsl delete line-config-profile %%ARG%%\nexit\nexit",
+/* 37 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% comm line-type fast\nexit\nexit",
+/* 38 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% comm line-type interleaved\nexit\nexit",
+/* 39 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% gs standard %%ARG%%\nexit\nexit",
+/* 40 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atuc fast max-tx-rate %%ARG%%\nexit\nexit",
+/* 41 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atuc fast min-tx-rate %%ARG%%\nexit\nexit",
+/* 42 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur fast max-tx-rate %%ARG%%\nexit\nexit",
+/* 43 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur fast min-tx-rate %%ARG%%\nexit\nexit",
+/* 44 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atuc interleaved max-tx-rate %%ARG%%\nexit\nexit",
+/* 45 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atuc interleaved min-tx-rate %%ARG%%\nexit\nexit",
+/* 46 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur interleaved max-tx-rate %%ARG%%\nexit\nexit",
+/* 47 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur interleaved min-tx-rate %%ARG%%\nexit\nexit",
+/* 48 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur max-tx-rate %%ARG%%\nexit\nexit",
+/* 49 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur min-tx-rate %%ARG%%\nexit\nexit",
 NULL
 };
 

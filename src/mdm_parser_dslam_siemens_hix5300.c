@@ -112,7 +112,9 @@ dslam_siemens_hix5300_parse_with_spaces(
 ) {
     const char *needle;
     const char *eol;
+    const char *comma;
     int length;
+    int tmpLength;
     needle = strstr(subject, key);
     if (needle == NULL) {
         *value = 0;
@@ -123,6 +125,7 @@ dslam_siemens_hix5300_parse_with_spaces(
     while(*needle == ':') needle++;
     while(*needle == 32) needle++;
     eol = strchr(needle, 13);
+    comma = strchr(needle, ',');
     if (eol == NULL) {
         length = strlen(needle);
     } else {
@@ -130,6 +133,12 @@ dslam_siemens_hix5300_parse_with_spaces(
     }
     if (length > maxLength) {
         length = maxLength - 1;
+    }
+    if (comma != NULL) {
+        tmpLength = comma - needle;
+        if (tmpLength < length) {
+            length = tmpLength;
+        }
     }
     snprintf(value, length + 1, "%s", needle);
 }
@@ -1032,7 +1041,7 @@ dslam_siemens_hix5300_get_service_profile(
             node = xmlNewNode(NULL, BAD_CAST "serviceprofile");
             dslam_siemens_hix5300_xml_add_from_section(node, "Profile Name", "name", currentSection);
             dslam_siemens_hix5300_xml_add_from_section(node, "Ratemode", "ratemode", currentSection);
-
+            dslam_siemens_hix5300_xml_add_from_section(node, "GsStandard", "standard", currentSection);
             dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "Target SNR Margin(dB)",
                 buffer, sizeof(buffer)
