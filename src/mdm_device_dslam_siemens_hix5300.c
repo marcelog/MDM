@@ -124,7 +124,7 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 18 */ dslam_siemens_hix5300_get_line_config,
 /* 19 */ dslam_siemens_hix5300_get_service_profile,
 /* 20 */ dslam_siemens_hix5300_nop,
-/* 21 */ dslam_siemens_hix5300_nop,
+/* 21 */ dslam_siemens_hix5300_get_network_interfaces,
 /* 22 */ dslam_siemens_hix5300_nop,
 /* 23 */ dslam_siemens_hix5300_nop,
 /* 24 */ dslam_siemens_hix5300_nop,

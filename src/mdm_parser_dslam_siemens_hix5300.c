@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
+ * \author Marcelo Gornstein <marcelog@gmail.com>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -326,14 +326,6 @@ dslam_siemens_hix5300_get_word_delimited_by(
     snprintf(buffer, length + 1, "%s", start);
     return end;
 }
-/*
-OS1:     she-r15-cxu_b-o.1205
-                length=9736192 Bytes ->Default OS ->Trial OS, used for reboot
-OS2:     she-r15-cxu_b-o.1196
-                length=9719808 Bytes
-running: she-r15-cxu_b-o.1205 # build=#1 Thu Mar 22 11:07:04 CST 2007
-(running is OS1)
-*/
 
 /*!
  * This will try to get software versions.
@@ -1039,14 +1031,14 @@ dslam_siemens_hix5300_get_service_profile(
     xmlBufferPtr psBuf = NULL;
     char buffer[128];
     char buffer2[128];
+    section_t *sections = dslam_siemens_hix5300_parse_section(d->exec_buffer_post);
+    section_t *currentSection;
 
     if (dslam_siemens_hix5300_xml_alloc(
         &doc, &root_node, &psBuf, "siemens_hix5300_serviceprofilelist", status
     ) == -1) {
         goto dslam_siemens_hix5300_get_service_profile_done;
     }
-    section_t *sections = dslam_siemens_hix5300_parse_section(d->exec_buffer_post);
-    section_t *currentSection;
     if (sections != NULL) {
         currentSection = sections;
         do {
@@ -1196,6 +1188,83 @@ dslam_siemens_hix5300_get_service_profile(
 
     /* Done. */
 dslam_siemens_hix5300_get_service_profile_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
+ * This will try to get network interfaces.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_network_interfaces(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+)
+{
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    section_t *lines;
+    section_t *currentLine;
+    const char *lineStart;
+    const char *lineEnd;
+    const char *valueStart;
+    const char *valueEnd;
+    int i = 0;
+    char *tokens[] = { "name", "ip", "status", "protocol" };
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_network_interfaces", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_network_interfaces_done;
+    }
+    lineStart = strchr(d->exec_buffer, 13);
+    if (lineStart == NULL) {
+        goto dslam_siemens_hix5300_get_network_interfaces_done;
+    }
+    lineStart += 2;
+    lines = dslam_siemens_hix5300_parse_lines(lineStart);
+    if (lines != NULL) {
+        currentLine = lines;
+        do
+        {
+            node = xmlNewNode(NULL, BAD_CAST "interface");
+            lineStart = currentLine->start;
+            lineEnd = lineStart + currentLine->length;
+            i = 0;
+            valueStart = lineStart;
+            while(tokens[i] != NULL) {
+                while(*valueStart == 32) valueStart++;
+                valueEnd = valueStart;
+                while(*valueEnd != 32) valueEnd++;
+                snprintf(buffer, valueEnd - valueStart + 1, "%s", valueStart);
+                if (strcmp(buffer, "administratively") == 0) {
+                    valueEnd++;
+                    while(*valueEnd != 32) valueEnd++;
+                }
+                snprintf(buffer, valueEnd - valueStart + 1, "%s", valueStart);
+                dslam_siemens_hix5300_xml_add(node, tokens[i], buffer);
+                i++;
+                valueStart = valueEnd;
+            }
+            xmlAddChild(root_node, node);
+            currentLine = currentLine->next;
+        } while(currentLine != NULL);
+    }
+    dslam_siemens_hix5300_section_free(lines);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_network_interfaces_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }
