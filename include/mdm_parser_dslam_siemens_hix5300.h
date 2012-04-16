@@ -68,4 +68,8 @@ extern void
 dslam_siemens_hix5300_get_memory_info(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
 );
+extern void
+dslam_siemens_hix5300_get_mac_ports(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+);
 #endif

@@ -1254,6 +1254,7 @@ dslam_siemens_hix5300_get_network_interfaces_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }
+
 /*!
  * This will try to get memory information.
  * \param d Device descriptor.
@@ -1393,6 +1394,97 @@ dslam_siemens_hix5300_get_memory_info(
 
     /* Done. */
 dslam_siemens_hix5300_get_memory_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
+ * This will try to get ports mac.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_mac_ports(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    section_t *lines;
+    section_t *currentLine;
+    const char *lineStart;
+    const char *lineEnd;
+    char value1[128];
+    char value2[128];
+    int i = 0;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_port_macs", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_ports_mac_done;
+    }
+    lineStart = strchr(d->exec_buffer, 13);
+    if (lineStart == NULL) {
+        goto dslam_siemens_hix5300_get_ports_mac_done;
+    }
+    lineStart += 2;
+    lines = dslam_siemens_hix5300_parse_lines(lineStart);
+    if (lines != NULL) {
+        currentLine = lines;
+        currentLine = currentLine->next;
+        currentLine = currentLine->next;
+        do
+        {
+            node = xmlNewNode(NULL, BAD_CAST "mac");
+            lineStart = currentLine->start;
+            lineEnd = lineStart + currentLine->length;
+            i = 0;
+
+            lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+                lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+            );
+            dslam_siemens_hix5300_parse_with_slash(
+                buffer, value1, sizeof(value1), value2, sizeof(value2)
+            );
+            dslam_siemens_hix5300_xml_add(node, "slot", value1);
+            dslam_siemens_hix5300_parse_with_slash(
+                value2, value1, sizeof(value1), value2, sizeof(value2)
+            );
+            dslam_siemens_hix5300_xml_add(node, "port", value1);
+            dslam_siemens_hix5300_xml_add(node, "pvc", value2);
+
+            lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+                lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+            );
+            dslam_siemens_hix5300_xml_add(node, "mac", buffer);
+
+            lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+                lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+            );
+            dslam_siemens_hix5300_xml_add(node, "permission", buffer);
+
+            lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+                lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+            );
+            dslam_siemens_hix5300_xml_add(node, "status", buffer);
+
+            xmlAddChild(root_node, node);
+            currentLine = currentLine->next;
+        } while(currentLine != NULL);
+    }
+    dslam_siemens_hix5300_section_free(lines);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_ports_mac_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }

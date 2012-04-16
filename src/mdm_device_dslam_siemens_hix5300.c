@@ -53,6 +53,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 31 */ "Physical port info",
 /* 32 */ "Unconfigure NTP Server",
 /* 33 */ "Configure NTP interval",
+/* 34 */ "Show mac in ports",
 	NULL
 };
 
@@ -94,7 +95,8 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 30 */ 0,
 /* 31 */ 2,
 /* 32 */ 1,
-/* 33 */ 1
+/* 33 */ 1,
+/* 34 */ 1
 };
 
 /*!
@@ -136,7 +138,8 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 30 */ dslam_siemens_hix5300_nop,
 /* 31 */ dslam_siemens_hix5300_get_physical_port_info,
 /* 32 */ dslam_siemens_hix5300_nop,
-/* 33 */ dslam_siemens_hix5300_nop
+/* 33 */ dslam_siemens_hix5300_nop,
+/* 34 */ dslam_siemens_hix5300_get_mac_ports
 };
 
 /*!
@@ -178,6 +181,7 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 31 */    "show lre %%ARG%%-%%ARG%% adsl line-table",
 /* 32 */    "configure terminal\nno ntp-client server %%ARG%%\nexit",
 /* 33 */    "configure terminal\nntp-client interval %%ARG%%\nexit",
+/* 34 */    "show mac port %%ARG%%",
 NULL
 };
 
