@@ -77,6 +77,9 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 55 */ "Disable port",
 /* 56 */ "Set port description",
 /* 57 */ "Get port description",
+/* 58 */ "Show port 0",
+/* 59 */ "Create VLAN",
+/* 60 */ "Delete VLAN",
 	NULL
 };
 
@@ -142,7 +145,10 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 54 */ 1,
 /* 55 */ 1,
 /* 56 */ 2,
-/* 57 */ 1
+/* 57 */ 1,
+/* 58 */ 0,
+/* 59 */ 1,
+/* 60 */ 1
 };
 
 /*!
@@ -208,7 +214,10 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 54 */ dslam_siemens_hix5300_nop,
 /* 55 */ dslam_siemens_hix5300_nop,
 /* 56 */ dslam_siemens_hix5300_nop,
-/* 57 */ dslam_siemens_hix5300_get_port_description
+/* 57 */ dslam_siemens_hix5300_get_port_description,
+/* 58 */ dslam_siemens_hix5300_nop,
+/* 59 */ dslam_siemens_hix5300_nop,
+/* 60 */ dslam_siemens_hix5300_nop
 };
 
 /*!
@@ -274,6 +283,9 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 55 */    "configure terminal\nbridge\nport lre %%ARG%% disable\nexit\nexit",
 /* 56 */    "configure terminal\nbridge\nport lre %%ARG%% description %%ARG%%\nexit\nexit",
 /* 57 */    "show port %%ARG%% description",
+/* 58 */    "show port s0",
+/* 59 */    "configure terminal\nbridge\nvlan create %%ARG%%\nexit\nexit",
+/* 60 */    "configure terminal\nbridge\nno vlan %%ARG%%\nexit\nexit",
 NULL
 };
 
