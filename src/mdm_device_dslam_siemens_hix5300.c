@@ -70,6 +70,13 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 48 */ "Set max tx rate",
 /* 49 */ "Set min tx rate",
 /* 50 */ "Set port line profile",
+/* 51 */ "Add vc to port",
+/* 52 */ "Remove vc from port",
+/* 53 */ "Configure vcc in port",
+/* 54 */ "Enable port",
+/* 55 */ "Disable port",
+/* 56 */ "Set port description",
+/* 57 */ "Get port description",
 	NULL
 };
 
@@ -128,7 +135,14 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 47 */ 2,
 /* 48 */ 2,
 /* 49 */ 2,
-/* 50 */ 2
+/* 50 */ 2,
+/* 51 */ 3,
+/* 52 */ 3,
+/* 53 */ 4,
+/* 54 */ 1,
+/* 55 */ 1,
+/* 56 */ 2,
+/* 57 */ 1
 };
 
 /*!
@@ -187,7 +201,14 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 47 */ dslam_siemens_hix5300_nop,
 /* 48 */ dslam_siemens_hix5300_nop,
 /* 49 */ dslam_siemens_hix5300_nop,
-/* 50 */ dslam_siemens_hix5300_nop
+/* 50 */ dslam_siemens_hix5300_nop,
+/* 51 */ dslam_siemens_hix5300_nop,
+/* 52 */ dslam_siemens_hix5300_nop,
+/* 53 */ dslam_siemens_hix5300_nop,
+/* 54 */ dslam_siemens_hix5300_nop,
+/* 55 */ dslam_siemens_hix5300_nop,
+/* 56 */ dslam_siemens_hix5300_nop,
+/* 57 */ dslam_siemens_hix5300_get_port_description
 };
 
 /*!
@@ -246,6 +267,13 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 48 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur max-tx-rate %%ARG%%\nexit\nexit",
 /* 49 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur min-tx-rate %%ARG%%\nexit\nexit",
 /* 50 */    "configure terminal\nbridge\nlre %%ARG%% adsl line-config profile %%ARG%%\nexit\nexit",
+/* 51 */    "configure terminal\nbridge\nlre %%ARG%% atm vc create vpi %%ARG%% vci %%ARG%%\nexit\nexit",
+/* 52 */    "configure terminal\nbridge\nlre %%ARG%% atm vc delete vpi %%ARG%% vci %%ARG%%\nexit\nexit",
+/* 53 */    "configure terminal\nbridge\nlre %%ARG%% atm vcc %ARG%% vpi %%ARG%% vci %%ARG%%\nexit\nexit",
+/* 54 */    "configure terminal\nbridge\nport lre %%ARG%% enable\nexit\nexit",
+/* 55 */    "configure terminal\nbridge\nport lre %%ARG%% disable\nexit\nexit",
+/* 56 */    "configure terminal\nbridge\nport lre %%ARG%% description %%ARG%%\nexit\nexit",
+/* 57 */    "show port %%ARG%% description",
 NULL
 };
 

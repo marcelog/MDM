@@ -1498,3 +1498,33 @@ dslam_siemens_hix5300_get_ports_mac_done:
     return;
 }
 
+/*!
+ * This will try to get a port description.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_port_description(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    const char *start;
+    const char *end = d->exec_buffer + d->exec_buffer_len;
+    start = strstr(d->exec_buffer, "  userLabel  ");
+    if (start == NULL) {
+        snprintf(
+            d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+            "<siemens_hix5300_port_description/>"
+        );
+        d->exec_buffer_post_len = strlen(d->exec_buffer);
+        return;
+    }
+    start += strlen("  userLabel  ");
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "<siemens_hix5300_port_description><![CDATA[%.*s]]></siemens_hix5300_port_description>",
+        (int)(end - start), start
+    );
+    d->exec_buffer_post_len = strlen(d->exec_buffer_post);
+    return;
+}
+
