@@ -69,6 +69,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 47 */ "Set atur interleaved min tx rate",
 /* 48 */ "Set max tx rate",
 /* 49 */ "Set min tx rate",
+/* 50 */ "Set port line profile",
 	NULL
 };
 
@@ -126,7 +127,8 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 46 */ 2,
 /* 47 */ 2,
 /* 48 */ 2,
-/* 49 */ 2
+/* 49 */ 2,
+/* 50 */ 2
 };
 
 /*!
@@ -184,7 +186,8 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 46 */ dslam_siemens_hix5300_nop,
 /* 47 */ dslam_siemens_hix5300_nop,
 /* 48 */ dslam_siemens_hix5300_nop,
-/* 49 */ dslam_siemens_hix5300_nop
+/* 49 */ dslam_siemens_hix5300_nop,
+/* 50 */ dslam_siemens_hix5300_nop
 };
 
 /*!
@@ -242,6 +245,7 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 47 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur interleaved min-tx-rate %%ARG%%\nexit\nexit",
 /* 48 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur max-tx-rate %%ARG%%\nexit\nexit",
 /* 49 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atur min-tx-rate %%ARG%%\nexit\nexit",
+/* 50 */    "configure terminal\nbridge\nlre %%ARG%% adsl line-config profile %%ARG%%\nexit\nexit",
 NULL
 };
 
