@@ -33,8 +33,4 @@ extern void dslam_huawei_ma5600_boards(
 extern void dslam_huawei_ma5600_frames(
     mdm_device_descriptor_t *, mdm_operation_result_t *
 );
-extern void
-dslam_siemens_hix5300_get_network_interfaces(
-    mdm_device_descriptor_t *d, mdm_operation_result_t *status
-);
 #endif

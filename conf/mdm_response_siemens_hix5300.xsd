@@ -48,6 +48,30 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_memory">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="summary-total" type="xs:string"/>
+                                    <xs:element name="summary-used" type="xs:string"/>
+                                    <xs:element name="summary-free" type="xs:string"/>
+                                    <xs:element name="summary-shared" type="xs:string"/>
+                                    <xs:element name="summary-buffers" type="xs:string"/>
+                                    <xs:element name="summary-cached" type="xs:string"/>
+                                    <xs:element name="total" type="xs:string"/>
+                                    <xs:element name="free" type="xs:string"/>
+                                    <xs:element name="cached" type="xs:string"/>
+                                    <xs:element name="swap-cached" type="xs:string"/>
+                                    <xs:element name="active" type="xs:string"/>
+                                    <xs:element name="inactive" type="xs:string"/>
+                                    <xs:element name="hightotal" type="xs:string"/>
+                                    <xs:element name="highfree" type="xs:string"/>
+                                    <xs:element name="lowtotal" type="xs:string"/>
+                                    <xs:element name="lowfree" type="xs:string"/>
+                                    <xs:element name="swaptotal" type="xs:string"/>
+                                    <xs:element name="swapfree" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_network_interfaces">
                             <xs:complexType>
                                 <xs:sequence>

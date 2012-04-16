@@ -114,7 +114,7 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 8  */ dslam_siemens_hix5300_get_fans,
 /* 9  */ dslam_siemens_hix5300_get_slots,
 /* 10 */ dslam_siemens_hix5300_get_uptime,
-/* 11 */ dslam_siemens_hix5300_nop,
+/* 11 */ dslam_siemens_hix5300_get_memory_info,
 /* 12 */ dslam_siemens_hix5300_nop,
 /* 13 */ dslam_siemens_hix5300_nop,
 /* 14 */ dslam_siemens_hix5300_get_slot_ports,

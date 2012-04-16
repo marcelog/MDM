@@ -23,8 +23,7 @@
 void
 dslam_siemens_hix5300_nop(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     d->exec_buffer_post_len = 0;
     return;
 }
@@ -335,8 +334,7 @@ dslam_siemens_hix5300_get_word_delimited_by(
 void
 dslam_siemens_hix5300_get_soft_versions(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlBufferPtr psBuf = NULL;
@@ -413,8 +411,7 @@ dslam_siemens_hix5300_get_soft_versions_done:
 void
 dslam_siemens_hix5300_get_alarms(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     char *start;
     char *end;
     start = strstr(d->exec_buffer, "Alarm List :");
@@ -448,8 +445,7 @@ dslam_siemens_hix5300_get_alarms(
 void
 dslam_siemens_hix5300_get_uptime(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     snprintf(
         d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
         "<siemens_hix5300_uptime><![CDATA[%.*s]]></siemens_hix5300_uptime>",
@@ -466,8 +462,7 @@ dslam_siemens_hix5300_get_uptime(
 void
 dslam_siemens_hix5300_get_fans(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     char *start = strstr(d->exec_buffer, "Fan State");
     char *end;
     int i = 1;
@@ -519,8 +514,7 @@ dslam_siemens_hix5300_get_fans_done:
 void
 dslam_siemens_hix5300_get_ntp(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlBufferPtr psBuf = NULL;
@@ -571,8 +565,7 @@ dslam_siemens_hix5300_get_ntp_done:
 void
 dslam_siemens_hix5300_get_system_version(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlBufferPtr psBuf = NULL;
@@ -610,8 +603,7 @@ dslam_siemens_hix5300_get_system_version_done:
 void
 dslam_siemens_hix5300_get_syslog(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlNodePtr node = NULL;
@@ -675,8 +667,7 @@ dslam_siemens_hix5300_get_syslog_done:
 void
 dslam_siemens_hix5300_get_line_config(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlNodePtr node = NULL;
@@ -760,8 +751,7 @@ dslam_siemens_hix5300_get_line_config_done:
 void
 dslam_siemens_hix5300_get_slot_ports(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlNodePtr node = NULL;
@@ -845,8 +835,7 @@ dslam_siemens_hix5300_get_slot_ports_done:
 void
 dslam_siemens_hix5300_get_slots(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlNodePtr node = NULL;
@@ -906,8 +895,7 @@ dslam_siemens_hix5300_get_slots_done:
 void
 dslam_siemens_hix5300_get_physical_port_info(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlNodePtr node = NULL;
@@ -1023,8 +1011,7 @@ dslam_siemens_hix5300_get_physical_port_info_done:
 void
 dslam_siemens_hix5300_get_service_profile(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlNodePtr node = NULL;
@@ -1200,8 +1187,7 @@ dslam_siemens_hix5300_get_service_profile_done:
 void
 dslam_siemens_hix5300_get_network_interfaces(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
-)
-{
+) {
     xmlDocPtr doc = NULL; /* document pointer */
     xmlNodePtr root_node = NULL;
     xmlNodePtr node = NULL;
@@ -1265,6 +1251,148 @@ dslam_siemens_hix5300_get_network_interfaces(
 
     /* Done. */
 dslam_siemens_hix5300_get_network_interfaces_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+/*!
+ * This will try to get memory information.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_memory_info(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    const char *start;
+    char buffer[128];
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_memory", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_memory_done;
+    }
+    start = strstr(d->exec_buffer, "Mem: ");
+    if (start == NULL) {
+        snprintf(
+            d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+            "<siemens_hix5300_memory/>"
+        );
+        d->exec_buffer_post_len = strlen(d->exec_buffer);
+        return;
+    }
+    start += 5;
+    start = dslam_siemens_hix5300_get_word_delimited_by(
+        start, strlen(start), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "summary-total", buffer);
+
+    start = dslam_siemens_hix5300_get_word_delimited_by(
+        start, strlen(start), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "summary-used", buffer);
+
+    start = dslam_siemens_hix5300_get_word_delimited_by(
+        start, strlen(start), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "summary-free", buffer);
+
+    start = dslam_siemens_hix5300_get_word_delimited_by(
+        start, strlen(start), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "summary-shared", buffer);
+
+    start = dslam_siemens_hix5300_get_word_delimited_by(
+        start, strlen(start), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "summary-buffers", buffer);
+
+    start = dslam_siemens_hix5300_get_word_delimited_by(
+        start, strlen(start), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "summary-cached", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "MemTotal", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "total", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "MemFree", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "free", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "MemShared", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "shared", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "Buffers", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "buffers", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "Cached", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "cached", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "SwapCached", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "swap-cached", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "Active", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "active", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "Inactive", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "inactive", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "HighTotal", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "hightotal", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "HighFree", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "highfree", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "LowTotal", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "lowtotal", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "LowFree", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "lowfree", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "SwapTotal", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "swaptotal", buffer);
+
+    dslam_siemens_hix5300_parse_with_spaces(
+        d->exec_buffer, "SwapFree", buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(root_node, "swapfree", buffer);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_memory_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }
