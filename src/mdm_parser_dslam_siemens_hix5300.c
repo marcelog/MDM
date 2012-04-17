@@ -1972,3 +1972,190 @@ dslam_siemens_hix5300_get_cards_done:
     return;
 }
 
+/*!
+ * This will try to get all routes.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_routes(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    char buffer2[128];
+    char buffer3[128];
+    section_t *lines;
+    section_t *currentLine;
+    const char *lineStart;
+    const char *tmp;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_routelist", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_routes_done;
+    }
+    lines = dslam_siemens_hix5300_parse_lines(d->exec_buffer);
+    currentLine = lines;
+    while(currentLine->length > 5)
+    {
+        currentLine = currentLine->next;
+    }
+    currentLine = currentLine->next;
+    while(currentLine != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "route");
+        lineStart = currentLine->start;
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer3, sizeof(buffer3)
+        );
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer3, sizeof(buffer3)
+        );
+        dslam_siemens_hix5300_parse_with_slash(
+            buffer3, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "destination", buffer);
+        dslam_siemens_hix5300_xml_add(node, "mask", buffer2);
+
+        tmp = strstr(lineStart, "via ");
+        if (tmp == NULL)
+        {
+            dslam_siemens_hix5300_xml_add(node, "gateway", "local");
+            lineStart = strchr(lineStart, ',') + 2;
+        } else {
+            lineStart = tmp + strlen("via ");
+            tmp = strchr(lineStart, ',');
+            snprintf(buffer, sizeof(buffer), "%.*s", (int)(tmp - lineStart), lineStart);
+            dslam_siemens_hix5300_xml_add(node, "gateway", buffer);
+            lineStart = tmp + 2;
+        }
+        snprintf(buffer, sizeof(buffer), "%s", lineStart);
+        dslam_siemens_hix5300_xml_add(node, "interface", buffer);
+        currentLine = currentLine->next;
+        xmlAddChild(root_node, node);
+    }
+    dslam_siemens_hix5300_section_free(lines);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_routes_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
+ * This will try to get all net interfaces.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_interfaces(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    char buffer2[128];
+    char buffer3[128];
+    const char *lineStart;
+    const char *currentLine;
+    const char *lineEnd;
+    const char *lineEndTmp;
+    const char *ifEnd;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_ethlist", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_interfaces_done;
+    }
+    currentLine = d->exec_buffer;
+
+    while((currentLine = strstr(currentLine, "Interface ")) != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "eth");
+        ifEnd = strstr(currentLine, "collisions");
+        lineStart = currentLine;
+
+        lineStart += strlen("Interface ");
+        lineEnd = strchr(lineStart, 13);
+        snprintf(buffer, sizeof(buffer), "%.*s", (int)(lineEnd - lineStart), lineStart);
+        dslam_siemens_hix5300_xml_add(node, "id", buffer);
+
+        lineStart = strstr(currentLine, "Hardware is ");
+        lineStart += strlen("Hardware is ");
+        lineEnd = strchr(lineStart, ',');
+        lineEndTmp = strchr(lineStart, 13);
+        if (lineEnd > lineEndTmp)
+        {
+            lineEnd = lineEndTmp;
+        }
+        snprintf(buffer, sizeof(buffer), "%.*s", (int)(lineEnd - lineStart), lineStart);
+        dslam_siemens_hix5300_xml_add(node, "type", buffer);
+
+        lineStart = strstr(currentLine, "Bandwidth ");
+        lineStart += strlen("Bandwidth ");
+        lineEnd = strchr(lineStart, 13);
+        snprintf(buffer, sizeof(buffer), "%.*s", (int)(lineEnd - lineStart), lineStart);
+        dslam_siemens_hix5300_xml_add(node, "speed", buffer);
+
+        lineStart = strstr(currentLine, "<");
+        lineStart += 1;
+        lineEnd = strchr(lineStart, '>');
+        snprintf(buffer, sizeof(buffer), "%.*s", (int)(lineEnd - lineStart), lineStart);
+        dslam_siemens_hix5300_xml_add(node, "status", buffer);
+
+        lineStart = strstr(currentLine, "address is ");
+        if (lineStart != NULL && lineStart < ifEnd)
+        {
+            lineStart += strlen("address is ");
+            lineEnd = strchr(lineStart, 13);
+            snprintf(buffer, sizeof(buffer), "%.*s", (int)(lineEnd - lineStart), lineStart);
+            dslam_siemens_hix5300_xml_add(node, "mac", buffer);
+        } else {
+            dslam_siemens_hix5300_xml_add(node, "mac", "N/A");
+        }
+
+        lineStart = strstr(currentLine, "inet ");
+        if (lineStart != NULL && lineStart < ifEnd)
+        {
+            lineStart += strlen("inet ");
+            lineEnd = strchr(lineStart, 13);
+            snprintf(buffer3, sizeof(buffer3), "%.*s", (int)(lineEnd - lineStart), lineStart);
+            dslam_siemens_hix5300_parse_with_slash(
+                buffer3, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+            );
+            dslam_siemens_hix5300_xml_add(node, "ip", buffer);
+            dslam_siemens_hix5300_xml_add(node, "netmask", buffer2);
+        } else {
+            dslam_siemens_hix5300_xml_add(node, "ip", "N/A");
+            dslam_siemens_hix5300_xml_add(node, "netmask", "N/A");
+        }
+
+        xmlAddChild(root_node, node);
+        currentLine++;
+    }
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_interfaces_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+

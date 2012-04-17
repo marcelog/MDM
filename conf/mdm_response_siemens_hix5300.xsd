@@ -249,6 +249,41 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_ethlist">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="eth" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="id" type="xs:string"/>
+                                                <xs:element name="speed" type="xs:string"/>
+                                                <xs:element name="type" type="xs:string"/>
+                                                <xs:element name="mac" type="xs:string"/>
+                                                <xs:element name="duplex" type="xs:string"/>
+                                                <xs:element name="ip" type="xs:string"/>
+                                                <xs:element name="netmask" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="siemens_hix5300_routelist">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="route" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="destination" type="xs:string"/>
+                                                <xs:element name="netmask" type="xs:string"/>
+                                                <xs:element name="gateway" type="xs:string"/>
+                                                <xs:element name="interface" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_cards">
                             <xs:complexType>
                                 <xs:sequence>

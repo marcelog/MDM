@@ -82,6 +82,10 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 60 */ "Delete VLAN",
 /* 61 */ "Get ports description",
 /* 62 */ "Get ports pvcs",
+/* 63 */ "Upload backup",
+/* 64 */ "Download backup",
+/* 65 */ "Get routes",
+/* 66 */ "Show interfaces",
 	NULL
 };
 
@@ -152,7 +156,11 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 59 */ 1,
 /* 60 */ 1,
 /* 61 */ 0,
-/* 62 */ 0
+/* 62 */ 0,
+/* 63 */ 4,
+/* 64 */ 4,
+/* 65 */ 0,
+/* 66 */ 0
 };
 
 /*!
@@ -223,7 +231,11 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 59 */ dslam_siemens_hix5300_nop,
 /* 60 */ dslam_siemens_hix5300_nop,
 /* 61 */ dslam_siemens_hix5300_get_port_descriptions,
-/* 62 */ dslam_siemens_hix5300_get_ports_pvcs
+/* 62 */ dslam_siemens_hix5300_get_ports_pvcs,
+/* 63 */ dslam_siemens_hix5300_nop,
+/* 64 */ dslam_siemens_hix5300_nop,
+/* 65 */ dslam_siemens_hix5300_get_routes,
+/* 66 */ dslam_siemens_hix5300_get_interfaces
 };
 
 /*!
@@ -294,6 +306,10 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 60 */    "configure terminal\nbridge\nno vlan %%ARG%%\nexit\nexit",
 /* 61 */    "show running-config | include description",
 /* 62 */    "show running-config | include vcc",
+/* 63 */    "configure terminal\nupload cxu config %%ARG%% %%ARG%%\n%%ARG%%\n%%ARG%%\nexit", // ip, filename, user, pass
+/* 64 */    "configure terminal\ndownload cxu config %%ARG%% %%ARG%%\n%%ARG%%\n%%ARG%%\nexit", // ip, filename, user, pass
+/* 65 */    "show ip route",
+/* 66 */    "show interface",
 NULL
 };
 

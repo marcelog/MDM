@@ -92,4 +92,12 @@ extern void
 dslam_siemens_hix5300_get_cards(
     mdm_device_descriptor_t *d, mdm_operation_result_t *status
 );
+extern void
+dslam_siemens_hix5300_get_routes(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+);
+extern void
+dslam_siemens_hix5300_get_interfaces(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+);
 #endif
