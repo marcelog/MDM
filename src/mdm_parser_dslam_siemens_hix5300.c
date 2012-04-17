@@ -1771,6 +1771,7 @@ dslam_siemens_hix5300_get_port_descriptions_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }
+
 /*!
  * This will try to get ports pvcs.
  * \param d Device descriptor.
@@ -1843,6 +1844,130 @@ dslam_siemens_hix5300_get_ports_pvcs(
 
     /* Done. */
 dslam_siemens_hix5300_get_port_descriptions_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
+ * This will try to get all cards state.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_cards(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    char buffer2[128];
+    char buffer3[128];
+    section_t *lines;
+    section_t *currentLine;
+    const char *lineStart;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_cards", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_cards_done;
+    }
+    lines = dslam_siemens_hix5300_parse_lines(d->exec_buffer);
+    currentLine = lines;
+    currentLine = currentLine->next;
+    currentLine = currentLine->next;
+    currentLine = currentLine->next;
+    while(currentLine != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "card");
+        lineStart = currentLine->start;
+        dslam_siemens_hix5300_parse_with_slash(
+            lineStart, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "slot", buffer);
+        dslam_siemens_hix5300_xml_add(node, "port", buffer2);
+        lineStart = strchr(lineStart, 32);
+
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "type", buffer);
+
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "pvid", buffer);
+
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer3, sizeof(buffer3)
+        );
+        dslam_siemens_hix5300_parse_with_slash(
+            buffer3, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "link1", buffer);
+        dslam_siemens_hix5300_xml_add(node, "link2", buffer2);
+
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "nego", buffer);
+
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer3, sizeof(buffer3)
+        );
+        dslam_siemens_hix5300_parse_with_slash(
+            buffer3, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "duplex1", buffer);
+        dslam_siemens_hix5300_xml_add(node, "duplex2", buffer2);
+
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer3, sizeof(buffer3)
+        );
+        dslam_siemens_hix5300_parse_with_slash(
+            buffer3, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "speed1", buffer);
+        dslam_siemens_hix5300_xml_add(node, "speed2", buffer2);
+
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer3, sizeof(buffer3)
+        );
+        dslam_siemens_hix5300_parse_with_slash(
+            buffer3, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "fc1", buffer);
+        dslam_siemens_hix5300_xml_add(node, "fc2", buffer2);
+
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer3, sizeof(buffer3)
+        );
+        dslam_siemens_hix5300_parse_with_slash(
+            buffer3, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "sfp1", buffer);
+        dslam_siemens_hix5300_xml_add(node, "sfp2", buffer2);
+
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "role", buffer);
+
+        currentLine = currentLine->next;
+        xmlAddChild(root_node, node);
+    }
+    dslam_siemens_hix5300_section_free(lines);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_cards_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }

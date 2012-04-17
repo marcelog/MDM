@@ -219,7 +219,7 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 55 */ dslam_siemens_hix5300_nop,
 /* 56 */ dslam_siemens_hix5300_nop,
 /* 57 */ dslam_siemens_hix5300_get_port_description,
-/* 58 */ dslam_siemens_hix5300_nop,
+/* 58 */ dslam_siemens_hix5300_get_cards,
 /* 59 */ dslam_siemens_hix5300_nop,
 /* 60 */ dslam_siemens_hix5300_nop,
 /* 61 */ dslam_siemens_hix5300_get_port_descriptions,

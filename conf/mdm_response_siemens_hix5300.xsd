@@ -249,6 +249,34 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_cards">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="card" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="slot" type="xs:string"/>
+                                                <xs:element name="port" type="xs:string"/>
+                                                <xs:element name="type" type="xs:string"/>
+                                                <xs:element name="pvid" type="xs:string"/>
+                                                <xs:element name="link1" type="xs:string"/>
+                                                <xs:element name="link2" type="xs:string"/>
+                                                <xs:element name="nego" type="xs:string"/>
+                                                <xs:element name="duplex1" type="xs:string"/>
+                                                <xs:element name="duplex2" type="xs:string"/>
+                                                <xs:element name="speed1" type="xs:string"/>
+                                                <xs:element name="speed2" type="xs:string"/>
+                                                <xs:element name="fc1" type="xs:string"/>
+                                                <xs:element name="fc2" type="xs:string"/>
+                                                <xs:element name="sfp1" type="xs:string"/>
+                                                <xs:element name="sfp2" type="xs:string"/>
+                                                <xs:element name="role" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_portdetail">
                             <xs:complexType>
                                 <xs:sequence>
