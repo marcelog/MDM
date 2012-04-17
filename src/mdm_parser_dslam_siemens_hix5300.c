@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@gmail.com>
+ * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -175,6 +175,7 @@ static section_t *
 dslam_siemens_hix5300_parse_section(const char *subject)
 {
     const char *start;
+    const char *starttmp;
     const char *end;
     const char *eol;
     const char *absoluteEnd = subject + strlen(subject);
@@ -184,10 +185,14 @@ dslam_siemens_hix5300_parse_section(const char *subject)
     start = subject;
     do
     {
-        start = strstr(start, "--------");
-        if (start == NULL) {
-            break;
+        starttmp = strstr(start, "--------");
+        if (starttmp == NULL) {
+            starttmp = strstr(start, "=======");
+            if (starttmp == NULL) {
+                break;
+            }
         }
+        start = starttmp;
         eol = strchr(start, 13);
         if (eol == NULL) {
             break;
@@ -733,11 +738,11 @@ dslam_siemens_hix5300_get_line_config(
                 currentLine = currentLine->next;
             } while(currentLine != NULL);
         }
+        if (lines != NULL) {
+            dslam_siemens_hix5300_section_free(lines);
+        }
     }
     dslam_siemens_hix5300_section_free(sections);
-    if (lines != NULL) {
-        dslam_siemens_hix5300_section_free(lines);
-    }
 
     xmlNodeDump(psBuf, doc, root_node, 99, 1);
     snprintf(
@@ -817,11 +822,11 @@ dslam_siemens_hix5300_get_slot_ports(
                 currentLine = currentLine->next;
             } while(currentLine != NULL);
         }
+        if (lines != NULL) {
+            dslam_siemens_hix5300_section_free(lines);
+        }
     }
     dslam_siemens_hix5300_section_free(sections);
-    if (lines != NULL) {
-        dslam_siemens_hix5300_section_free(lines);
-    }
 
     xmlNodeDump(psBuf, doc, root_node, 99, 1);
     snprintf(
@@ -1444,7 +1449,7 @@ dslam_siemens_hix5300_get_mac_ports(
         currentLine = lines;
         currentLine = currentLine->next;
         currentLine = currentLine->next;
-        do
+        while(currentLine != NULL)
         {
             node = xmlNewNode(NULL, BAD_CAST "mac");
             lineStart = currentLine->start;
@@ -1481,7 +1486,7 @@ dslam_siemens_hix5300_get_mac_ports(
 
             xmlAddChild(root_node, node);
             currentLine = currentLine->next;
-        } while(currentLine != NULL);
+        }
     }
     dslam_siemens_hix5300_section_free(lines);
 
@@ -1525,6 +1530,200 @@ dslam_siemens_hix5300_get_port_description(
         (int)(end - start), start
     );
     d->exec_buffer_post_len = strlen(d->exec_buffer_post);
+    return;
+}
+
+/*!
+ * This will try to get all ports configuration.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_all_ports_config(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+
+}
+//lre 1/1 atm vcc 1 vpi 1 vci 33
+
+/*!
+ * This will try to get port detail.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_port_detail(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    char buffer2[128];
+    section_t *sections = dslam_siemens_hix5300_parse_section(d->exec_buffer_post);
+    section_t *currentSection;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_portdetail", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_port_detail_done;
+    }
+    currentSection = sections;
+    while(currentSection != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "port");
+        dslam_siemens_hix5300_parse_with_slash(
+            currentSection->start + 5, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "slot", buffer);
+        dslam_siemens_hix5300_xml_add(node, "port", buffer2);
+        dslam_siemens_hix5300_xml_add_from_section(node, "Profile Name", "profile", currentSection);
+        dslam_siemens_hix5300_xml_add_from_section(node, "Ratemode", "ratemode", currentSection);
+        dslam_siemens_hix5300_xml_add_from_section(node, "GsStandard", "standard", currentSection);
+        dslam_siemens_hix5300_xml_add_from_section(node, "AdminStatus", "admin-status", currentSection);
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "Target SNR Margin(dB)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "target-snr-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "target-snr-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "ATU-C Max SNR Margind(dB)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed("", buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atuc-max-snr", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "ATU-C Min SNR Margind(dB)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed("", buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atuc-min-snr", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "ATU-R Max SNR Margind(dB)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed("", buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atur-max-snr", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "ATU-R Min SNR Margind(dB)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed("", buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atur-min-snr", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "ATU-C Shift SNR Margin(dB)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atuc-shift-snr-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atuc-shift-snr-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "ATU-R Shift SNR Margin(dB)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atur-shift-snr-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atur-shift-snr-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "ATU-C Minimum shift time(sec)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atuc-minshift-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atuc-minshift-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "ATU-R Minimum shift time(sec)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atur-minshift-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "atur-minshift-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "Fast Min Rate (kbps)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "fast-min-rate-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "fast-min-rate-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "Fast Max Rate (kbps)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "fast-max-rate-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "fast-max-rate-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "Interleaved Min Rate (kbps)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "interleave-min-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "interleave-min-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "Interleaved Max Rate (kbps)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "interleave-max-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "interleave-max-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "Interleaved Delay (ms)",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "interleave-delay-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "interleave-delay-down", buffer2);
+
+        dslam_siemens_hix5300_parse_with_spaces(
+            currentSection->start, "Interleaved correction time",
+            buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_parse_speed_up(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "interleave-correction-time-up", buffer2);
+        dslam_siemens_hix5300_parse_speed_down(buffer, buffer2, sizeof(buffer2));
+        dslam_siemens_hix5300_xml_add(node, "interleave-correction-time-down", buffer2);
+
+        xmlAddChild(root_node, node);
+        currentSection = currentSection->next;
+    }
+    dslam_siemens_hix5300_section_free(sections);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_port_detail_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }
 

@@ -232,6 +232,49 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_portdetail">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="port" type="xs:string"/>
+                                                <xs:element name="slot" type="xs:string"/>
+                                                <xs:element name="profile" type="xs:string"/>
+                                                <xs:element name="ratemode" type="xs:string"/>
+                                                <xs:element name="standard" type="xs:string"/>
+                                                <xs:element name="target-snr-up" type="xs:string"/>
+                                                <xs:element name="target-snr-down" type="xs:string"/>
+                                                <xs:element name="atuc-max-snr" type="xs:string"/>
+                                                <xs:element name="atuc-min-snr" type="xs:string"/>
+                                                <xs:element name="atur-max-snr" type="xs:string"/>
+                                                <xs:element name="atur-min-snr" type="xs:string"/>
+                                                <xs:element name="atuc-shift-snr-up" type="xs:string"/>
+                                                <xs:element name="atuc-shift-snr-down" type="xs:string"/>
+                                                <xs:element name="atur-shift-snr-up" type="xs:string"/>
+                                                <xs:element name="atur-shift-snr-down" type="xs:string"/>
+                                                <xs:element name="atuc-minshift-snr-up" type="xs:string"/>
+                                                <xs:element name="atuc-minshift-snr-down" type="xs:string"/>
+                                                <xs:element name="atur-minshift-snr-up" type="xs:string"/>
+                                                <xs:element name="atur-minshift-snr-down" type="xs:string"/>
+                                                <xs:element name="fast-min-rate-up" type="xs:string"/>
+                                                <xs:element name="fast-min-rate-down" type="xs:string"/>
+                                                <xs:element name="fast-max-rate-up" type="xs:string"/>
+                                                <xs:element name="fast-max-rate-down" type="xs:string"/>
+                                                <xs:element name="interleave-min-up" type="xs:string"/>
+                                                <xs:element name="interleave-min-down" type="xs:string"/>
+                                                <xs:element name="interleave-max-up" type="xs:string"/>
+                                                <xs:element name="interleave-max-down" type="xs:string"/>
+                                                <xs:element name="interleave-delay-up" type="xs:string"/>
+                                                <xs:element name="interleave-delay-down" type="xs:string"/>
+                                                <xs:element name="interleave-correction-time-up" type="xs:string"/>
+                                                <xs:element name="interleave-correction-time-down" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                     </xs:choice>
                 </xs:complexType>
             </xs:element>
