@@ -1,7 +1,7 @@
 /*!
  * \file mdm_parser_dslam_siemens_hix5300.c Parsers for dslams siemens hix5300.
  *
- * \author Marcelo Gornstein <marcelog@netlabs.com.ar>
+ * \author Marcelo Gornstein <marcelog@gmail.com>
  */
 #include    <stdio.h>
 #include    <stdlib.h>
@@ -1534,19 +1534,6 @@ dslam_siemens_hix5300_get_port_description(
 }
 
 /*!
- * This will try to get all ports configuration.
- * \param d Device descriptor.
- * \param status Result of the operation.
- */
-void
-dslam_siemens_hix5300_get_all_ports_config(
-    mdm_device_descriptor_t *d, mdm_operation_result_t *status
-) {
-
-}
-//lre 1/1 atm vcc 1 vpi 1 vci 33
-
-/*!
  * This will try to get port detail.
  * \param d Device descriptor.
  * \param status Result of the operation.
@@ -1723,6 +1710,139 @@ dslam_siemens_hix5300_get_port_detail(
 
     /* Done. */
 dslam_siemens_hix5300_get_port_detail_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
+/*!
+ * This will try to get port detail.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_port_descriptions(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    char buffer2[128];
+    section_t *lines;
+    section_t *currentLine;
+    char *lineStart;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_port_descriptions", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_port_descriptions_done;
+    }
+    lines = dslam_siemens_hix5300_parse_lines(d->exec_buffer);
+    currentLine = lines;
+    while(currentLine != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "port_description");
+        lineStart = strstr(currentLine->start, "port lre ");
+        lineStart += strlen("port lre ");
+        dslam_siemens_hix5300_parse_with_slash(
+            lineStart, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "slot", buffer);
+        dslam_siemens_hix5300_xml_add(node, "port", buffer2);
+
+        lineStart = strstr(currentLine->start, "description ");
+        lineStart += strlen("description ");
+        dslam_siemens_hix5300_xml_add(node, "description", lineStart);
+        currentLine = currentLine->next;
+        xmlAddChild(root_node, node);
+    }
+    dslam_siemens_hix5300_section_free(lines);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_port_descriptions_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+/*!
+ * This will try to get ports pvcs.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_ports_pvcs(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    char buffer2[128];
+    section_t *lines;
+    section_t *currentLine;
+    const char *lineStart;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_ports_pvcs", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_port_descriptions_done;
+    }
+    lines = dslam_siemens_hix5300_parse_lines(d->exec_buffer);
+    currentLine = lines;
+    while(currentLine != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "port_pvc");
+        lineStart = strstr(currentLine->start, "lre ");
+        lineStart += strlen("lre ");
+        dslam_siemens_hix5300_parse_with_slash(
+            lineStart, buffer, sizeof(buffer), buffer2, sizeof(buffer2)
+        );
+        dslam_siemens_hix5300_xml_add(node, "slot", buffer);
+        dslam_siemens_hix5300_xml_add(node, "port", buffer2);
+
+        lineStart = strstr(currentLine->start, "atm vcc ");
+        lineStart += strlen("atm vcc ");
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "vcc", buffer);
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+        );
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "vpi", buffer);
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+        );
+        lineStart = dslam_siemens_hix5300_get_word_delimited_by(
+            lineStart, strlen(lineStart), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "vci", buffer);
+
+        currentLine = currentLine->next;
+        xmlAddChild(root_node, node);
+    }
+    dslam_siemens_hix5300_section_free(lines);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_port_descriptions_done:
     dslam_siemens_hix5300_xml_free(&doc, &psBuf);
     return;
 }

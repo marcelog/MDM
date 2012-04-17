@@ -80,6 +80,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 58 */ "Show port 0",
 /* 59 */ "Create VLAN",
 /* 60 */ "Delete VLAN",
+/* 61 */ "Get ports description",
+/* 62 */ "Get ports pvcs",
 	NULL
 };
 
@@ -148,7 +150,9 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 57 */ 1,
 /* 58 */ 0,
 /* 59 */ 1,
-/* 60 */ 1
+/* 60 */ 1,
+/* 61 */ 0,
+/* 62 */ 0
 };
 
 /*!
@@ -187,7 +191,7 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 27 */ dslam_siemens_hix5300_nop,
 /* 28 */ dslam_siemens_hix5300_nop,
 /* 29 */ dslam_siemens_hix5300_get_slot_ports,
-/* 30 */ dslam_siemens_hix5300_get_all_ports_config,
+/* 30 */ dslam_siemens_hix5300_nop,
 /* 31 */ dslam_siemens_hix5300_get_physical_port_info,
 /* 32 */ dslam_siemens_hix5300_nop,
 /* 33 */ dslam_siemens_hix5300_nop,
@@ -217,7 +221,9 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 57 */ dslam_siemens_hix5300_get_port_description,
 /* 58 */ dslam_siemens_hix5300_nop,
 /* 59 */ dslam_siemens_hix5300_nop,
-/* 60 */ dslam_siemens_hix5300_nop
+/* 60 */ dslam_siemens_hix5300_nop,
+/* 61 */ dslam_siemens_hix5300_get_port_descriptions,
+/* 62 */ dslam_siemens_hix5300_get_ports_pvcs
 };
 
 /*!
@@ -286,6 +292,8 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 58 */    "show port s0",
 /* 59 */    "configure terminal\nbridge\nvlan create %%ARG%%\nexit\nexit",
 /* 60 */    "configure terminal\nbridge\nno vlan %%ARG%%\nexit\nexit",
+/* 61 */    "show running-config | include description",
+/* 62 */    "show running-config | include vcc",
 NULL
 };
 

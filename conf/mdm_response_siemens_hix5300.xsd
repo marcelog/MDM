@@ -232,6 +232,23 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_ports_pvcs">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="port_pvc" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="port" type="xs:string"/>
+                                                <xs:element name="slot" type="xs:string"/>
+                                                <xs:element name="vcc" type="xs:string"/>
+                                                <xs:element name="vpi" type="xs:string"/>
+                                                <xs:element name="vci" type="xs:string"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_portdetail">
                             <xs:complexType>
                                 <xs:sequence>
