@@ -79,7 +79,7 @@ static const telnet_telopt_t telopts[] = {
  * \param size Buffer size.
  */
 static void
-_send(int sock, const char *buffer, size_t size)
+__send(int sock, const char *buffer, size_t size)
 {
 	int rs;
 
@@ -108,6 +108,35 @@ _send(int sock, const char *buffer, size_t size)
 	MDM_LOGDEBUG("Done.");
 #endif
 }
+
+// Pauses after each 1310
+static void
+_send(int sock, const char *buffer, size_t size)
+{
+    const char *start = buffer;
+    const char *end;
+    size_t sent = 0;
+    size_t length = 0;
+    while(sent < size)
+    {
+        end = strchr(start, 13);
+        if (end == NULL) {
+            end = start + (size - sent);
+        } else {
+           if (end[1] == 10) {
+               end +=2;
+           } else {
+               end += 1;
+           }
+        }
+        length = end - start;
+        __send(sock, start, length);
+        sent += length;
+        start = end;
+        usleep(10000);
+    }
+}
+
 
 /*!
  * This one is called automatically by libtelnet when any events arrive.
