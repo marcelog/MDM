@@ -296,7 +296,7 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 50 */    "configure terminal\nbridge\nlre %%ARG%% adsl line-config profile %%ARG%%\nexit\nexit",
 /* 51 */    "configure terminal\nbridge\nlre %%ARG%% atm vc create vpi %%ARG%% vci %%ARG%%\nexit\nexit",
 /* 52 */    "configure terminal\nbridge\nlre %%ARG%% atm vc delete vpi %%ARG%% vci %%ARG%%\nexit\nexit",
-/* 53 */    "configure terminal\nbridge\nlre %%ARG%% atm vcc %ARG%% vpi %%ARG%% vci %%ARG%%\nexit\nexit",
+/* 53 */    "configure terminal\nbridge\nlre %%ARG%% atm vcc %%ARG%% vpi %%ARG%% vci %%ARG%%\nexit\nexit",
 /* 54 */    "configure terminal\nbridge\nport lre %%ARG%% enable\nexit\nexit",
 /* 55 */    "configure terminal\nbridge\nport lre %%ARG%% disable\nexit\nexit",
 /* 56 */    "configure terminal\nbridge\nport lre %%ARG%% description %%ARG%%\nexit\nexit",
@@ -306,8 +306,8 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 60 */    "configure terminal\nbridge\nno vlan %%ARG%%\nexit\nexit",
 /* 61 */    "show running-config | include description",
 /* 62 */    "show running-config | include vcc",
-/* 63 */    "configure terminal\nupload cxu config %%ARG%% %%ARG%%\n%%ARG%%\n%%ARG%%\nexit", // ip, filename, user, pass
-/* 64 */    "configure terminal\ndownload cxu config %%ARG%% %%ARG%%\n%%ARG%%\n%%ARG%%\nexit", // ip, filename, user, pass
+/* 63 */    "configure terminal\nupload cxu config %%ARG%% %%ARG%%\r\n%%ARG%%\r\n%%ARG%%\r\nexit", // ip, filename, user, pass
+/* 64 */    "configure terminal\ndownload cxu config %%ARG%% %%ARG%%\r\n%%ARG%%\r\n%%ARG%%\r\nexit", // ip, filename, user, pass
 /* 65 */    "show ip route",
 /* 66 */    "show interface",
 NULL
