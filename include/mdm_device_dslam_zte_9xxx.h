@@ -59,6 +59,7 @@ typedef enum
 /* 44 */ MDM_DSLAM_ZTE_9xxx_CFG_PORT_PVC_VLAN,
 /* 45 */ MDM_DSLAM_ZTE_9xxx_UPLOAD_BACKUP_TO_FTP,
 /* 46 */ MDM_DSLAM_ZTE_9xxx_DOWNLOAD_BACKUP_FROM_FTP,
+/* 47 */ MDM_DSLAM_ZTE_9xxx_CHANGE_PORT_MODE,
 	MDM_DSLAM_ZTE_9xxx_CMD_DUMMY
 } mdm_device_cmd_dslam_zte_9xxx_t;
 

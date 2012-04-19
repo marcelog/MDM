@@ -66,6 +66,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_9xxx_STR[] =
 /* 44 */ "Configure PVC vlan",
 /* 45 */ "Backup to FTP",
 /* 46 */ "Download from FTP",
+/* 47 */ "Change port mode",
 	NULL
 };
 
@@ -136,7 +137,8 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_ARGSN[] =
 /* 43 */ 2,
 /* 44 */ 3,
 /* 45 */ 2,
-/* 46 */ 2
+/* 46 */ 2,
+/* 47 */ 2
 };
 
 /*!
@@ -191,7 +193,8 @@ MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_PROCESS[] =
 /* 43 */ dslam_zte_9xxx_nop,
 /* 44 */ dslam_zte_9xxx_nop,
 /* 45 */ dslam_zte_9xxx_nop,
-/* 46 */ dslam_zte_9xxx_nop
+/* 46 */ dslam_zte_9xxx_nop,
+/* 47 */ dslam_zte_9xxx_nop
 };
 
 /*!
@@ -246,6 +249,7 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_9xxx_STR[] =
 /* 44 */ "configure interface dsl-mpvc %%ARG%%\r\npvid %%ARG%% PVC%%ARG%%\r\nexit",
 /* 45 */ "copy startup-config network\r\n%%ARG%%\r\n%%ARG%%", // ip, filename
 /* 46 */ "copy network startup-config\r\n%%ARG%%\r\n%%ARG%%",
+/* 47 */ "configure interface dsl-mpvc %%ARG%%\r\nshutdown\r\nadsl transmode\r\n%%ARG%%\r\nno shutdown\r\nexit",
 	NULL
 };
 
