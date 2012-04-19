@@ -86,6 +86,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 64 */ "Download backup",
 /* 65 */ "Get routes",
 /* 66 */ "Show interfaces",
+/* 67 */ "Tag for untagged in port/pvid",
+/* 68 */ "Associate pvid to vlan",
 	NULL
 };
 
@@ -160,7 +162,9 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 63 */ 4,
 /* 64 */ 4,
 /* 65 */ 0,
-/* 66 */ 0
+/* 66 */ 0,
+/* 67 */ 2,
+/* 68 */ 2
 };
 
 /*!
@@ -235,7 +239,9 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 63 */ dslam_siemens_hix5300_nop,
 /* 64 */ dslam_siemens_hix5300_nop,
 /* 65 */ dslam_siemens_hix5300_get_routes,
-/* 66 */ dslam_siemens_hix5300_get_interfaces
+/* 66 */ dslam_siemens_hix5300_get_interfaces,
+/* 67 */ dslam_siemens_hix5300_nop,
+/* 68 */ dslam_siemens_hix5300_nop
 };
 
 /*!
@@ -310,6 +316,8 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 64 */    "configure terminal\ndownload cxu config %%ARG%% %%ARG%%\r\n%%ARG%%\r\n%%ARG%%\r\nexit", // ip, filename, user, pass
 /* 65 */    "show ip route",
 /* 66 */    "show interface",
+/* 67 */    "configure terminal\nbridge\nvlan add %%ARG%% %%ARG%% untagged\nexit\nexit", //vlan, ports
+/* 68 */    "configure terminal\nbridge\nvlan pvid %%ARG%% %%ARG%%\nexit\nexit", // ports, vlans
 NULL
 };
 
@@ -760,11 +768,13 @@ mdm_device_dslam_siemens_hix5300_check_error(
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Start.");
 #endif
-    if((error = strstr(d->exec_buffer, "%")) != NULL) {
-	    status->status = MDM_OP_ERROR;
-		snprintf(
-            status->status_message, sizeof(status->status_message), "%s", error
-		);
+    if (strstr(d->exec_buffer, "This command will be removed in future") == NULL) {
+        if((error = strstr(d->exec_buffer, "%")) != NULL) {
+	        status->status = MDM_OP_ERROR;
+		    snprintf(
+                status->status_message, sizeof(status->status_message), "%s", error
+    		);
+        }
 	}
 	/*% Unknown command*/
 	/* Done. */
