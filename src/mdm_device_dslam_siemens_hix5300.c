@@ -195,7 +195,7 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 19 */ dslam_siemens_hix5300_get_service_profile,
 /* 20 */ dslam_siemens_hix5300_nop,
 /* 21 */ dslam_siemens_hix5300_get_network_interfaces,
-/* 22 */ dslam_siemens_hix5300_nop,
+/* 22 */ dslam_siemens_hix5300_get_cpu_load,
 /* 23 */ dslam_siemens_hix5300_nop,
 /* 24 */ dslam_siemens_hix5300_nop,
 /* 25 */ dslam_siemens_hix5300_nop,
@@ -768,7 +768,10 @@ mdm_device_dslam_siemens_hix5300_check_error(
 #if MDM_DEBUG_MESSAGES > 0
 	MDM_LOGDEBUG("Start.");
 #endif
-    if (strstr(d->exec_buffer, "This command will be removed in future") == NULL) {
+    if (
+        strstr(d->exec_buffer, "This command will be removed in future") == NULL
+        && strstr(d->exec_buffer, "Average CPU load") == NULL
+    ) {
         if((error = strstr(d->exec_buffer, "%")) != NULL) {
 	        status->status = MDM_OP_ERROR;
 		    snprintf(

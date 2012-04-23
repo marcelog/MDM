@@ -2160,3 +2160,59 @@ dslam_siemens_hix5300_get_interfaces_done:
     return;
 }
 
+/*!
+ * This will try to get the cpu load.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_cpu_load(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    char *start;
+    char *end;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_cpuload", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_cpu_load_done;
+    }
+
+    start = strstr(d->exec_buffer, "5 sec:");
+    start += strlen("5 sec:");
+    while(*start == 32) start++;
+    end = strchr(start, '(');
+    snprintf(buffer, sizeof(buffer), "%.*s", (int)(end - start), start);
+    dslam_siemens_hix5300_xml_add(root_node, "sec5", buffer);
+
+    start = strstr(d->exec_buffer, "1 min:");
+    start += strlen("1 min:");
+    while(*start == 32) start++;
+    end = strchr(start, '(');
+    snprintf(buffer, sizeof(buffer), "%.*s", (int)(end - start), start);
+    dslam_siemens_hix5300_xml_add(root_node, "min1", buffer);
+
+    start = strstr(d->exec_buffer, "10 min:");
+    start += strlen("10 min:");
+    while(*start == 32) start++;
+    end = strchr(start, '(');
+    snprintf(buffer, sizeof(buffer), "%.*s", (int)(end - start), start);
+    dslam_siemens_hix5300_xml_add(root_node, "min10", buffer);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_cpu_load_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+

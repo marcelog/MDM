@@ -28,6 +28,15 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_cpuload">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="sec5" type="xs:string"/>
+                                    <xs:element name="min1" type="xs:string"/>
+                                    <xs:element name="min10" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_ntp">
                             <xs:complexType>
                                 <xs:sequence>
