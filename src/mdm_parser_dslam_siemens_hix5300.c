@@ -1047,6 +1047,7 @@ dslam_siemens_hix5300_get_service_profile(
             dslam_siemens_hix5300_xml_add_from_section(node, "Profile Name", "name", currentSection);
             dslam_siemens_hix5300_xml_add_from_section(node, "Ratemode", "ratemode", currentSection);
             dslam_siemens_hix5300_xml_add_from_section(node, "GsStandard", "standard", currentSection);
+            dslam_siemens_hix5300_xml_add_from_section(node, "LineType", "linetype", currentSection);
             dslam_siemens_hix5300_parse_with_spaces(
                 currentSection->start, "Target SNR Margin(dB)",
                 buffer, sizeof(buffer)

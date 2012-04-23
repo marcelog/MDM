@@ -200,6 +200,7 @@
                                                 <xs:element name="name" type="xs:string"/>
                                                 <xs:element name="ratemode" type="xs:string"/>
                                                 <xs:element name="standard" type="xs:string"/>
+                                                <xs:element name="linetype" type="xs:string"/>
                                                 <xs:element name="target-snr-up" type="xs:string"/>
                                                 <xs:element name="target-snr-down" type="xs:string"/>
                                                 <xs:element name="atuc-max-snr" type="xs:string"/>
