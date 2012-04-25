@@ -780,7 +780,10 @@ mdm_device_dslam_siemens_hix5300_check_error(
         strstr(d->exec_buffer, "This command will be removed in future") == NULL
         && strstr(d->exec_buffer, "Average CPU load") == NULL
     ) {
-        if((error = strstr(d->exec_buffer, "%")) != NULL) {
+        if(
+            (error = strstr(d->exec_buffer, "%")) != NULL
+            || (error = strstr(d->exec_buffer, "Command aborted")) != NULL
+        ) {
 	        status->status = MDM_OP_ERROR;
 		    snprintf(
                 status->status_message, sizeof(status->status_message), "%s", error
