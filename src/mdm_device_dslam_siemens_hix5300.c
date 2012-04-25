@@ -67,8 +67,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 45 */ "Set atuc interleaved min tx rate",
 /* 46 */ "Set atur interleaved max tx rate",
 /* 47 */ "Set atur interleaved min tx rate",
-/* 48 */ "Set max tx rate",
-/* 49 */ "Set min tx rate",
+/* 48 */ "Set atur max tx rate",
+/* 49 */ "Set atur min tx rate",
 /* 50 */ "Set port line profile",
 /* 51 */ "Add vc to port",
 /* 52 */ "Remove vc from port",
@@ -88,6 +88,8 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 66 */ "Show interfaces",
 /* 67 */ "Tag for untagged in port/pvid",
 /* 68 */ "Associate pvid to vlan",
+/* 69 */ "Set max atuc tx rate",
+/* 70 */ "Set min atuc tx rate",
 	NULL
 };
 
@@ -164,7 +166,9 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 65 */ 0,
 /* 66 */ 0,
 /* 67 */ 2,
-/* 68 */ 2
+/* 68 */ 2,
+/* 69 */ 2,
+/* 70 */ 2
 };
 
 /*!
@@ -241,7 +245,9 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 65 */ dslam_siemens_hix5300_get_routes,
 /* 66 */ dslam_siemens_hix5300_get_interfaces,
 /* 67 */ dslam_siemens_hix5300_nop,
-/* 68 */ dslam_siemens_hix5300_nop
+/* 68 */ dslam_siemens_hix5300_nop,
+/* 69 */ dslam_siemens_hix5300_nop,
+/* 70 */ dslam_siemens_hix5300_nop
 };
 
 /*!
@@ -318,6 +324,8 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 66 */    "show interface",
 /* 67 */    "configure terminal\nbridge\nvlan add %%ARG%% %%ARG%% untagged\nexit\nexit", //vlan, ports
 /* 68 */    "configure terminal\nbridge\nvlan pvid %%ARG%% %%ARG%%\nexit\nexit", // ports, vlans
+/* 69 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atuc max-tx-rate %%ARG%%\nexit\nexit",
+/* 70 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atuc min-tx-rate %%ARG%%\nexit\nexit",
 NULL
 };
 
