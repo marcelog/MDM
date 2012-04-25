@@ -90,13 +90,13 @@ mdm_devicecmd_2string(mdm_device_type_t d, mdm_device_cmd_t c)
 		case MDM_DEVICE_DSLAM_HUAWEI_MA5600:
 			return
 				mdm_devicecmd_isvalid(d, c) ?
-				MDM_DEVICE_CMDNAME_DSLAM_HUAWEI_MA5600_STR[c] :
+				MDM_DEVICE_CMD_DSLAM_HUAWEI_MA5600_STR[c] :
 				NULL
 			;
         case MDM_DEVICE_DSLAM_SIEMENS_HIX5300:
             return
                 mdm_devicecmd_isvalid(d, c) ?
-                MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[c] :
+                MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[c] :
                 NULL
         ;
 		default:
