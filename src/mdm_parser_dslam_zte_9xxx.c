@@ -887,18 +887,17 @@ dslam_zte_9xxx_show_port(
 	xmlNodePtr root_node = NULL;
 	xmlBufferPtr psBuf = NULL;
 	char *tokens[] = {
-		"LineConfProfile     : ",
-		"AlarmConfProfile    : ",
-		"PMConfPMSF(config)                       : ",
-		"PMState(actual)                          : ",
-		"TransAtucConfig                          :",
-		"TransAtucActual                          :"
+		"LineConfProfile",
+		"AlarmConfProfile",
+		"PMConfPMSF(config)",
+		"PMState(actual)",
+		"TransAtucConfig",
+		"TransAtucActual"
 	};
 	char *tokensnames[] = { 
 		"serviceprofile", "alarmprofile", "pmconfpmsf",
 		"pmstate", "transatucconfig", "transatucactual"
 	};
-	int tokenslen[] = { 22, 22, 43, 43, 42, 43 };
 	int i;
 	int j;
 	int port_bufferlen;
@@ -939,7 +938,9 @@ dslam_zte_9xxx_show_port(
 		tmp1 = strstr(d->exec_buffer, tokens[i]);
 		if(tmp1 == NULL)
 			continue;
-		tmp1 += tokenslen[i];
+        tmp1 += strlen(tokens[i]);
+        tmp1 = strchr(tmp1, ':');
+        tmp1++;
 		tmp2 = strchr(tmp1, 13);
 		if(i == 5) {
 			tmp2 = tmp1 + strlen(d->exec_buffer);
