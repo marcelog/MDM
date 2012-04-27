@@ -2304,9 +2304,10 @@ dslam_siemens_hix5300_get_vlan_pvid(
             dslam_siemens_hix5300_xml_add(node2, "id", buffer);
             word = dslam_siemens_hix5300_parse_port_pvid(node2, word);
             xmlAddChild(node, node2);
+            i++;
 
             node2 = xmlNewNode(NULL, BAD_CAST "port");
-            sprintf(buffer, "%d", i + 36);
+            sprintf(buffer, "%d", i);
             dslam_siemens_hix5300_xml_add(node2, "id", buffer);
             word = dslam_siemens_hix5300_parse_port_pvid(node2, word);
             xmlAddChild(node, node2);
