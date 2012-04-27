@@ -2334,3 +2334,84 @@ dslam_siemens_hix5300_get_vlan_pvid_done:
     return;
 }
 
+
+/*!
+ * This will try to get pvids by port.
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+ void
+dslam_siemens_hix5300_get_port_pvid(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    section_t *sections = dslam_siemens_hix5300_parse_section(d->exec_buffer_post);
+    section_t *currentSection;
+    section_t *lines;
+    section_t *currentLine;
+    const char *start;
+    const char *end;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_portpvc", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_port_pvid_done;
+    }
+    currentSection = sections;
+    lines = dslam_siemens_hix5300_parse_lines(currentSection->start);
+    currentLine = lines;
+    while(currentLine != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "pvc");
+        start = currentLine->start;
+
+        while(*start == 32) start++;
+        end = start;
+        while(*end != '/') end++;
+        snprintf(buffer, sizeof(buffer), "%.*s", (int)(end - start), start);
+        dslam_siemens_hix5300_xml_add(node, "slot", buffer);
+
+        start = end + 1;
+        while(*start == 32) start++;
+        end = start;
+        while(*end != 32) end++;
+        snprintf(buffer, sizeof(buffer), "%.*s", (int)(end - start), start);
+        dslam_siemens_hix5300_xml_add(node, "port", buffer);
+
+        start = end;
+        start = dslam_siemens_hix5300_get_word_delimited_by(
+            start, strlen(start), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "num", buffer);
+        start = dslam_siemens_hix5300_get_word_delimited_by(
+            start, strlen(start), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "vpi", buffer);
+        start = dslam_siemens_hix5300_get_word_delimited_by(
+            start, strlen(start), 32, buffer, sizeof(buffer)
+        );
+        dslam_siemens_hix5300_xml_add(node, "vci", buffer);
+
+        xmlAddChild(root_node, node);
+        currentLine = currentLine->next;
+    }
+    dslam_siemens_hix5300_section_free(lines);
+    dslam_siemens_hix5300_section_free(sections);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_port_pvid_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+

@@ -190,7 +190,7 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 10 */ dslam_siemens_hix5300_get_uptime,
 /* 11 */ dslam_siemens_hix5300_get_memory_info,
 /* 12 */ dslam_siemens_hix5300_get_vlan_pvid,
-/* 13 */ dslam_siemens_hix5300_nop,
+/* 13 */ dslam_siemens_hix5300_get_port_pvid,
 /* 14 */ dslam_siemens_hix5300_get_port_detail,
 /* 15 */ dslam_siemens_hix5300_nop,
 /* 16 */ dslam_siemens_hix5300_nop,
