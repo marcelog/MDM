@@ -28,6 +28,33 @@
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="siemens_hix5300_pvcvlan">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="slot">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="id" type="xs:string"/>
+                                                <xs:element name="port">
+                                                <xs:complexType>
+                                                    <xs:sequence>
+                                                        <xs:element name="id" type="xs:string"/>
+                                                        <xs:element name="pvc1" type="xs:string"/>
+                                                        <xs:element name="pvc2" type="xs:string"/>
+                                                        <xs:element name="pvc3" type="xs:string"/>
+                                                        <xs:element name="pvc4" type="xs:string"/>
+                                                        <xs:element name="pvc5" type="xs:string"/>
+                                                        <xs:element name="pvc6" type="xs:string"/>
+                                                        <xs:element name="pvc7" type="xs:string"/>
+                                                        <xs:element name="pvc8" type="xs:string"/>
+                                                    </xs:sequence>
+                                                </xs:complexType>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
                         <xs:element name="siemens_hix5300_cpuload">
                             <xs:complexType>
                                 <xs:sequence>

@@ -2216,3 +2216,121 @@ dslam_siemens_hix5300_get_cpu_load_done:
     return;
 }
 
+static const char *
+dslam_siemens_hix5300_parse_port_pvid(xmlNodePtr node, const char *string)
+{
+    const char *word;
+    char buffer[128];
+    word = string;
+    word = dslam_siemens_hix5300_get_word_delimited_by(
+        word, strlen(word), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(node, "pvc1", buffer);
+    word = dslam_siemens_hix5300_get_word_delimited_by(
+        word, strlen(word), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(node, "pvc2", buffer);
+    word = dslam_siemens_hix5300_get_word_delimited_by(
+        word, strlen(word), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(node, "pvc3", buffer);
+    word = dslam_siemens_hix5300_get_word_delimited_by(
+        word, strlen(word), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(node, "pvc4", buffer);
+    word = dslam_siemens_hix5300_get_word_delimited_by(
+        word, strlen(word), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(node, "pvc5", buffer);
+    word = dslam_siemens_hix5300_get_word_delimited_by(
+        word, strlen(word), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(node, "pvc6", buffer);
+    word = dslam_siemens_hix5300_get_word_delimited_by(
+        word, strlen(word), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(node, "pvc7", buffer);
+    word = dslam_siemens_hix5300_get_word_delimited_by(
+        word, strlen(word), 32, buffer, sizeof(buffer)
+    );
+    dslam_siemens_hix5300_xml_add(node, "pvc8", buffer);
+    return word;
+}
+
+/*!
+ * This will try to get vlans by pvid
+ * \param d Device descriptor.
+ * \param status Result of the operation.
+ */
+void
+dslam_siemens_hix5300_get_vlan_pvid(
+    mdm_device_descriptor_t *d, mdm_operation_result_t *status
+) {
+    xmlDocPtr doc = NULL; /* document pointer */
+    xmlNodePtr root_node = NULL;
+    xmlNodePtr node = NULL;
+    xmlNodePtr node2 = NULL;
+    xmlBufferPtr psBuf = NULL;
+    char buffer[128];
+    section_t *sections = dslam_siemens_hix5300_parse_section(d->exec_buffer_post);
+    section_t *currentSection;
+    section_t *lines;
+    section_t *currentLine;
+    const char *word;
+    int slotCount = 1;
+    int i;
+
+    if (dslam_siemens_hix5300_xml_alloc(
+        &doc, &root_node, &psBuf, "siemens_hix5300_pvcvlan", status
+    ) == -1) {
+        goto dslam_siemens_hix5300_get_vlan_pvid_done;
+    }
+    currentSection = sections;
+    currentSection = currentSection->next;
+    currentSection = currentSection->next;
+    while(currentSection != NULL)
+    {
+        node = xmlNewNode(NULL, BAD_CAST "slot");
+        sprintf(buffer, "%d", slotCount);
+        dslam_siemens_hix5300_xml_add(node, "id", buffer);
+        lines = dslam_siemens_hix5300_parse_lines(currentSection->start);
+        currentLine = lines;
+        i = 1;
+        while(currentLine != NULL)
+        {
+            word = strchr(currentLine->start, '|') + 1;
+            node2 = xmlNewNode(NULL, BAD_CAST "port");
+            sprintf(buffer, "%d", i);
+            dslam_siemens_hix5300_xml_add(node2, "id", buffer);
+            word = dslam_siemens_hix5300_parse_port_pvid(node2, word);
+            xmlAddChild(node, node2);
+
+            node2 = xmlNewNode(NULL, BAD_CAST "port");
+            sprintf(buffer, "%d", i + 36);
+            dslam_siemens_hix5300_xml_add(node2, "id", buffer);
+            word = dslam_siemens_hix5300_parse_port_pvid(node2, word);
+            xmlAddChild(node, node2);
+
+            currentLine = currentLine->next;
+            i++;
+        }
+        slotCount++;
+        xmlAddChild(root_node, node);
+        currentSection = currentSection->next;
+        dslam_siemens_hix5300_section_free(lines);
+    }
+    dslam_siemens_hix5300_section_free(sections);
+
+    xmlNodeDump(psBuf, doc, root_node, 99, 1);
+    snprintf(
+        d->exec_buffer_post, MDM_DEVICE_EXEC_BUFFER_POST_MAX_LEN,
+        "%s", xmlBufferContent(psBuf)
+    );
+    d->exec_buffer_post_len = xmlBufferLength(psBuf);
+
+    /* Done. */
+dslam_siemens_hix5300_get_vlan_pvid_done:
+    dslam_siemens_hix5300_xml_free(&doc, &psBuf);
+    return;
+}
+
