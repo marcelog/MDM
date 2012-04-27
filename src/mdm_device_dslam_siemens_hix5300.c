@@ -90,6 +90,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 68 */ "Associate pvid to vlan",
 /* 69 */ "Set max atuc tx rate",
 /* 70 */ "Set min atuc tx rate",
+/* 71 */ "Remove vlan from pvid",
 	NULL
 };
 
@@ -168,7 +169,8 @@ static int MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_ARGSN[] =
 /* 67 */ 2,
 /* 68 */ 2,
 /* 69 */ 2,
-/* 70 */ 2
+/* 70 */ 2,
+/* 71 */ 2
 };
 
 /*!
@@ -247,7 +249,8 @@ MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_PROCESS[] =
 /* 67 */ dslam_siemens_hix5300_nop,
 /* 68 */ dslam_siemens_hix5300_nop,
 /* 69 */ dslam_siemens_hix5300_nop,
-/* 70 */ dslam_siemens_hix5300_nop
+/* 70 */ dslam_siemens_hix5300_nop,
+/* 71 */ dslam_siemens_hix5300_nop
 };
 
 /*!
@@ -326,6 +329,7 @@ const char *MDM_DEVICE_CMD_DSLAM_SIEMENS_HIX5300_STR[] =
 /* 68 */    "configure terminal\nbridge\nvlan pvid %%ARG%% %%ARG%%\nexit\nexit", // ports, vlans
 /* 69 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atuc max-tx-rate %%ARG%%\nexit\nexit",
 /* 70 */    "configure terminal\nbridge\nadsl line-config-profile %%ARG%% atuc min-tx-rate %%ARG%%\nexit\nexit",
+/* 71 */    "configure terminal\nbridge\nvlan del %%ARG%% %%ARG%%\nexit\nexit",
 NULL
 };
 
