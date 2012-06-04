@@ -79,7 +79,7 @@ static const telnet_telopt_t telopts[] = {
  * \param size Buffer size.
  */
 static void
-__send(int sock, const char *buffer, size_t size)
+_send(int sock, const char *buffer, size_t size)
 {
 	int rs;
 
@@ -111,7 +111,7 @@ __send(int sock, const char *buffer, size_t size)
 
 // Pauses after each 1310
 static void
-_send(int sock, const char *buffer, size_t size)
+__send(int sock, const char *buffer, size_t size)
 {
     const char *start = buffer;
     const char *end;
