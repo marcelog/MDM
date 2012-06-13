@@ -18,16 +18,20 @@ VERSION = 0.1.1
 .SUFFIXES =
 .SUFFIXES = .c .o .a
 DOXYGEN=/usr/bin/doxygen
-OUTPUTDIR += .
+OUTPUTDIR += ./build
 SRCDIR += .
-OBJDIR += ${OUTPUTDIR}/obj
-BINDIR += ${OUTPUTDIR}/bin
-LIBDIR += ${OUTPUTDIR}/lib
-DOCDIR += ./doc
+TARGET += x86_64-pc-linux-gnu
+OBJDIR += ${OUTPUTDIR}/${TARGET}/obj
+BINDIR += ${OUTPUTDIR}/${TARGET}/bin
+LIBDIR += ${OUTPUTDIR}/${TARGET}/lib
+DOCDIR += ${OUTPUTDIR}/doc
+PKGDIR += ${OUTPUTDIR}/${TARGET}/pkg
+CFGPKGDIR += ${OUTPUTDIR}
+CFGDIR += ./conf
+CLIENTSDIR += ./clients
 SHELL = /bin/bash
 NAME = MDM
-TARGET += x86_64-pc-linux-gnu
-BUILDROOT += /netlabs
+BUILDROOT += /usr
 CC = ${TARGET}-gcc
 AR = ${TARGET}-ar
 LD = ${TARGET}-ld
@@ -82,7 +86,7 @@ LIBRARY = \
 	${OBJDIR}/mdm_driver_serial.o \
 	${OBJDIR}/mdm_driver_rawtcp.o
 
-all: prepare library binaries
+all: prepare library binaries package
 library: ${LIBNAME}
 binaries: library ${BINARIES}
 
@@ -92,17 +96,27 @@ ${LIBNAME}: ${LIBRARY}
 doxygen:
 	cd ${SRCDIR} && ${DOXYGEN} doxygen.cfg && cd -
 
+package:
+	tar jcf ${PKGDIR}/${TARGET}.tar.bz2 ${BINDIR}
+
+packageconf:
+	tar jcf ${CFGPKGDIR}/config-files.tar.bz2 ${CFGDIR}
+
+packageclients:
+	tar jcf ${CFGPKGDIR}/clients-example.tar.bz2 ${CLIENTSDIR}
+
 prepare:
 	mkdir -p ${BINDIR}
 	mkdir -p ${OBJDIR}
 	mkdir -p ${LIBDIR}
 	mkdir -p ${DOCDIR}
+	mkdir -p ${PKGDIR}
 
 clean:
 	rm -rf ${BINDIR}
 	rm -rf ${OBJDIR}
 	rm -rf ${LIBDIR}
-	rm -rf ${DOCDIR}
+	rm -rf ${PKGDIR}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	${CC} -c ${CFLAGS} -o $@ $<
