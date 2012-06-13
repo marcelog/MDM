@@ -1,6 +1,6 @@
 ################################################################################
 # Makefile: GNUMakefile to compile project.
-# 
+#
 # Notes:
 #		* Best viewed with tabstop=3
 #     * -fno-strict-aliasing is *only* present in cflags
@@ -8,37 +8,39 @@
 #
 # BUGS:
 #
-# Author: Marcelo Gornstein <marcelog@gmail.com>
+# Author: Marcelo Gornstein <marcelog@netlabs.com.ar>
 ################################################################################
 
 VERSION = 0.1.1
 ################################################################################
 # Do not touch anything below here.
 ################################################################################
+.SUFFIXES =
+.SUFFIXES = .c .o .a
 OUTPUTDIR += .
-SRCDIR += ./src
+SRCDIR += .
 OBJDIR += ${OUTPUTDIR}/obj
 BINDIR += ${OUTPUTDIR}/bin
 LIBDIR += ${OUTPUTDIR}/lib
 SHELL = /bin/bash
-.SUFFIXES = 
-.SUFFIXES = .c .o .a
 NAME = MDM
-CC = gcc
-AR = ar
+TARGET += x86_64-pc-linux-gnu
+BUILDROOT += /netlabs
+CC = ${TARGET}-gcc
+AR = ${TARGET}-ar
+LD = ${TARGET}-ld
 CFLAGS = \
 	-g -Wall -pedantic -ansi -D_BSD_SOURCE -D_GNU_SOURCE -std=c99 -Wmissing-prototypes \
 	-pipe -O2 -fPIC -pedantic-errors -Wfatal-errors -Wunused -Wuninitialized \
 	-Wformat -Wno-format-zero-length -Wno-format-extra-args \
 	-Wformat-nonliteral -Wformat-security -Wpointer-arith -Wcast-align \
 	-Wcast-qual -Wbad-function-cast -Wshadow -fno-strict-aliasing \
-	-pthread -I./include -L. -I/usr/include -L/usr/lib \
-	-I/usr/include/libxml2
+	-I${BUILDROOT}/include -I${BUILDROOT}/include/libxml2 -I./include -L. -L${BUILDROOT}/lib \
+	-I${BUILDROOT}/libiconv -I${BUILDROOT}/libtelnet -I${BUILDROOT}/libssh2
 
 STRIP = echo
-LD = ld
 LIBNAME = ${LIBDIR}/lib${NAME}.a
-LIBS = -ltelnet -lcurl -lssh2 -lm -lrt -lxml2
+realLibs += -ltelnet -lssh2 -lm -lxml2 -lpthread ${LIBS}
 BINARIES = \
 	${BINDIR}/mdm_test_driver_dummy \
 	${BINDIR}/mdm_test_driver_rawtcp \
@@ -62,9 +64,9 @@ LIBRARY = \
 	${OBJDIR}/mdm_parser_dslam_siemens_hix5300.o \
 	${OBJDIR}/mdm_device_dslam_zte_8426.o \
 	${OBJDIR}/mdm_device_dslam_huawei_ma5600.o \
+	${OBJDIR}/mdm_device_dslam_siemens_hix5300.o \
 	${OBJDIR}/mdm_device_dslam_zte_9xxx.o \
 	${OBJDIR}/mdm_device_dslam_alcatel_73xx.o \
-	${OBJDIR}/mdm_device_dslam_siemens_hix5300.o \
 	${OBJDIR}/mdm.o \
 	${OBJDIR}/mdm_device.o \
 	${OBJDIR}/mdm_config.o \
@@ -99,8 +101,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	${CC} -c ${CFLAGS} -o $@ $<
 
 $(BINDIR)/%: $(SRCDIR)/%.c
-	${CC} ${CFLAGS} $^ -o $@ ${LIBS} ${LIBNAME} 
+	${CC} ${CFLAGS} $^ -o $@ ${realLibs} ${LIBNAME}
 #################################################################################
 ## Makefile ENDS.
 #################################################################################
-
