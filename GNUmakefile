@@ -40,7 +40,7 @@ CFLAGS = \
 
 STRIP = echo
 LIBNAME = ${LIBDIR}/lib${NAME}.a
-realLibs += -ltelnet -lssh2 -lm -lxml2 -lpthread ${LIBS}
+realLibs += -ltelnet -lssh2 -lm -lxml2 ${LIBS}
 BINARIES = \
 	${BINDIR}/mdm_test_driver_dummy \
 	${BINDIR}/mdm_test_driver_rawtcp \
