@@ -32,8 +32,8 @@ CFLAGS = \
 	-Wformat -Wno-format-zero-length -Wno-format-extra-args \
 	-Wformat-nonliteral -Wformat-security -Wpointer-arith -Wcast-align \
 	-Wcast-qual -Wbad-function-cast -Wshadow -fno-strict-aliasing \
-	-pthread -I./include -L. -I/netlabs/include -L/netlabs/lib \
-	-I/netlabs/include/libxml2 -I/netlabs/include/libiconv
+	-pthread -I./include -L. -I/usr/include -L/usr/lib \
+	-I/usr/include/libxml2
 
 STRIP = echo
 LD = ld
