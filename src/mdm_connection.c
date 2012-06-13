@@ -10,7 +10,6 @@
 #include	<time.h>
 #include	<libssh2/libssh2.h>
 #include	<unistd.h>
-#include	<curl/curl.h>
 #include	<mdm.h>
 
 /*!
@@ -429,8 +428,8 @@ mdm_connection_recv(
 }
 
 /*!
- * Will initialize curl with curl_global_init(CURL_GLOBAL_ALL) and libssh2
- * with libssh2_init(0). Do not call this directly, #mdm_init will do this.
+ * Inits libssh2 with libssh2_init(0). Do not call this directly,
+ * #mdm_init will do this.
  */
 void
 mdm_connection_init(void)
@@ -440,7 +439,6 @@ mdm_connection_init(void)
 	MDM_LOGDEBUG("Start.");
 #endif
 
-	curl_global_init(CURL_GLOBAL_ALL);
 	libssh2_init(0);
 
 	/* Done. */
@@ -451,8 +449,8 @@ mdm_connection_init(void)
 }
 
 /*!
- * Will deinitialize curl with curl_global_cleanup and libssh2 with
- * libssh2_exit. Do not call this directly, #mdm_cleanup will do this.
+ * Will deinitialize libssh2 with libssh2_exit. Do not call this
+ * directly, #mdm_cleanup will do this.
  */
 void
 mdm_connection_cleanup(void)
@@ -462,7 +460,6 @@ mdm_connection_cleanup(void)
 	MDM_LOGDEBUG("Start.");
 #endif
 
-	curl_global_cleanup();
 	libssh2_exit();
 
 	/* Done. */
