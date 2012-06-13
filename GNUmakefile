@@ -17,11 +17,13 @@ VERSION = 0.1.1
 ################################################################################
 .SUFFIXES =
 .SUFFIXES = .c .o .a
+DOXYGEN=/usr/bin/doxygen
 OUTPUTDIR += .
 SRCDIR += .
 OBJDIR += ${OUTPUTDIR}/obj
 BINDIR += ${OUTPUTDIR}/bin
 LIBDIR += ${OUTPUTDIR}/lib
+DOCDIR += ./doc
 SHELL = /bin/bash
 NAME = MDM
 TARGET += x86_64-pc-linux-gnu
@@ -87,15 +89,20 @@ binaries: library ${BINARIES}
 ${LIBNAME}: ${LIBRARY}
 	${AR} rcs $@ $^
 
+doxygen:
+	cd ${SRCDIR} && ${DOXYGEN} doxygen.cfg && cd -
+
 prepare:
 	mkdir -p ${BINDIR}
 	mkdir -p ${OBJDIR}
 	mkdir -p ${LIBDIR}
+	mkdir -p ${DOCDIR}
 
 clean:
 	rm -rf ${BINDIR}
 	rm -rf ${OBJDIR}
 	rm -rf ${LIBDIR}
+	rm -rf ${DOCDIR}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	${CC} -c ${CFLAGS} -o $@ $<
