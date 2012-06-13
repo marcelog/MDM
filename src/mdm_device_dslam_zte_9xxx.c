@@ -416,7 +416,7 @@ mdm_device_dslam_zte_9xxx_open(
 			sprintf(status->status_message, "Login incorrect!");
 			return;
 		}
-	} while(strstr(buffer, "$ ") == NULL);
+	} while(strstr(buffer, "$ ") == NULL && strstr(buffer, "# ") == NULL);
 	/* It doesn't matter the prompt, but we need the length so we can strip
 	 * the command lines later on. 
 	 */
