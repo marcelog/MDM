@@ -1,4 +1,7 @@
-/*! \page README README
+/*!
+ * You can get the releases at the CI server: http://ci.marcelog.name:8080/view/C%20C++/
+ * \mainpage 
+ * \page README README
  *\n
  *\n
  * Here's how it works, top-bottom:\n
