@@ -1658,7 +1658,7 @@ dslam_zte_9xxx_get_port_full(
 		"duplex-speed", "link-status"
 	};
 	int i;
-	char buffer[64];
+	char buffer[128];
 	char *tmp1;
 	char *tmp2;
 	char *tmp3;
