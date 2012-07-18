@@ -40,6 +40,7 @@ const char *MDM_DEVICE_CMDNAME_DSLAM_ZTE_8426_STR[] =
 /* 16 */ "Port admin disable",
 /* 17 */ "Port current status",
 /* 18 */ "Configure PVC",
+/* 19 */ "Set port profile",
 	NULL
 };
 
@@ -74,7 +75,8 @@ static int MDM_DEVICE_CMD_DSLAM_ZTE_8426_ARGSN[] =
 /* 15 */ 1,
 /* 16 */ 1,
 /* 17 */ 1,
-/* 18 */ 3
+/* 18 */ 3,
+/* 19 */ 4
 };
 
 /*!
@@ -101,7 +103,8 @@ MDM_DEVICE_CMD_DSLAM_ZTE_8426_PROCESS[] =
 /* 15 */ dslam_zte_8426_nop,
 /* 16 */ dslam_zte_8426_nop,
 /* 17 */ dslam_zte_8426_get_current_status,
-/* 18 */ dslam_zte_8426_nop
+/* 18 */ dslam_zte_8426_nop,
+/* 19 */ dslam_zte_8426_nop
 };
 
 /*!
@@ -127,7 +130,8 @@ const char *MDM_DEVICE_CMD_DSLAM_ZTE_8426_STR[] =
 /* 15 */ "dsl\nconfig\nenable\n%%ARG%%\nexit\nhome",
 /* 16 */ "dsl\nconfig\ndisable\n%%ARG%%\nexit\nhome",
 /* 17 */ "dsl\nconfig\ndetailshow\n1\ny\nshowstatus\n%%ARG%%\ndetailshow\n2\nexit\nhome",
-/* 18 */ "atm\nconfig\nsetpvc\n1\n%%ARG%%\n%%ARG%%\n%%ARG%%\nexit\nhome" // VPI:VCI
+/* 18 */ "atm\nconfig\nsetpvc\n1\n%%ARG%%\n%%ARG%%\n%%ARG%%\nexit\nhome", // VPI:VCI
+/* 19 */ "dsl\nconfig\nlinecfg\n%%ARG%%\n%%ARG%%\n%%ARG%%\n%%ARG%%\nexit\nhome"
 };
 
 /*******************************************************************************
